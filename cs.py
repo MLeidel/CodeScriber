@@ -17,6 +17,7 @@ p = os.path.dirname(p) + "/"
 # os.chdir(os.path.dirname(p))
 optionsFileName = p+"options.ini"
 lastFileName = p+"lastfile"
+wingeo = p+"wingeo"
 
 opts = []
 opts = iniproc.read(optionsFileName,'width',
@@ -34,7 +35,7 @@ current_path = opts[6]  # tracks path
 def window_coord():
     px = window.x
     py = window.y
-    geo = f"20x20+{px}+{py}"
+    geo = f"20x20+{px}+{py}" # keep tkinter on left screen
     return geo
 
 def find_file(filename, search_path):
@@ -59,8 +60,16 @@ class Api:
 
     def onClose(self):
         ''' immediate close no ask '''
+        # save last file name
         with open(lastFileName, "w") as fout:
             fout.write(current_file)
+        # save last window dimensions
+        with open(wingeo, "w")as fout:
+            fout.write(str(window.x) + "|"
+                       + str(window.y) + "|"
+                       + str(window.width) + "|"
+                       + str(window.height))
+        # exit app
         window.destroy()
 
     def getFileName(self):
@@ -105,6 +114,7 @@ class Api:
                                                             ("Python", "*.py"),
                                                             ("C", "*.c"),
                                                             ("h", "*.h"),
+                                                            ("Javascript", "*.js")
                                                             ("HTML", "*.html"),
                                                             ("CSS", "*.css")))
         root.destroy()  # remove if single monitor
@@ -183,8 +193,7 @@ class Api:
 if __name__ == '__main__':
     api = Api()
 
-    w = int(opts[0])  # width
-    h = int(opts[1])  # height
+    win = [100,100,800,600] # initialize geo: left,top,width,height
 
     '''
     The following opens a file from the command line
@@ -200,10 +209,16 @@ if __name__ == '__main__':
                 current_file = file.readline().strip()
                 current_path =  os.path.dirname(current_file)
 
+    if os.path.isfile(wingeo):
+        with open(wingeo) as file:
+            geo = file.read().strip()
+        win = geo.split('|')  # 0 left, 1 top, 2 width, 3 height
+        win = [int(i) for i in win]  # make integers
+
     window = webview.create_window('CodeScriber Code Editor',
-                     url='cs.html',
-                     width=w,
-                     height=h,
+                     url='cs.html', x=win[0], y=win[1],
+                     width=win[2],
+                     height=win[3],
                      js_api=api)
 
     webview.start()
