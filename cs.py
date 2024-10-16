@@ -114,7 +114,7 @@ class Api:
                                                             ("Python", "*.py"),
                                                             ("C", "*.c"),
                                                             ("h", "*.h"),
-                                                            ("Javascript", "*.js")
+                                                            ("Javascript", "*.js"),
                                                             ("HTML", "*.html"),
                                                             ("CSS", "*.css")))
         root.destroy()  # remove if single monitor

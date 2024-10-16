@@ -27,7 +27,6 @@ const atags = {
 	"manifest": "{\n	\"short_name\": \"\",\n	\"name\": \"\",\n	\"icons\": [\n		{\n			\"src\": \".png\",\n			\"sizes\": \"x\",\n			\"type\": \"image/png\"\n		}\n	],\n	\"start_url\": \"index.html\",\n	\"background_color\": \"\",\n	\"theme_color\": \"black\",\n	\"display\": \"standalone\"\n}\n",
 	"mdimage": '![alttext](http:// "title")',
 	"mdlink": '[linktext](http:// "title")',
-	"mdtable": "| xxxxx | xxxxx | xxxxx | xxxxx |\n| :---: | :---: | :---: | :---: |\n|       |       |       |       |\n",
 	"option": "alert(selobj.options[selobj.selectedIndex].text)",
 	"php": "<?php\n\n?>",
 	"query": '$res = mysqli_query($mysqli, $sql) or die("DIE:<br>".$sql);\n$row = mysqli_fetch_assoc($res);\nif (mysqli_num_rows($res) > 0) {\n	extract($row);\n}\n',
