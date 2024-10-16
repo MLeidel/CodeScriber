@@ -41,3 +41,4 @@ const atags = {
 	"tr": "<tr>\n	<td></td>\n	<td></td>\n</tr>",
 	"ul": "<ul>\n <li></li>\n <li></li>\n <li></li>\n <li></li>\n</ul>\n"
 };
+
