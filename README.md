@@ -23,13 +23,14 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 - Column select and edit mode
 - Customizable Keyword code snipits
 - Drag & Drop to open file
-- Initial language models:
+
+__Initial language models:__
 > _python, c, html, css, markdown, javascript, bash, sql, golang, json_  
-can be extended in the html code file
+This list is hackable in the cs.html code file.
 
 ### CodeScriber combines the following technologies:
 > - python (pywebview, markdown, tkinter)  
-- javascript (ace.js)  
-- css  
-- html  
+> - javascript (ace.js)  
+> - css  
+> - html  
  
