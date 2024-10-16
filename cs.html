@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>HTML</title>
+
+<!-- Use one of these in the link below, then edit the #editor ID in cs.css -->
+    <!--<link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400' rel='stylesheet' type='text/css'>-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>-->
+    <!--<link href='https://fonts.googleapis.com/css?family=PT+Mono'   rel='stylesheet' type='text/css'>-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Oxygen+Mono' rel='stylesheet' type='text/css'>-->
+    <!--<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro" rel="stylesheet" type='text/css'>-->
+    <!--<link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">-->
+ 
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cs.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"
+      type="text/javascript" charset="utf-8"></script>
+  <script src="tags.js" defer></script>
+  <script src="myJS.js"></script>
+
+</head>
+
+<body>
+  <div style="margin-left:50px;"> <!-- Menus -->
+    <ul>
+        <li>
+            <a href="#">File</a>
+            <ul class="dropdown-content">
+                <li><a onclick="newFile();">New</a></li>
+                <li><a onclick="openFile();">Open</a></li>
+                <li><a onclick="save();">Save</a></li>
+                <li><a onclick="exitApp();" title="Ctrl-Q">Exit</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Edit</a>
+            <ul class="dropdown-content">
+                <li><a onclick="zentag();">Insert Snip [Alt-Z]</a></li>
+                <li><a onclick="execCurrent();">Run Python</a></li>
+                <li><a onclick="mdCurrent();">Run Markdown</a></li>
+                <li><a onclick="execTerm();">Open Terminal</a></li>
+                <li><a onclick="execFMgr();">Open File Manager</a></li>
+                <li><a onclick="execBrowser();">To Browser</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Help</a>
+            <ul class="dropdown-content">
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#" onclick="alert('cs Code Editor\nFor You!');">About</a></li>
+            </ul>
+        </li>
+        <li> <input type=text id="FN" />
+    </ul>
+  </div>
+
+  <div id="editor"></div>
+
+<script>
+
+    var filename = "";
+    var gvar = {
+        oFN : null,
+        fname : "",
+        saved : true,
+        zenw : "",
+    };
+
+    gvar.oFN = JS.doq("#FN"); // object for the filename input field
+
+    console.clear();
+	var editor = ace.edit("editor");
+    // ACE CONFIGURE
+    editor.$blockScrolling = Infinity;  // ace debug suggestion
+    editor.setShowPrintMargin(false);
+    editor.setHighlightActiveLine(false);
+    editor.session.setTabSize(2);
+    // document.getElementById('editor').style.fontSize='12pt';
+    // SEE CSS #editor FOR FONT STYLING //
+
+  ///////// ADD (ACE) CUSTOM HOT KEYS //////////
+    editor.commands.addCommand({
+        name: 'htmlBreak',
+        bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
+        exec: function(editor) {
+            editor.insert("<br>");
+        },
+        readOnly: false // Do NOT apply this command in readOnly mode
+    });
+    editor.commands.addCommand({
+        name: 'saveFile',
+        bindKey: {win: 'Ctrl-s', mac: 'Command-s'},
+        exec: function(editor) {
+            quicksaveDocument();
+        },
+        readOnly: false
+    });
+    editor.commands.addCommand({
+        name: 'htmlNbsp',
+        bindKey: {win: 'Ctrl-Space', mac: 'Command-Space'},
+        exec: function(editor) {
+            editor.insert("&nbsp;");
+        },
+        readOnly: false
+    });
+    editor.commands.addCommand({
+            name: 'insertDate',
+            bindKey: {win: 'Alt-t', mac: 'Alt-t'},
+            exec: function(editor) {
+                editor.insert(JS.getMDY());
+            },
+            readOnly: false
+    });
+    // add command to lazy-load keybinding_menu extension
+    editor.commands.addCommand({
+        name: "showAllKBshortcuts",
+        bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
+        exec: function(editor) {
+            ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+                module.init(editor);
+                editor.showKeyboardShortcuts();
+            });
+        }
+    });
+    // ZenTags
+	editor.commands.addCommand({
+			name: 'myCommand',
+			bindKey: {win: 'Alt-Z',	mac: 'Alt-Z'},
+			exec: function(editor) {
+			  zentag();
+			},
+			readOnly: true // false if this command should not apply in readOnly mode
+	});
+
+
+    //editor.session.setUseSoftTabs(true); // not needed
+    editor.setTheme("ace/theme/monokai");
+    // editor.getSession().setMode("ace/mode/text");
+
+
+    // the following toggles the 'save' button if the text is "dirty" or "saved"
+
+    editor.on("input", function() {
+            gvar.saved = editor.session.getUndoManager().isClean();
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+        if (gvar.saved === false)
+            e.preventDefault();  // Cancel the event
+          else
+            e.returnValue = 'prompt';  // fire the confirm prompt
+    });
+
+/***
+This function enhances the Alt-z code insertion
+***/
+
+    function zentag() {
+      let wsp = [9,10,32, NaN];  // tab, LF, space
+      let inx = 0;
+      let code = 0;
+      let txtbuf = "";
+      let targ = "";
+      inx = editor.session.doc.positionToIndex(editor.selection.getCursor());
+      txtbuf = editor.getValue();
+      code = txtbuf.charCodeAt(inx);
+      if (!wsp.includes(code)) return;  // must be at right whitespace boundary
+      inx -= 1;
+      if (inx < 0) return;
+      code = txtbuf.charCodeAt(inx);
+      while (!wsp.includes(code)) {
+        console.log(inx);
+        targ = String.fromCharCode(code) + targ;
+        inx -= 1;
+        if (inx >= 0)
+          code = txtbuf.charCodeAt(inx);
+        else
+          break;
+      }
+      // targ should contain the key to look for
+      editor.removeWordLeft();
+      if (atags[targ] !== undefined) {
+        editor.insert(atags[targ]);  // targ is a valid key value
+      } else {  // stag not a valid key value
+        editor.insert("<" + targ + "></" + targ + ">");
+      }
+    }
+
+    function setFileMode() {
+      let ext;
+        ext = gvar.fname.substring( gvar.fname.lastIndexOf(".") + 1 );
+        if (ext == "") {
+            return;
+        }
+        /*                      COLOR THEMES
+            monokai  cobalt  vibrant_ink  clouds_midnight  solarized_dark
+            tomorrow_night_eighties  twilight  kr_theme  Terminal
+            solarized_light  textmate  tomorrow_night  twilight
+        */
+        switch(ext) {
+        case "c":
+            editor.session.setMode("ace/mode/c_cpp");
+            editor.setTheme("ace/theme/monokai");
+            break;
+        case "py":
+            editor.session.setMode("ace/mode/python");
+            editor.setTheme("ace/theme/twilight");
+            break;
+        case "js":
+            editor.session.setMode("ace/mode/javascript");
+            editor.setTheme("ace/theme/tomorrow_night");
+            break;
+        case "md":
+            editor.session.setMode("ace/mode/markdown");
+            editor.setTheme("ace/theme/tomorrow_night");
+            break;
+        case "json":
+            editor.session.setMode("ace/mode/json");
+            editor.setTheme("ace/theme/tomorrow_night_eighties");
+            break;
+        case "sh":
+            editor.session.setMode("ace/mode/sh");
+            editor.setTheme("ace/theme/clouds_midnight");
+            break;
+        case "h":
+            editor.session.setMode("ace/mode/c_cpp");
+            editor.setTheme("ace/theme/monokai");
+            break;
+        case "html":
+            editor.session.setMode("ace/mode/html");
+            editor.setTheme("ace/theme/tomorrow_night");
+            break;
+        case "css":
+            editor.session.setMode("ace/mode/css");
+            editor.setTheme("ace/theme/solarized_dark");
+            break;
+        case "go":
+            editor.session.setMode("ace/mode/golang");
+            editor.setTheme("ace/theme/monokai");
+            break;
+        case "sql":
+            editor.session.setMode("ace/mode/sql");
+            editor.setTheme("ace/theme/twilight");
+            break;
+        default:
+            editor.session.setMode("ace/mode/text");
+            editor.setTheme("ace/theme/terminal");
+    }
+    }
+
+/***
+ *                           _        _
+ *      _ __ _  ___ __ _____| |____ _(_)_____ __ __
+ *     | '_ \ || \ V  V / -_) '_ \ V / / -_) V  V /
+ *     | .__/\_, |\_/\_/\___|_.__/\_/|_\___|\_/\_/
+ *     |_|   |__/
+    Javascript pywebview API functions to connect Python */
+
+    function getFN() {
+        window.pywebview.api.getFileName().then(content => {
+          setFileName(content);
+        });
+    }
+
+    function openFile() {  // executes python/tkinter code
+        window.pywebview.api.open_file().then(content => {
+          loadDocument(content);
+        });
+    }
+
+    function DropOpenFile(content) {  // executes python/tkinter code
+        window.pywebview.api.on_file_drop(content).then(content => {
+          loadDocument(content);
+        });
+    }
+
+    function save_File(content) {  // executes python/tkinter code
+        window.pywebview.api.save_file(content).then(content => {
+            setFileName(content);
+        });
+    }
+
+    function quicksaveFile(content) {  // executes python/tkinter code
+        window.pywebview.api.quick_save_file(content).then(content => {
+        });
+    }
+
+    function on_close() {
+            window.pywebview.api.onClose();  // immediate close no ask
+    }
+
+    function openCmdFile() {
+        window.pywebview.api.getCmdFile().then(content => {
+            loadDocument(content);
+        });
+    }
+
+    function execCurrent() {
+        window.pywebview.api.execPython();  // run the Python file
+    }
+
+    function mdCurrent() {
+        window.pywebview.api.execMarkdown();  // open md in browser
+    }
+
+    function execFMgr() {
+        window.pywebview.api.execFileMgr();  // open file manager
+    }
+
+    function execTerm() {
+        window.pywebview.api.execTerminal();  // open terminal
+    }
+
+    function execBrowser() {
+        window.pywebview.api.execWebbrowser();  // open current in browser
+    }
+/* ------------------------------------------------------------------------- */
+
+                            /* Webview handlers */
+
+    function setSaved() {
+        // resets the boolean variable for state of editor (clean/dirty)
+        gvar.saved = editor.getSession().setUndoManager(new ace.UndoManager());
+    }
+
+    function loadDocument(text) {
+        // return here after openFile
+      if (text == "") return;
+        editor.setValue(text, -1);
+        getFN();
+    }
+
+    function setFileName(fn) {
+        gvar.fname = fn;
+        setFileMode();
+        editor.clearSelection();
+        JS.val("#FN", gvar.fname);
+        setSaved();
+    }
+
+    function save() {
+        let text = editor.getValue();
+        save_File(text);
+        getFN();
+    }
+
+    function quicksaveDocument() {
+      if (JS.val("#FN") == "") {
+        save();
+        return;
+      }
+      let text = editor.getValue();
+      quicksaveFile(text); // quicksaveFile save the file with current name
+      setSaved();
+    }
+
+    function newFile() {
+        if (!gvar.saved) {
+            let r = confirm("Current File Not Saved!");
+            if (!r) return;
+        }
+        editor.setValue("", -1);
+        JS.val("#FN", "");
+        setSaved();
+    }
+
+    function  mdSurround(prefix, suffix) {
+        // Get the current selection
+        let selectionRange = editor.getSelectionRange();
+        let selectedText = editor.getSession().getTextRange(selectionRange);
+        // Define the text to surround the selection
+        let newText = prefix + selectedText + suffix;
+        // Replace the selected text with the new text
+        editor.getSession().replace(selectionRange, newText);
+    }
+
+    function exitApp() {
+        if (gvar.saved === false) {  //
+            if (confirm("text not saved! Quit anyway?") !== true) {
+                return;
+            } else {
+                editor.destroy();
+                editor.container.remove();
+                on_close();
+            }
+        } else {
+            editor.destroy();
+            editor.container.remove();
+            on_close();
+        }
+    }
+
+    function checkSaved() {
+        if (gvar.saved === false) {
+            gvar.oFN.style.backgroundColor = "#FFE4B5";
+        } else  {
+            gvar.oFN.style.backgroundColor = "#999";
+        }
+        setTimeout(checkSaved, 800);
+    }
+    checkSaved(); // start up the saved checker
+
+    setTimeout(openCmdFile, 800); // open file from command line
+
+                /* Other Keypress handlers */
+
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            exitApp();
+        }
+      });
+
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'q') {
+          event.preventDefault();
+          exitApp(); // close application
+      }
+    });
+
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
+          event.preventDefault();
+          mdSurround("__", "__")  // bold for MD
+      }
+    });
+
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'i') {
+          event.preventDefault();
+          mdSurround("_", "_")  // italic for MD
+      }
+    });
+
+                    /* File Drag & Drop Code */
+
+    const dropArea = JS.doq('#FN'); // file input field
+
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.style.borderColor = '#333';
+    });
+
+    dropArea.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.style.borderColor = '#ccc';
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.style.borderColor = '#ccc';
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            DropOpenFile(files[0].name)
+        }
+    });
+
+</script>
+
+</body>
+</html>
