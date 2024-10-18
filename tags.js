@@ -7,6 +7,7 @@ const atags = {
 	"com": "/***\n\n***/\n",
 	"echo": "<?php echo '' ?>",
 	"getcook": "getCookie(\"\");\n",
+  "det": "<details>\n <summary>XXX</summary>\n <p>XXXX</p>\n</details>\n",
 	"err": "error_reporting(E_ALL);\nini_set('display_errors', '1');",
 	"header": "header(\"Location: \");",
 	"html": "<!DOCTYPE HTML>\n<html lang=\"en-US\">\n<head>\n	<meta charset='UTF-8'>\n	<meta name='viewport' content='width=device-width, initial-scale=1'>\n	<title></title>\n</head>\n<body>\n\n</body>\n</html>\n",
@@ -32,4 +33,3 @@ const atags = {
 	"tr": "<tr>\n	<td></td>\n	<td></td>\n</tr>",
 	"ul": "<ul>\n <li></li>\n <li></li>\n <li></li>\n <li></li>\n</ul>\n"
 };
-

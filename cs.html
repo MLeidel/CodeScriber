@@ -407,6 +407,7 @@ This function enhances the Alt-z code insertion
     // Close the message box when the close button is clicked
     document.getElementById('closeBtn').onclick = function() {
         document.getElementById('overlay').style.display = 'none';
+        editor.focus();
     };
 
     function viewZenTags() {
@@ -474,7 +475,6 @@ This function enhances the Alt-z code insertion
           mdSurround("_", "_")  // italic for MD
       }
     });
-
                     /* File Drag & Drop Code */
 
     const dropArea = JS.doq('#FN'); // file input field
