@@ -26,6 +26,7 @@ const atags = {
 	"radio": "<label for='AA'>description</label>\n<input type='radio' id='AA' name='postfield' value='postvalue' checked>",
 	"script2": "<script src=\"\"><\/script>",
 	"script": "<script>\n\n<\/script>",
+	"select": "<select name='' id='' size='' onchange='' autofocus required>\n <option value='' selected>\n <option value=''>\n</select>",
 	"setcook": "setCookie(\"name\",\"value\",\"days\");\n",
 	"style": "<style>\n\n<\/style>",
 	"table": "<style>\ntable, th, td \{\n	border: 1px solid black;\n	margin: auto; /* center */\n}\n\</style>\n\n<table>\n	<tr>\n		<td> </td>\n		<td> </td>\n	</tr>\n	<tr>\n		\<td> </td>\n		<td> </td>\n	</tr>\n</table>\n",
