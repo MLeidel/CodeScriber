@@ -10,7 +10,9 @@ import markdown
 import tkinter as tk
 import iniproc
 import subprocess
+from tkinter.ttk import *
 from tkinter import filedialog
+from ttkthemes import ThemedTk
 
 p = os.path.realpath(__file__)
 p = os.path.dirname(p) + "/"
@@ -26,7 +28,8 @@ opts = iniproc.read(optionsFileName,'width',
                                    'filemanager',
                                    'python',
                                    'browser',
-                                   'startdir')
+                                   'startdir',
+                                   'csnips')
 
 current_file = ""  # tracks current file in use
 current_path = opts[6]  # tracks path
@@ -79,7 +82,9 @@ class Api:
     def open_file(self):
         ''' called from javascript '''
         global current_file, current_path
-        root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        root = ThemedTk(theme="black")  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        root.configure(bg="dimgray")  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        #root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
         root.geometry(window_coord())  # COMMENT IF USING SINGLE MONITOR SYSTEM
         file_path = filedialog.askopenfilename(initialdir=current_path,
                                                initialfile=os.path.basename(current_file),
@@ -105,7 +110,9 @@ class Api:
     def save_file(self, content):
         ''' called from javascript '''
         global current_file, current_path
-        root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        # root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        root = ThemedTk(theme="black")  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        root.configure(bg="dimgray")  # COMMENT IF USING SINGLE MONITOR SYSTEM
         root.geometry(window_coord())  # COMMENT IF USING SINGLE MONITOR SYSTEM
         file_path = filedialog.asksaveasfilename(initialdir=current_path,
                                                  defaultextension=".txt",
@@ -187,8 +194,10 @@ class Api:
         else:
             return ''
 
+    def execCSnips(self):
+        subprocess.call(["python3", opts[7]])
 
-#  END OF JS_API CLASS
+#  END OF JS_API CLASS  END OF JS_API CLASS  END OF JS_API CLASS
 
 if __name__ == '__main__':
     api = Api()

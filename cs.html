@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="en-US">
 <head>
-	<meta charset="utf-8">
-	<title>HTML</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>CodeScriber</title>
 
 <!-- Use one of these in the link below, then edit the #editor ID in cs.css -->
     <!--<link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400' rel='stylesheet' type='text/css'>-->
@@ -29,26 +30,29 @@
             <ul class="dropdown-content">
                 <li><a onclick="newFile();">New</a></li>
                 <li><a onclick="openFile();">Open</a></li>
-                <li><a onclick="save();">Save</a></li>
+                <li><a onclick="save();">Save-As</a></li>
+                <li><a onclick="quicksaveDocument();" title="Ctrl-S">Save</a></li>
                 <li><a onclick="exitApp();" title="Ctrl-Q">Exit</a></li>
             </ul>
         </li>
         <li>
-            <a href="#">Edit</a>
+            <a href="#">Tools</a>
             <ul class="dropdown-content">
-                <li><a onclick="zentag();">Insert Snip [Alt-Z]</a></li>
+                <li><a onclick="zentag();" title="Alt-Z">Insert Tag</a></li>
                 <li><a onclick="execCurrent();">Run Python</a></li>
                 <li><a onclick="mdCurrent();">Run Markdown</a></li>
-                <li><a onclick="execTerm();">Open Terminal</a></li>
-                <li><a onclick="execFMgr();">Open File Manager</a></li>
-                <li><a onclick="execBrowser();">To Browser</a></li>
+                <li><a onclick="execTerm();"    title="open">Terminal</a></li>
+                <li><a onclick="execFMgr();"    title="open">File Mgr</a></li>
+                <li><a onclick="execBrowser();" title="open in browser">Browser</a></li>
+                <li><a onclick="execCSnips();"  title="open">CSnips</a></li>
             </ul>
         </li>
         <li>
             <a href="#">Help</a>
             <ul class="dropdown-content">
-                <li><a href="#">Documentation</a></li>
-                <li><a href="#" onclick="alert('cs Code Editor\nFor You!');">About</a></li>
+                <li><a href="https://github.com/MLeidel/CodeScriber"
+                        target="_blank">Documentation</a></li>
+                <li><a onclick="showMessageBox('<b>CodeScriber Editor<br><br>For You!</b>');">About</a></li>
             </ul>
         </li>
         <li> <input type=text id="FN" />
@@ -56,6 +60,13 @@
   </div>
 
   <div id="editor"></div>
+
+<div id="overlay"> <!-- Hidden -->
+    <div id="messageBox">
+        <p id="messageBoxText"></p>
+        <button id="closeBtn">Close</button>
+    </div>
+</div>
 
 <script>
 
@@ -133,6 +144,14 @@
 			readOnly: true // false if this command should not apply in readOnly mode
 	});
 
+    editor.commands.addCommand({
+            name: 'viewTagsJS',
+            bindKey: {win: 'Alt-x', mac: 'Alt-x'},
+            exec: function(editor) {
+                    viewZenTags();
+            },
+            readOnly: false
+    });
 
     //editor.session.setUseSoftTabs(true); // not needed
     editor.setTheme("ace/theme/monokai");
@@ -315,6 +334,10 @@ This function enhances the Alt-z code insertion
     function execBrowser() {
         window.pywebview.api.execWebbrowser();  // open current in browser
     }
+
+    function execCSnips() {
+        window.pywebview.api.execCSnips();  // open CSnips
+    }
 /* ------------------------------------------------------------------------- */
 
                             /* Webview handlers */
@@ -373,6 +396,25 @@ This function enhances the Alt-z code insertion
         let newText = prefix + selectedText + suffix;
         // Replace the selected text with the new text
         editor.getSession().replace(selectionRange, newText);
+    }
+
+    // Function to show the message box
+    function showMessageBox(mtext) {
+        document.getElementById('messageBoxText').innerHTML = mtext;
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    // Close the message box when the close button is clicked
+    document.getElementById('closeBtn').onclick = function() {
+        document.getElementById('overlay').style.display = 'none';
+    };
+
+    function viewZenTags() {
+        let str_atags = "ZEN TAGS:<br><br>";
+        Object.keys(atags).forEach(function(key) {
+          str_atags += key + " • ";
+        });
+        showMessageBox(str_atags);
     }
 
     function exitApp() {
