@@ -1,0 +1,4 @@
+pywebview
+markdown
+ttkthemes
+psutil

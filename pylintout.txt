@@ -1,0 +1,19 @@
+************* Module cs
+cs.py:12:0: W0401: Wildcard import tkinter.ttk (wildcard-import)
+cs.py:60:14: W0612: Unused variable 'dirs' (unused-variable)
+cs.py:80:4: W0603: Using the global statement (global-statement)
+cs.py:87:4: W0603: Using the global statement (global-statement)
+cs.py:103:4: W0602: Using global for 'rec' but no assignment is done (global-variable-not-assigned)
+cs.py:162:0: W0105: String statement has no effect (pointless-string-statement)
+cs.py:189:8: W0603: Using the global statement (global-statement)
+cs.py:200:8: W0603: Using the global statement (global-statement)
+cs.py:215:8: W0603: Using the global statement (global-statement)
+cs.py:330:8: W0603: Using the global statement (global-statement)
+cs.py:337:12: W0702: No exception type(s) specified (bare-except)
+cs.py:355:18: W0612: Unused variable 'dirs' (unused-variable)
+cs.py:387:4: W0105: String statement has no effect (pointless-string-statement)
+cs.py:404:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+
+------------------------------------------------------------------
+Your code has been rated at 9.40/10 (previous run: 9.32/10, +0.08)
+

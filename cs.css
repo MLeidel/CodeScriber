@@ -1,0 +1,196 @@
+/* wace.css */
+
+body {
+    background: dimgray;
+    font: normal 12pt "sans-serif", Arial;
+    color: black;
+}
+
+#FN {
+    border-width: 0;
+    width: 500px;
+    box-sizing: border-box;
+    padding: 2px;
+    border-radius: 4px;
+    background-color: #A9A9A9;
+}
+
+#editor {
+    position: absolute;
+    top: 85px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* FONT STYLING - use google fonts*/
+    /*font-family: 'Roboto Mono';*/
+    /*font-family: 'Droid Sans Mono';*/
+    /*font-family: 'PT Mono';*/
+    /*font-family: 'Source Code Pro';*/
+    /*font-family: 'DejaVu Sans Mono', 'Liberation Mono', monospace;*/
+    /*font-family: 'JetBrains Mono', monospace;*/
+
+    font-family: 'Fira Code', monospace;
+    font-size: 10pt;
+    border-top: 1px solid black;
+}
+
+                    /* MENUS */
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    position: relative;
+    display: inline-block;
+}
+
+a {
+    display: block;
+    padding: 6px;
+    text-decoration: none;
+    color: black;
+    background-color: dimgray;
+    border-radius: 4px;
+}
+
+a:hover {
+    background-color: #A9A9A9;
+/*    color: black;*/
+}
+
+/* Hide the dropdown content initially */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: dimgray;
+    min-width: 105px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+/* Show the dropdown menu on hover */
+li:hover .dropdown-content {
+    display: inline;
+    background-color: dimgray;
+    color: black;
+}
+
+.dropdown-content a {
+/*    color: black;*/
+    text-decoration: none;
+    display: block;
+    padding: 5px 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: #A9A9A9;
+}
+
+/* messages */
+
+#messageBoxText a {
+    color:whitesmoke;
+}
+
+.overlay {
+    position: fixed;
+    display: none; /* Hidden by default */
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(9, 9, 9, 0.5);
+    z-index: 1000; /* Ensure it's on top */
+}
+
+/* Style for the message box */
+
+.messageBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    height: 500px; /* Set a fixed height */
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    overflow: auto; /* Enable scroll bars when content overflows */
+}
+
+/* Style for the close button */
+
+.closeBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.closeBtn:hover {
+    background-color: #d32f2f;
+}
+
+/* CONTEXT MENU */
+
+.context-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    display: none;
+    z-index: 1000;
+}
+.context-menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.context-menu-item:hover {
+    background-color: #111;
+    color: #eee;
+}
+
+/* File Folder Tabs */
+
+.folder-container {
+  display: flex;
+  border-top: 1px dotted #111;
+  padding: 4px;
+  background-color: dimgray;
+}
+
+.folder {
+  margin-right: 10px;
+  padding: 4px 4px;
+  background-color: #A9A9A9;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.highlighted {
+  background-color: #EEE;
+}
+
+.folder .close-btn {
+  position: absolute;
+  right: 5px;
+  top: 0;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 12px;
+}

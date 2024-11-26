@@ -1,0 +1,860 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>CodeScriber</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" />
+  <link rel="stylesheet" href="cs.css" />
+<!-- Use one of these in the link below, then edit the #editor ID in cs.css -->
+    <!-- <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400' rel='stylesheet' type='text/css'> -->
+    <!-- <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'> -->
+    <!-- <link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'> -->
+    <!-- <link href='https://fonts.googleapis.com/css?family=Oxygen+Mono' rel='stylesheet' type='text/css'> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro" rel="stylesheet" type='text/css'> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet"> -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"
+    type="text/javascript" charset="utf-8"></script>
+<!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ext-language_tools.js"
+    type="text/javascript" charset="utf-8"></script>
+-->
+  <script src="tags.js"></script> <!-- run names, enclosures, Zen tags -->
+  <script src="myJS.js"></script> <!-- A JQuery-ish library -->
+  <script src="filemodes.js"></script> <!-- Ace syntax theme library -->
+
+</head>
+
+<body>
+
+<!-- <img src="images/KO.gif" id="LOAD" style="display:none;position:absolute;top:5;left:5;" /> -->
+
+  <div style="margin-left:50px;"> <!-- Menus -->
+    <ul>
+        <li>
+            <a href="#">File</a>
+            <ul class="dropdown-content">
+                <li><a onclick="openRecent();" title="">Recent</a></li>
+                <li><a onclick="openFile();">Open</a></li>
+                <li><a onclick="newFile();">New</a></li>
+                <li><a onclick="save();" title="Ctrl-Shft-S">Save-As</a></li>
+                <li><a onclick="quicksaveDocument();" title="Ctrl-S">Save</a></li>
+                <li><a onclick="exitApp();" title="Ctrl-Q">Exit</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Tools</a>
+            <ul class="dropdown-content">
+                <li><a onclick="execTerm();"    title="open terminal">Terminal</a></li>
+                <li><a onclick="execFMgr();"    title="open file manager">Files</a></li>
+                <li><a onclick="execBrowser();" title="open in browser">Browser</a></li>
+                <li><a onclick="mdCurrent();"   title="View HTML">Markdown</a></li>
+                <li><a onclick="findfile();" title="search filesystem">Find File</a></li>
+                <li><a onclick="execI();"   id="ru1" title="Ctrl - ">Run 1</a></li>
+                <li><a onclick="execII();"  id="ru2" title="Ctrl = ">Run 2</a></li>
+                <li><a onclick="execIII();" id="ru3" title="Alt - ">Run 3</a></li>
+                <li><a onclick="execIV();"  id="ru4" title="Alt = ">Run 4</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Options</a>
+            <ul class="dropdown-content">
+                <li><a onclick="openOptionFile('options.ini');"
+                        title="Edit the options.ini file">Options</a></li>
+                <li><a onclick="openOptionFile('tags.js');"
+                        title="Edit various custom tags">Tags</a></li>
+                <li><a onclick="openOptionFile('filemodes.js');"
+                        title="Edit File Modes/Themes">File Modes</a></li>
+                <li><a onclick="relaunch();"
+                        title="re-launch CodeScriber">Re-Launch</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">Help</a>
+            <ul class="dropdown-content">
+                <li><a onclick="showMessageBox(msg);">
+                                                About</a></li>
+                <li><a href="CSdoc.html"
+                        target="_blank">Documentation</a></li>
+            </ul>
+        </li>
+        <li> <input type=text id="FN" />
+    </ul>
+  </div>
+
+<!-- Context Menu -->
+
+    <div id="customContextMenu" class="context-menu">
+        <em><div class="context-menu-item">Open</div></em>
+        <em><div class="context-menu-item">Save-As</div></em>
+        <em><div class="context-menu-item">Save</div></em>
+        <div class="context-menu-item">Terminal</div>
+        <div class="context-menu-item">File Mgr</div>
+        <div class="context-menu-item">Browser</div>
+        <div class="context-menu-item">Markdown</div>
+        <div class="context-menu-item" id="RU1">Run 1</div>
+        <div class="context-menu-item" id="RU2">Run 2</div>
+        <div class="context-menu-item" id="RU3">Run 3</div>
+        <div class="context-menu-item" id="RU4">Run 4</div>
+    </div>
+
+<!-- Special Messagebox -->
+
+    <div id="overlay1" class="overlay"> <!-- Hidden -->
+        <div class="messageBox">
+            <p id="messageBoxText"></p>
+            <button id="msg_close_1" class="closeBtn">Close</button>
+        </div>
+    </div>
+
+<!-- 'folder' bar -->
+
+<div id="FLDR" class="folder-container"></div>
+
+<!-- Ace Editor -->
+
+<div id="editor"></div>
+
+<!-- ==================================================================== -->
+
+<script>
+
+    var contextMenu = JS.doq('#customContextMenu');
+    var filename = "";
+    var gvar = {
+        oFN : null,
+        saved : true,
+        last_pre_tag : "",
+        last_pst_tag : "",
+        sep: "/",
+        sinx: 0,
+        setm: [],
+        sesn: [],
+        sefn: []
+    };
+
+
+    gvar.oFN = JS.doq("#FN"); // object for the filename input field
+
+    console.clear();
+	var editor = ace.edit("editor");
+    // ACE CONFIGURE
+    editor.$blockScrolling = Infinity;  // ace debug suggestion
+    editor.setShowPrintMargin(false);
+    editor.setHighlightActiveLine(false);
+    editor.session.setTabSize(4);
+    editor.setTheme('ace/theme/monokai');
+    // document.getElementById('editor').style.fontSize='12pt';
+    // SEE CSS #editor FOR FONT STYLING //
+    /////////////////////////////////////
+    // //Enable the autocompletion
+    // editor.setOptions({
+    //     enableBasicAutocompletion: true,
+    //     enableSnippets: false,
+    //     enableLiveAutocompletion: false
+    // });
+
+  ///////// ADD (ACE) CUSTOM HOT KEYS //////////
+    editor.commands.addCommand({
+        name: 'htmlBreak',
+        bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
+        exec: function(editor) {
+            editor.insert("<br>");
+        },
+        readOnly: false // Do NOT apply this command in readOnly mode
+    });
+    editor.commands.addCommand({
+        name: 'saveFile',
+        bindKey: {win: 'Ctrl-s', mac: 'Command-s'},
+        exec: function(editor) {
+            quicksaveDocument();
+        },
+        readOnly: false
+    });
+    editor.commands.addCommand({
+        name: 'saveAsFile',
+        bindKey: {win: 'Ctrl-Shift-s', mac: 'Command-s'},
+        exec: function(editor) {
+            save();
+        },
+        readOnly: false
+    });
+    editor.commands.addCommand({
+        name: 'htmlNbsp',
+        bindKey: {win: 'Ctrl-Space', mac: 'Command-Space'},
+        exec: function(editor) {
+            editor.insert("&nbsp;");
+        },
+        readOnly: false
+    });
+    editor.commands.addCommand({
+            name: 'insertDate',
+            bindKey: {win: 'Alt-t', mac: 'Alt-t'},
+            exec: function(editor) {
+                editor.insert(JS.getMDY());
+            },
+            readOnly: false
+    });
+    // add command to lazy-load keybinding_menu extension
+    editor.commands.addCommand({
+        name: "showAllKBshortcuts",
+        bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
+        exec: function(editor) {
+            ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+                module.init(editor);
+                editor.showKeyboardShortcuts();
+            });
+        }
+    });
+
+
+    // ZenTags
+	editor.commands.addCommand({
+			name: 'myCommand',
+			bindKey: {win: 'Alt-Z',	mac: 'Alt-Z'},
+			exec: function(editor) {
+			  zentag();
+			},
+			readOnly: true // false if this command should not apply in readOnly mode
+	});
+
+    editor.commands.addCommand({
+            name: 'viewTagsJS',
+            bindKey: {win: 'Alt-x', mac: 'Alt-x'},
+            exec: function(editor) {
+                viewZenTags();
+            },
+            readOnly: false
+    });
+
+    editor.commands.addCommand({
+            name: 'viewStag',
+            bindKey: {win: 'Ctrl-Alt-x', mac: 'Ctrl-Alt-x'},
+            exec: function(editor) {
+                viewStags();
+            },
+            readOnly: false
+    });
+
+    editor.commands.addCommand({
+            name: 'repeatEnclose',
+            bindKey: {win: 'Alt-w', mac: 'Alt-w'},
+            exec: function(editor) {
+                tagSurround(gvar.last_pre_tag, gvar.last_pst_tag);
+            },
+            readOnly: false
+    });
+
+    // the following toggles the 'save' button if the text is "dirty" or "saved"
+
+    editor.on("input", function() {
+            // gvar.saved = editor.session.getUndoManager().isClean();
+            gvar.saved = gvar.sesn[gvar.sinx].getUndoManager().isClean();
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+        if (gvar.saved === false)
+            e.preventDefault();  // Cancel the event
+          else
+            e.returnValue = 'prompt';  // fire the confirm prompt
+    });
+
+                /* Context Menu Event Handlers */
+
+    editor.container.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+        contextMenu.style.top = event.clientY + 'px';
+        contextMenu.style.left = event.clientX + 'px';
+        contextMenu.style.display = 'block';
+    });
+
+    document.addEventListener('click', function() {
+        contextMenu.style.display = 'none';
+    });
+
+    contextMenu.addEventListener('click', function(event) {
+        var target = event.target;
+        if (target.classList.contains('context-menu-item')) {
+            contextMenu.style.display = 'none';
+            mItem = target.innerText;
+            switch (mItem) {
+                case "Open":
+                    openFile();
+                    break;
+                case "Save-As":
+                    Save();
+                    break;
+                case "Save":
+                    quicksaveDocument();
+                case "Terminal":
+                    execTerm();
+                    break;
+                case "File Mgr":
+                    execFMgr();
+                    break;
+                case "Browser":
+                    execBrowser();
+                    break;
+                case "Markdown":
+                    mdCurrent();
+                    break;
+                case "Run 1":
+                    execI();
+                    break;
+                case "Run 2":
+                    execII();
+                    break;
+                case "Run 3":
+                    execIII();
+                    break;
+                case "Run 4":
+                    execIV();
+                    break;
+            }
+        }
+    });
+
+/***
+This function enhances the Alt-z code insertion
+***/
+
+    function zentag() {
+      let wsp = [9,10,32, NaN];  // tab, LF, space
+      let inx = 0;
+      let code = 0;
+      let txtbuf = "";
+      let targ = "";
+      inx = editor.session.doc.positionToIndex(editor.selection.getCursor());
+      txtbuf = editor.getValue();
+      code = txtbuf.charCodeAt(inx);
+      if (!wsp.includes(code)) return;  // must be at right whitespace boundary
+      inx -= 1;
+      if (inx < 0) return;
+      code = txtbuf.charCodeAt(inx);
+      while (!wsp.includes(code)) {
+        //console.log(inx);
+        targ = String.fromCharCode(code) + targ;
+        inx -= 1;
+        if (inx >= 0)
+          code = txtbuf.charCodeAt(inx);
+        else
+          break;
+      }
+      // targ should contain the key to look for
+      editor.removeWordLeft();
+      if (atags[targ] !== undefined) {
+        editor.insert(atags[targ]);  // targ is a valid key value
+      } else {  // stag not a valid key value so do this instead
+        editor.insert("<" + targ + "></" + targ + ">");
+      }
+    }
+
+/***
+ *                           _        _
+ *      _ __ _  ___ __ _____| |____ _(_)_____ __ __
+ *     | '_ \ || \ V  V / -_) '_ \ V / / -_) V  V /
+ *     | .__/\_, |\_/\_/\___|_.__/\_/|_\___|\_/\_/
+ *     |_|   |__/
+    Javascript pywebview API functions connect to Python */
+
+    function getFN() {
+        window.pywebview.api.getFileName().then(content => {
+          setFileName(content);
+        });
+    }
+
+    function openFile() {  // executes python/tkinter code
+        window.pywebview.api.open_file().then(content => {
+          loadDocument(content);
+        });
+    }
+
+    function save_File(content) {  // Save-As
+        window.pywebview.api.save_file(content).then(content => {
+            openCmdFile();
+        });
+    }
+
+    function quicksaveFile(content) {  // executes python/tkinter code
+        window.pywebview.api.quick_save_file(content).then(content => {
+        });
+    }
+
+    function on_close() {
+        window.pywebview.api.onClose();  // immediate close no ask
+    }
+
+    function update_current_file(content) {
+        window.pywebview.api.set_current_file(content).then(content => {
+        });
+    }
+
+    function relaunch() {
+        /* close and re-open CodeScriber */
+        let r = confirm("wish to relaunch CodeScriber?");
+        if (r == "") return;
+        window.pywebview.api.reLaunch();
+    }
+
+    function openCmdFile() {
+        window.pywebview.api.getCmdFile().then(content => {
+            loadDocument(content);
+        });
+    }
+
+    function mdCurrent() {
+        window.pywebview.api.execMarkdown();  // open md in browser
+    }
+
+    function execFMgr() {
+        window.pywebview.api.execFileMgr();  // open file manager
+    }
+
+    function execTerm() {
+        window.pywebview.api.execTerminal();  // open terminal
+    }
+
+    function execBrowser() {
+        window.pywebview.api.execWebbrowser();  // open current in browser
+    }
+
+    function execI() {
+        window.pywebview.api.exec1();  // open
+    }
+
+    function execII() {
+        window.pywebview.api.exec2();  // open
+    }
+
+    function execIII() {
+        window.pywebview.api.exec3();  // open
+    }
+
+    function execIV() {
+        window.pywebview.api.exec4();  // open
+    }
+
+    function openOptionFile(loadfilename) {  // option file to open is content
+        window.pywebview.api.openSelected(loadfilename).then(content => {
+            showMessageBox("<br><br>If this file is modified,<br>Restart CodeScriber to activate.")
+            loadDocument(content);
+        });
+    }
+
+    function DropOpenFile(filename) {
+        /* gets the string of possible fullpaths from python */
+        window.pywebview.api.on_file_drop(filename).then(content => {
+            // content is the csv string of possible paths/files
+            //JS.tod("#LOAD", "none");
+            selectFile(content);
+        });
+    }
+
+    function openRecent() {
+        /* gets the Recent Files csv string from python */
+        window.pywebview.api.returnRecents().then(content => {
+            selectFile(content);
+        });
+    }
+
+    function loadSelected(content) {
+        /* python reads the selected file ( from selectFile() )
+        and returns its content to be loaded into Ace editor */
+        window.pywebview.api.openSelected(content).then(content => {
+          JS.doq('#overlay1').style.display = 'none';
+          loadDocument(content);
+        });
+    }
+
+
+/* ------------------------------------------------------------------------- */
+
+            /* handler functions working with webview functions */
+
+    function selectFile(content) {
+        /* presents an array of fullpaths for user selection
+            used by openRecent and DropOpenFile */
+        let x = 0;
+        let sfile = "";
+        let msg = "";
+        let files = content.split(",");
+        
+        for (x=0; x < files.length; x++) {
+            sfile = convertPath(files[x]);
+            msg += `<a onclick="loadSelected('${sfile}')">${sfile}</a><br>`;
+        }
+        showMessageBox(msg);
+    }
+
+    function convertPath(filePath) { // for Windows
+        // replace backslashes with slashes (see selectFile())
+        return filePath.replace(/\\/g, '/');
+    }
+
+    function findfile() {
+        filename = prompt("enter the filename to find:")
+        DropOpenFile(filename)
+    }
+
+    function setSaved() {
+        // resets the boolean variable for state of editor (clean/dirty)
+        gvar.saved = gvar.sesn[gvar.sinx].setUndoManager(new ace.UndoManager());
+    }
+
+    function newDocument() {
+        // all file opening starts here
+        gvar.sinx++;
+        gvar.sesn[gvar.sinx] = ace.createEditSession("");
+        editor.setSession(gvar.sesn[gvar.sinx]);
+        setFileName("untitled");
+        update_current_file("untitled");
+    }
+
+    function loadDocument(text) {
+        // all file opening starts here
+        if (text == "") return;
+        gvar.sinx++;
+        gvar.sesn[gvar.sinx] = ace.createEditSession(text.split("\n"));
+        editor.setSession(gvar.sesn[gvar.sinx]);
+        getFN();
+    }
+
+    function setFileName(fn) {
+        /* works with loadDocument() & newDocument */
+        if (fn !== "") {
+            gvar.sefn[gvar.sinx] = fn; // for tab switching
+            setFileMode(fn);
+            editor.clearSelection();
+            JS.val("#FN", fn);
+            addFolder(fn, gvar.sinx);
+            editor.focus();
+            setSaved();
+        }
+    }
+
+    function save() {
+        let text = editor.getValue();
+        save_File(text);
+        //getFN();
+    }
+
+    function quicksaveDocument() {
+      if (JS.val("#FN") == "") {
+        save();  // Save-As
+        return;
+      }
+      let text = editor.getValue();
+      quicksaveFile(text); // quicksaveFile save the file with current name
+      setSaved();
+    }
+
+    function newFile() {
+        if (!gvar.saved) {
+            let r = confirm("Current File Not Saved!");
+            if (!r) return;
+        }
+        newDocument();
+    }
+
+    function tagSurround(prefix, suffix) {
+        // Get the current selection
+        let selectionRange = editor.getSelectionRange();
+        let selectedText = editor.getSession().getTextRange(selectionRange);
+        // Define the text to surround the selection
+        let newText = prefix + selectedText + suffix;
+        // Replace the selected text with the new text
+        editor.getSession().replace(selectionRange, newText);
+    }
+    function setup_tag() {
+        let inx = 0;
+        let tags = prompt("Enter Pre, Post, inx ");
+        if (tags === null) return;
+        const t = tags.split(",");
+        let pre_tag = t[0];
+        let pst_tag = t[1];
+        inx = t[2];
+        if (pre_tag === null) return;
+        if (inx < 0 || inx > 9) return;
+        stag[inx] = pre_tag + "," + pst_tag;
+        showMessageBox("Ctrl-" + inx + " temporarily changed");
+    }
+
+    function convertHTML(str) {
+      const symbols = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&apos;"
+      };
+
+      return str.replace(/([&<>\"'])/g, match => symbols[match]);
+    }
+
+    function viewStags() {
+      let x = 0;
+      let msg = "<strong>Text Enclosing</strong>:<br><br>";
+      for (x=0; x < 10; x++) {
+        msg += "Ctrl-" + x + " - " + convertHTML(stag[x]) + "<br>";
+      }
+      showMessageBox(msg);
+    }
+
+    function viewZenTags() {
+        let str_atags = "ZEN TAGS:<br><br>";
+        Object.keys(atags).forEach(function(key) {
+          str_atags += key +  " | ";
+        });
+        showMessageBox(str_atags);
+    }
+
+    // Function to show the message box
+    function showMessageBox(mtext) {
+        JS.htm('#messageBoxText', mtext);
+        JS.doq('#overlay1').style.display = 'block';
+    }
+
+    // Close the message box when the close button is clicked
+    JS.doq('#msg_close_1').onclick = function() {
+        JS.doq('#overlay1').style.display = 'none';
+        editor.focus()
+    };
+
+    function exitApp() {
+        if (gvar.saved === false) {  //
+            if (confirm("text not saved! Quit anyway?") !== true) {
+                return;
+            } else {
+                editor.destroy();
+                editor.container.remove();
+                on_close();
+            }
+        } else {
+            editor.destroy();
+            editor.container.remove();
+            on_close();
+        }
+    }
+
+    function checkSaved() {
+        if (gvar.saved === false) {
+            gvar.oFN.style.backgroundColor = "#FFE4B5";
+        } else  {
+            gvar.oFN.style.backgroundColor = "#A9A9A9";
+        }
+        setTimeout(checkSaved, 800);
+    }
+    checkSaved(); // start up the saved checker
+
+    /* insert the "run" menu names */
+    function setRunMenuNames() {
+        JS.htm("#RU1", menu.run1);
+        JS.htm("#RU2", menu.run2);
+        JS.htm("#RU3", menu.run3);
+        JS.htm("#RU4", menu.run4);
+        JS.htm("#ru1", menu.run1);
+        JS.htm("#ru2", menu.run2);
+        JS.htm("#ru3", menu.run3);
+        JS.htm("#ru4", menu.run4);
+    }
+
+    function basename(str) {
+        return str.substr(str.lastIndexOf(gvar.sep) + 1);
+    }
+
+                    /* MDI Folder management
+                       Don't touch this code
+               unless you know what you're doing */
+
+    function addFolder(fldrname, inx) {
+        const container = document.getElementById('FLDR');
+        // Create a new folder element
+        const newFolder = document.createElement('div');
+        const allFolders = document.querySelectorAll('.folder');
+        newFolder.className = 'folder';
+        newFolder.textContent = basename(fldrname);
+        newFolder.dataset.sinx = inx;  // store the sinx value with this tab
+        allFolders.forEach(folder => {
+            folder.classList.remove('highlighted');
+        });
+        newFolder.classList.add('highlighted');
+
+        newFolder.onclick = function() {
+            const allFolders = document.querySelectorAll('.folder');
+            allFolders.forEach(folder => {
+                folder.classList.remove('highlighted');
+            });
+            // Add the 'highlighted' class to the clicked folder
+            this.classList.add('highlighted');
+            gvar.sinx = newFolder.dataset.sinx;
+            JS.val("#FN", gvar.sefn[gvar.sinx]);
+            editor.setSession(gvar.sesn[gvar.sinx]);
+            editor.setTheme(gvar.setm[gvar.sinx]);
+            update_current_file(gvar.sefn[gvar.sinx]);
+            gvar.saved = gvar.sesn[gvar.sinx].getUndoManager().isClean();
+        };
+        // Add a close button to the folder
+        const closeButton = document.createElement('span');
+        closeButton.className = 'close-btn';
+        closeButton.textContent = '×';
+        closeButton.onclick = function(event) {
+            event.stopPropagation();
+            removeFolder(newFolder);
+        };
+        newFolder.appendChild(closeButton);
+        // Append the new folder to the container
+        container.appendChild(newFolder);
+    }
+
+    function removeFolder(folderElement) {
+        // eliminate folder
+        gvar.saved = gvar.sesn[folderElement.dataset.sinx].getUndoManager().isClean();
+        if (!gvar.saved) {
+            let r = confirm("Current File Not Saved!");
+            if (!r) return;
+        }
+        gvar.sesn[folderElement.dataset.sinx] = null; // free some memory?
+        folderElement.parentNode.removeChild(folderElement);
+        // access folder "first" and switch to it
+        const allFolders = document.querySelectorAll('.folder');
+        const count = allFolders.length;
+        if (count == 0) {
+            editor.setValue("");
+            JS.val("#FN", "");
+            update_current_file("");
+            return;  // last folder nothing to switch to
+        }
+        allFolders.forEach(folder => {
+            folder.classList.remove('highlighted');
+        });
+        const firstFolder = allFolders[0];
+        firstFolder.classList.add('highlighted');
+        gvar.sinx = firstFolder.dataset.sinx;
+        JS.val("#FN", gvar.sefn[gvar.sinx]);
+        editor.setSession(gvar.sesn[gvar.sinx]);
+        editor.setTheme(gvar.setm[gvar.sinx]);
+        update_current_file(gvar.sefn[gvar.sinx]);
+        gvar.saved = gvar.sesn[gvar.sinx].getUndoManager().isClean();
+    }
+                    /* End MDI folder management*/
+
+    /* Open lastfile or file from command line */
+    setTimeout(openCmdFile, 800);
+
+    /* insert the "run" menu names */
+    setTimeout(setRunMenuNames, 1000);
+
+                /* Other Keypress handlers */
+
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            exitApp(); // close application
+        }
+      });
+
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'q') {
+          event.preventDefault();
+          exitApp(); // close application
+      }
+    });
+
+    window.addEventListener('keydown', function(event) {
+      if ( (event.ctrlKey || event.metaKey) && event.key === 'r' ) {
+          event.preventDefault();
+          openRecent(); // show recent file list
+      }
+    });
+
+    window.addEventListener('keydown', function(event) {
+      if ( (event.ctrlKey || event.metaKey) && event.key === 'o' ) {
+          event.preventDefault();
+          openFile(); // open file in current window
+      }
+    });
+
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && (event.key >= 0 && event.key < 10)) {
+        event.preventDefault();
+        const t = stag[event.key].split(",");
+        let pre_tag = t[0];
+        let pst_tag = t[1];
+        tagSurround(pre_tag, pst_tag)  // bold for MD
+        gvar.last_pre_tag = pre_tag;  // save for Alt-W repeat last
+        gvar.last_pst_tag = pst_tag;
+      }
+    });
+
+    /* KB handlers for run1 - run4 */
+
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === '-') {
+        event.preventDefault();
+        execI();
+      }
+    });
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === '=') {
+        event.preventDefault();
+        execII();
+      }
+    });
+    window.addEventListener('keydown', function(event) {
+      if (event.altKey && event.key === '-') {
+        event.preventDefault();
+        execIII();
+      }
+    });
+    window.addEventListener('keydown', function(event) {
+      if (event.altKey && event.key === '=') {
+        event.preventDefault();
+        execIV();
+      }
+    });
+
+                /* alter ctrlKey-0...9  */
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
+          event.preventDefault();
+          setup_tag();
+      }
+    });
+
+                 /* File Drag & Drop Code */
+
+    const dropArea = JS.doq('#FN'); // file input field
+
+    dropArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.style.borderColor = '#333';
+    });
+
+    dropArea.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.style.borderColor = '#ccc';
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.style.borderColor = '#ccc';
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            DropOpenFile(files[0].name)
+        }
+    });
+
+var msg = `
+<b>CodeScriber Editor<br><br>For You!</b><br><br>
+<a href='https://github.com/MLeidel/CodeScriber' target='_blank'>Github</a><br>
+`;
+</script>
+
+</body>
+</html>
