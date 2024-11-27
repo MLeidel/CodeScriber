@@ -153,11 +153,16 @@ def runOptions(inx):
     if item.startswith("http"):
         webbrowser.open(item)
     else:
-        # check for fullpath "{f}"
-        item = item.replace("{f}", current_file)
-        run = item.split(" ")
-        subprocess.call(run)
+        # check for fullpath or path {f} or {p}
+        run = item.replace("{f}", current_file)
+        run = run.replace("{p}", current_path)
+        os.system(run)
 
+def windows_path(p):
+    ''' reverse / for Windows path  '''
+    ws = "\\"
+    rp = p.replace("/", ws)
+    return rp
 
 '''
                     P Y W E B V I E W
@@ -292,7 +297,12 @@ class Api:
 
     def execFileMgr(self):
         ''' open the file manager specified in the options.ini '''
-        os.system(opts[3] + " " + current_path)
+        #os.system(opts[3] + " " + current_path)
+        if myOS == "Windows":
+            wp = windows_path(current_path)
+            subprocess.call([opts[3], wp])
+        else:
+            subprocess.call([opts[3], current_path])
 
     def execTerminal(self):
         ''' open the terminal specified in the options.ini

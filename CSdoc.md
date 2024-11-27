@@ -87,8 +87,10 @@ __Additional Hotkeys:__
 		<td><b>Ctrl-o</b></td>
 		<td>Open a file</td>
 	</tr>
-
 </table>
+
+Right-Click on file tab will close tab.  
+Right-Click also opens contextmenu.
 
 ### Functions of Ace Code Editor
 
@@ -293,8 +295,6 @@ The Windows options.ini could look more like this:
     run2=cmd
     run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
     run4=calc.exe
-    
-The geometry of the CodeScriber's window dimensions are remembered.
 
 **terminal**
 >Enter your terminal preference and the option to  
@@ -314,12 +314,16 @@ Default if you want to use your system default browser.
 >Set the "root" in your file system that CodeScriber should use.
 
 **run1 ... run2**
->External programs you might want to execute.
+>External programs you might want to execute via menus or
 _Ctrl -_ and _Ctrl =_ respectively.
 
 **run3 ... run4**
->External programs you might want to execute.
+>External programs you might want to execute via menus or
 _Alt -_ and _Alt =_ respectively.
+
+**Notes:** Non URL items are implemented with a simple os.system() method.  
+Make sure your executable is in your system path or supply it with a fullpath.  
+A URL is opened in your system's default browser.
 
 ---
 
@@ -392,6 +396,8 @@ or with a command file:
 >$>cs  
 >$>cs fileToOpen.c
 ></code>
+
+The geometry of CodeScriber's window dimensions are remembered.
 
 ### on Windows
 

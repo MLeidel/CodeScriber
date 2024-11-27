@@ -682,6 +682,11 @@ This function enhances the Alt-z code insertion
         });
         newFolder.classList.add('highlighted');
 
+        newFolder.oncontextmenu = function(event) { // same as 'closeButton'
+            event.stopPropagation();
+            removeFolder(newFolder);
+        };
+
         newFolder.onclick = function() {
             const allFolders = document.querySelectorAll('.folder');
             allFolders.forEach(folder => {

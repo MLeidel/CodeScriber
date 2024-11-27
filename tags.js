@@ -68,4 +68,4 @@ const atags = {
 "tk_button": "w = Button(self, text='button', command=self.cmdfunc)\n  w.grid(row=1, column=1, rowspan=1, columnspan=1, padx=4, pady=20)\n\n",
 "tk_check": "self.vw = IntVar()\nw = Checkbutton(self, variable=self.vw, text='Checkbutton')\nw.grid(row=1, column=1, sticky='', pady=20)\n\n",
 "tk_radio": "self.vVAR = StringVar()  # JUST ONE PER SET\nVAR = Radiobutton(PARENT, variable=self.vVAR, value='ON', text='On')\nVAR.grid(row=0,column=0, sticky='')  # sticky here keeps closer together\nself.vVAR.set('ON')\n\n",
-};
+}; //
