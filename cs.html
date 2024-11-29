@@ -96,10 +96,6 @@
         <div class="context-menu-item">File Mgr</div>
         <div class="context-menu-item">Browser</div>
         <div class="context-menu-item">Markdown</div>
-        <div class="context-menu-item" id="RU1">Run 1</div>
-        <div class="context-menu-item" id="RU2">Run 2</div>
-        <div class="context-menu-item" id="RU3">Run 3</div>
-        <div class="context-menu-item" id="RU4">Run 4</div>
     </div>
 
 <!-- Special Messagebox -->
@@ -305,18 +301,6 @@ contextMenu.addEventListener('click', function(event) {
                 break;
             case "Markdown":
                 mdCurrent();
-                break;
-            case "Run 1":
-                execI();
-                break;
-            case "Run 2":
-                execII();
-                break;
-            case "Run 3":
-                execIII();
-                break;
-            case "Run 4":
-                execIV();
                 break;
         }
     }
@@ -678,10 +662,6 @@ function loadSelected(content) {
 
     /* insert the "run" menu names */
     function setRunMenuNames() {
-        JS.htm("#RU1", menu.run1);
-        JS.htm("#RU2", menu.run2);
-        JS.htm("#RU3", menu.run3);
-        JS.htm("#RU4", menu.run4);
         JS.htm("#ru1", menu.run1);
         JS.htm("#ru2", menu.run2);
         JS.htm("#ru3", menu.run3);
