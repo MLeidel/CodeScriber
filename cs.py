@@ -406,7 +406,6 @@ if __name__ == '__main__':
             with open(lastFileName, 'r', encoding='utf-8') as f:
                 current_file = f.readline().strip()
                 current_path =  os.path.dirname(current_file)
-                print("lastFile:", current_file)
         updateRecents(current_file)
 
     # get last window size and location
