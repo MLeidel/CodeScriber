@@ -266,6 +266,13 @@ Use the Options menu **Tags** to view the `tags.js` file and modify it.
 
 ---
 
+## Bookmarking
+
+To bookmark a line in the code use **Ctrl-Click in the "gutter"** (where the line numbers are)  
+To travel through the bookmarks use **F3**.  
+To clear all bookmarks use **Shift-F3**.
+
+---
 ## options.ini
 
 **CodeScriber options**

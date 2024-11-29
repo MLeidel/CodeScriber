@@ -127,6 +127,8 @@ var gvar = {
     last_pre_tag : "",
     last_pst_tag : "",
     sep: "/",
+    bmk_inx: 0,
+    abmk: [],
     sinx: 0,
     setm: [],
     sesn: [],
@@ -243,6 +245,44 @@ editor.commands.addCommand({
             tagSurround(gvar.last_pre_tag, gvar.last_pst_tag);
         },
         readOnly: false
+});
+
+/*
+  bookmarking:
+   F3  => goto next bookmark
+   Shift-F3 ==> clear bookmarks
+   Ctrl-GutterMouseDown ==> set bookmark
+*/
+editor.on("guttermousedown", function(e){
+  if (e.domEvent.ctrlKey) {
+    gvar.abmk.unshift(e.getDocumentPosition().row);
+  }
+});
+
+editor.commands.addCommand({
+    name: 'gotoBKMK',
+    bindKey: {win: 'F3',    mac: 'F3'},
+    exec: function(editor) {
+    if (gvar.abmk.length == 0) return;
+    gvar.bmk_inx++;
+    if (gvar.bmk_inx >= gvar.abmk.length) {
+        gvar.bmk_inx = 0
+    }
+    editor.gotoLine(gvar.abmk[gvar.bmk_inx] + 1, 0, true);
+    },
+    readOnly: false
+});
+
+editor.commands.addCommand({
+    name: 'clearBKMK',
+    bindKey: {win: 'Shift-F3',  mac: 'Shift-F3'},
+    exec: function(editor) {
+    if (confirm("Clear Bookmarks?")) {
+      gvar.abmk = [];
+      gvar.bmk_inx = 0;
+    }
+    readOnly: false
+    }
 });
 
 // the following toggles the 'save' button if the text is "dirty" or "saved"
