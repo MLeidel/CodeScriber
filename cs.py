@@ -39,7 +39,12 @@ opts = iniproc.read(optionsFileName,'future1',
                                    'run1',
                                    'run2',
                                    'run3',
-                                   'run4')
+                                   'run4',
+                                   'nam1',
+                                   'nam2',
+                                   'nam3',
+                                   'nam4',
+                                   'theme')
 
 current_file = ""  # tracks current file in use
 current_path = opts[6]  # tracks path
@@ -147,7 +152,7 @@ def select_file():
     return ''
 
 def runOptions(inx):
-    ''' run1 - run4
+    ''' User executes external process (run1 - run4)
     checks for web page or system process '''
     item = opts[inx]
     if item.startswith("http"):
@@ -194,7 +199,6 @@ class Api:
         global current_file, current_path
         current_file = content
         current_path = os.path.dirname(current_file)
-        print(current_file)
 
     def getFileName(self):
         ''' JS/HTML needs the current filename '''
@@ -318,7 +322,7 @@ class Api:
             os.system(opts[2] + current_path)
 
     def exec1(self):
-        ''' open run 1 opts[7] '''
+        ''' execute/open run 1 opts[7] '''
         runOptions(7)
 
     def exec2(self):
@@ -332,6 +336,12 @@ class Api:
     def exec4(self):
         ''' open run 4 '''
         runOptions(10)
+
+    def getRunNames(self):
+        ''' title names for run1-4 tools menu items -
+        send names 1-4 from options.ini 11 12 13 14 '''
+        names = ",".join(opts[11:15])
+        return names
 
     def openSelected(self, filename):
         ''' open the requested recent file
@@ -415,8 +425,10 @@ if __name__ == '__main__':
         win = geom.split('|')  # 0 left, 1 top, 2 width, 3 height
         win = [int(i) for i in win]  # make integers
 
+    urlquery = f"cs.html?theme={opts[15]}"
+
     window = webview.create_window('CodeScriber',
-                     url='cs.html', x=win[0], y=win[1],
+                     url=urlquery, x=win[0], y=win[1],
                      width=win[2],
                      height=win[3],
                      js_api=api)

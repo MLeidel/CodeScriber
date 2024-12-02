@@ -118,6 +118,11 @@
 <!-- ==================================================================== -->
 
 <script>
+// get theme from URL querystring
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const thm = urlParams.get('theme');
+const theme = "ace/theme/" + thm;
 
 var contextMenu = JS.doq('#customContextMenu');
 var filename = "";
@@ -129,12 +134,19 @@ var gvar = {
     sep: "/",
     bmk_inx: 0,
     abmk: [],
-    sinx: 0,
-    setm: [],
+    rows: 50,   // rows bookmarks per session (not saved on exit)
+    cols: 0,
+    cinx: 0,    // current session inx
+    sinx: 0,    // last session inx
     sesn: [],
     sefn: []
 };
-
+        /*                      COLOR THEMES
+            monokai  cobalt  vibrant_ink  clouds_midnight  solarized_dark
+            tomorrow_night_eighties  twilight  kr_theme  Terminal
+            solarized_light  textmate  tomorrow_night
+        */
+gvar.abmk = Array(gvar.rows).fill(0).map(() => Array(gvar.cols).fill(0));
 
 gvar.oFN = JS.doq("#FN"); // object for the filename input field
 
@@ -145,7 +157,7 @@ editor.$blockScrolling = Infinity;  // ace debug suggestion
 editor.setShowPrintMargin(false);
 editor.setHighlightActiveLine(false);
 editor.session.setTabSize(4);
-editor.setTheme('ace/theme/monokai');
+editor.setTheme(theme);  // see above
 // document.getElementById('editor').style.fontSize='12pt';
 // SEE CSS #editor FOR FONT STYLING //
 /////////////////////////////////////
@@ -209,7 +221,6 @@ editor.commands.addCommand({
     }
 });
 
-
 // ZenTags
 editor.commands.addCommand({
 		name: 'myCommand',
@@ -255,7 +266,8 @@ editor.commands.addCommand({
 */
 editor.on("guttermousedown", function(e){
   if (e.domEvent.ctrlKey) {
-    gvar.abmk.unshift(e.getDocumentPosition().row);
+    console.log("gvar.cinx " + gvar.cinx)
+    gvar.abmk[gvar.cinx].unshift(e.getDocumentPosition().row);
   }
 });
 
@@ -263,12 +275,16 @@ editor.commands.addCommand({
     name: 'gotoBKMK',
     bindKey: {win: 'F3',    mac: 'F3'},
     exec: function(editor) {
-    if (gvar.abmk.length == 0) return;
+    if (gvar.abmk[gvar.cinx].length == 0) return;
     gvar.bmk_inx++;
-    if (gvar.bmk_inx >= gvar.abmk.length) {
+    if (gvar.bmk_inx > gvar.rows) {
+        alert("too many bookmarks/folders");
+        return;
+    }
+    if (gvar.bmk_inx >= gvar.abmk[gvar.cinx].length) {
         gvar.bmk_inx = 0
     }
-    editor.gotoLine(gvar.abmk[gvar.bmk_inx] + 1, 0, true);
+    editor.gotoLine(gvar.abmk[gvar.cinx][gvar.bmk_inx] + 1, 0, true);
     },
     readOnly: false
 });
@@ -277,8 +293,8 @@ editor.commands.addCommand({
     name: 'clearBKMK',
     bindKey: {win: 'Shift-F3',  mac: 'Shift-F3'},
     exec: function(editor) {
-    if (confirm("Clear Bookmarks?")) {
-      gvar.abmk = [];
+    if (confirm("Clear Bookmarks")) {
+      gvar.abmk[gvar.cinx] = [];
       gvar.bmk_inx = 0;
     }
     readOnly: false
@@ -289,7 +305,7 @@ editor.commands.addCommand({
 
 editor.on("input", function() {
         // gvar.saved = editor.session.getUndoManager().isClean();
-        gvar.saved = gvar.sesn[gvar.sinx].getUndoManager().isClean();
+        gvar.saved = gvar.sesn[gvar.cinx].getUndoManager().isClean();
 });
 
 window.addEventListener('beforeunload', function (e) {
@@ -498,6 +514,13 @@ function loadSelected(content) {
     });
 }
 
+function getRunMenuNames() {
+    /* get run menu name tags from options.ini
+        The returned content will be a CSV string. */
+    window.pywebview.api.getRunNames().then(content => {
+        setRunMenuNames(content);
+    });
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -531,7 +554,7 @@ function loadSelected(content) {
 
     function setSaved() {
         // resets the boolean variable for state of editor (clean/dirty)
-        gvar.saved = gvar.sesn[gvar.sinx].setUndoManager(new ace.UndoManager());
+        gvar.saved = gvar.sesn[gvar.cinx].setUndoManager(new ace.UndoManager());
     }
 
     function newDocument() {
@@ -546,7 +569,7 @@ function loadSelected(content) {
     function loadDocument(text) {
         // all file opening starts here
         if (text == "") return;
-        gvar.sinx++;
+        gvar.sinx++; // only place where sinx is changed!
         gvar.sesn[gvar.sinx] = ace.createEditSession(text.split("\n"));
         editor.setSession(gvar.sesn[gvar.sinx]);
         getFN();
@@ -555,11 +578,11 @@ function loadSelected(content) {
     function setFileName(fn) {
         /* works with loadDocument() & newDocument */
         if (fn !== "") {
-            gvar.sefn[gvar.sinx] = fn; // for tab switching
-            setFileMode(fn);
+            gvar.sefn[gvar.sinx] = fn; // file name for tab switching
+            setFileMode(fn); // set theme and file mode
             editor.clearSelection();
             JS.val("#FN", fn);
-            addFolder(fn, gvar.sinx);
+            addFolder(fn, gvar.sinx); // create tab and store file info
             editor.focus();
             setSaved();
         }
@@ -701,11 +724,13 @@ function loadSelected(content) {
     checkSaved(); // start up the saved checker
 
     /* insert the "run" menu names */
-    function setRunMenuNames() {
-        JS.htm("#ru1", menu.run1);
-        JS.htm("#ru2", menu.run2);
-        JS.htm("#ru3", menu.run3);
-        JS.htm("#ru4", menu.run4);
+    function setRunMenuNames(namescsv) {
+        let nams = namescsv.split(",");
+
+        JS.htm("#ru1", nams[0]);
+        JS.htm("#ru2", nams[1]);
+        JS.htm("#ru3", nams[2]);
+        JS.htm("#ru4", nams[3]);
     }
 
     function basename(str) {
@@ -723,11 +748,12 @@ function loadSelected(content) {
         const allFolders = document.querySelectorAll('.folder');
         newFolder.className = 'folder';
         newFolder.textContent = basename(fldrname);
-        newFolder.dataset.sinx = inx;  // store the sinx value with this tab
+        newFolder.dataset.sinx = inx;  // store the NEW sinx value with this tab!
         allFolders.forEach(folder => {
             folder.classList.remove('highlighted');
         });
         newFolder.classList.add('highlighted');
+        gvar.cinx = newFolder.dataset.sinx;  // new current session folder (tab)
 
         newFolder.oncontextmenu = function(event) { // same as 'closeButton'
             event.stopPropagation();
@@ -735,18 +761,20 @@ function loadSelected(content) {
         };
 
         newFolder.onclick = function() {
+            // switch to "this" folder when user clicks it
             const allFolders = document.querySelectorAll('.folder');
             allFolders.forEach(folder => {
                 folder.classList.remove('highlighted');
             });
             // Add the 'highlighted' class to the clicked folder
             this.classList.add('highlighted');
-            gvar.sinx = newFolder.dataset.sinx;
-            JS.val("#FN", gvar.sefn[gvar.sinx]);
-            editor.setSession(gvar.sesn[gvar.sinx]);
-            editor.setTheme(gvar.setm[gvar.sinx]);
-            update_current_file(gvar.sefn[gvar.sinx]);
-            gvar.saved = gvar.sesn[gvar.sinx].getUndoManager().isClean();
+            let x = newFolder.dataset.sinx;  // this tab's index!
+            gvar.cinx = x;  // new current session folder (tab)
+            JS.val("#FN", gvar.sefn[x]);
+            editor.setSession(gvar.sesn[x]);
+            editor.focus();
+            update_current_file(gvar.sefn[x]);
+            gvar.saved = gvar.sesn[x].getUndoManager().isClean();
         };
         // Add a close button to the folder
         const closeButton = document.createElement('span');
@@ -782,23 +810,20 @@ function loadSelected(content) {
         allFolders.forEach(folder => {
             folder.classList.remove('highlighted');
         });
-        const firstFolder = allFolders[0];
-        firstFolder.classList.add('highlighted');
-        gvar.sinx = firstFolder.dataset.sinx;
-        JS.val("#FN", gvar.sefn[gvar.sinx]);
-        editor.setSession(gvar.sesn[gvar.sinx]);
-        editor.setTheme(gvar.setm[gvar.sinx]);
-        update_current_file(gvar.sefn[gvar.sinx]);
-        gvar.saved = gvar.sesn[gvar.sinx].getUndoManager().isClean();
+        const lastFolder = allFolders[allFolders.length - 1]; // last visible folder (right)
+        lastFolder.classList.add('highlighted');
+        let x = lastFolder.dataset.sinx;
+        gvar.cinx = x;  // new current session folder (tab)
+        JS.val("#FN", gvar.sefn[x]);
+        editor.setSession(gvar.sesn[x]);
+        update_current_file(gvar.sefn[x]);
+        gvar.saved = gvar.sesn[x].getUndoManager().isClean();
     }
                     /* End MDI folder management*/
 
 
     /* Open lastfile or file from command line */
     setTimeout(openCmdFile, 800);
-
-    /* insert the "run" menu names */
-    setTimeout(setRunMenuNames, 1000);
 
                 /* Other Keypress handlers */
 
@@ -907,6 +932,8 @@ var msg = `
 <b>CodeScriber Editor<br><br>For You!</b><br><br>
 <a href='https://github.com/MLeidel/CodeScriber' target='_blank'>Github</a><br>
 `;
+    setTimeout(getRunMenuNames, 1500);
+
 </script>
 
 </body>

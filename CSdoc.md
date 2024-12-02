@@ -87,6 +87,14 @@ __Additional Hotkeys:__
 		<td><b>Ctrl-o</b></td>
 		<td>Open a file</td>
 	</tr>
+	<tr>
+		<td><b>F3</b></td>
+		<td>Next Bookmark</td>
+	</tr>
+	<tr>
+		<td><b>Shift-F3</b></td>
+		<td>Clear Bookmarks</td>
+	</tr>
 </table>
 
 Right-Click on file tab will close tab.  
@@ -288,6 +296,7 @@ To clear all bookmarks use **Shift-F3**.
     run2=gnome_terminal -e htop
     run3=python3 {f}
     run4=ruby {f}
+    theme=twilight
 
 The Windows options.ini could look more like this:
 
@@ -302,6 +311,7 @@ The Windows options.ini could look more like this:
     run2=cmd
     run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
     run4=calc.exe
+    theme=monokai
 
 **terminal**
 >Enter your terminal preference and the option to  
@@ -327,6 +337,14 @@ _Ctrl -_ and _Ctrl =_ respectively.
 **run3 ... run4**
 >External programs you might want to execute via menus or
 _Alt -_ and _Alt =_ respectively.
+
+**theme**
+>Editor theme name for all file types.  
+COLOR THEMES:  
+monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark  
+tomorrow_night_eighties | twilight | kr_theme | Terminal  
+solarized_light | textmate | tomorrow_night
+
 
 **Notes:** Non URL items are implemented with a simple os.system() method.  
 Make sure your executable is in your system path or supply it with a fullpath.  
@@ -370,7 +388,7 @@ Changes will not take effect until CodeScriber is re-started.
   Open the `tags.js` file for editing the various tags and options
 
 - **File Modes**  
-  Open the `filemodes.js` file for editing languages and themes
+  Open the `filemodes.js` file for editing language modes
 
 - **Re-Launch**  
   Closes and re-opens CodeScriber activating any changes to the Options
