@@ -427,7 +427,7 @@ if __name__ == '__main__':
 
     urlquery = f"cs.html?theme={opts[15]}"
 
-    window = webview.create_window('CodeScriber',
+    window = webview.create_window('CodeScriber 2.0',
                      url=urlquery, x=win[0], y=win[1],
                      width=win[2],
                      height=win[3],
