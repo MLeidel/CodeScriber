@@ -11,7 +11,7 @@ CodeScriber is a desktop application. All the software resides on the local mach
 However, the "Ace" library is loaded from a CDN. This editor is written completely in  
 scripting languages: HTML, CSS, Javascript, Python3, making CodeScriber almost completely hack-able.
 
-CodeScriber is _housed_ in a python script that communicates with the HTML (Gtk WebKit2 engine,  
+CodeScriber is _housed_ in a python script that communicates with Javascript (Gtk WebKit2 engine,  
 edgechromium for Windows) via the pywebview python module. See diagram below.  
 This design provides access to both the Internet and the user's host machine.
 
@@ -346,7 +346,7 @@ tomorrow_night_eighties | twilight | kr_theme | Terminal
 solarized_light | textmate | tomorrow_night
 
 
-**Notes:** Non URL items are implemented with a simple os.system() method.  
+**Notes:** Non URL Run# items are implemented with a simple os.system() method.  
 Make sure your executable is in your system path or supply it with a fullpath.  
 A URL is opened in your system's default browser.
 

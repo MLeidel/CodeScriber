@@ -94,6 +94,7 @@
     <div id="customContextMenu" class="context-menu">
         <em><div class="context-menu-item">Copy</div></em>
         <em><div class="context-menu-item">Open</div></em>
+        <em><div class="context-menu-item">Recent</div></em>
         <em><div class="context-menu-item">Save-As</div></em>
         <em><div class="context-menu-item">Save</div></em>
         <div class="context-menu-item">Terminal</div>
@@ -323,7 +324,7 @@ window.addEventListener('beforeunload', function (e) {
 
 editor.container.addEventListener('contextmenu', function(event) {
     event.preventDefault();
-    contextMenu.style.top = event.clientY + 'px';
+    contextMenu.style.top = event.clientY - 170 + 'px';
     contextMenu.style.left = event.clientX + 'px';
     contextMenu.style.display = 'block';
 });
@@ -343,6 +344,9 @@ contextMenu.addEventListener('click', function(event) {
                 break;
             case "Open":
                 openFile();
+                break;
+            case "Recent":
+                openRecent();
                 break;
             case "Save-As":
                 Save();
