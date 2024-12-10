@@ -169,6 +169,13 @@ def windows_path(p):
     rp = p.replace("/", ws)
     return rp
 
+def trim_trailing_spaces(code):
+    ''' Trim Trailing space from lines of code '''
+    lines = code.splitlines()
+    trimmed_lines = [line.rstrip() for line in lines]
+    trimmed_code = '\n'.join(trimmed_lines)
+    return trimmed_code
+
 '''
                     P Y W E B V I E W
 
@@ -243,6 +250,9 @@ class Api:
         else:
             return ''
 
+        if not current_file.endswith(".md"):
+            content = trim_trailing_spaces(content)
+
         with open(current_file, 'w', encoding='utf-8') as file:
             file.write(content)
         if current_file.endswith(".md"):
@@ -259,6 +269,8 @@ class Api:
         ''' Save or Ctrl-S
             builds HTML from an ".md" file save
         '''
+        if not current_file.endswith(".md"):
+            content = trim_trailing_spaces(content)
         with open(current_file, 'w', encoding='utf-8') as file:
             file.write(content)
         if current_file.endswith(".md"):
