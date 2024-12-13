@@ -1,4 +1,7 @@
-/* CodeScriber.css */
+/* CodeScriber.css
+    Keep a backup of this and any
+    of the files you wish to modify.
+*/
 
 body {
     background: dimgray;
@@ -13,17 +16,20 @@ body {
 /* Ace Code Editor*/
 
 #editor {
-    /* FONT STYLING - use google fonts*/
+    /* FONT STYLING - Suggested coding fonts:
+        These must be present on your system
+        Google Fonts is a good source */
     /*font-family: 'Roboto Mono';*/
     /*font-family: 'Droid Sans Mono';*/
     /*font-family: 'PT Mono';*/
     /*font-family: 'Source Code Pro';*/
     /*font-family: 'DejaVu Sans Mono', 'Liberation Mono', monospace;*/
     /*font-family: 'JetBrains Mono', monospace;*/
+    /*font-family: 'Fira Code', monospace;*/
 
-    font-family: 'Fira Code', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 10pt;
-    
+
     border-top: 1px solid black;
     position: absolute;
     top: 85px;

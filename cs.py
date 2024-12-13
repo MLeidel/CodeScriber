@@ -229,7 +229,7 @@ class Api:
             builds HTML from an ".md" file save
         '''
         global current_file, current_path
-        # root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        #root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
         root = ThemedTk(theme="black")  # COMMENT IF USING SINGLE MONITOR SYSTEM
         root.configure(bg="dimgray")  # COMMENT IF USING SINGLE MONITOR SYSTEM
         root.geometry(window_coord())  # COMMENT IF USING SINGLE MONITOR SYSTEM
@@ -361,7 +361,7 @@ class Api:
         disk so we return 'file not found' '''
         global current_file, current_path
         current_file = filename
-        current_path =  os.path.dirname(current_file)
+        current_path = os.path.dirname(current_file)
         if current_file:
             try:
                 with open(current_file, 'r', encoding='utf-8') as file:

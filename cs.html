@@ -5,16 +5,7 @@
   <meta name='viewport' content='width=device-width, initial-scale=1'>
 	<title>CodeScriber</title>
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" />
   <link rel="stylesheet" href="cs.css" />
-<!-- Use one of these in the link below, then edit the #editor ID in cs.css -->
-    <!-- <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400' rel='stylesheet' type='text/css'> -->
-    <!-- <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'> -->
-    <!-- <link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'> -->
-    <!-- <link href='https://fonts.googleapis.com/css?family=Oxygen+Mono' rel='stylesheet' type='text/css'> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro" rel="stylesheet" type='text/css'> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet"> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"
     type="text/javascript" charset="utf-8"></script>
@@ -163,7 +154,7 @@ editor.setShowPrintMargin(false);
 editor.setHighlightActiveLine(false);
 editor.session.setTabSize(4);
 editor.setTheme(theme);  // see above
-// document.getElementById('editor').style.fontSize='12pt';
+
 // SEE CSS #editor FOR FONT STYLING //
 /////////////////////////////////////
 // //Enable the autocompletion
@@ -541,7 +532,7 @@ function getRunMenuNames() {
         let sfile = "";
         let msg = "";
         let files = content.split(",");
-        
+
         for (x=0; x < files.length; x++) {
             sfile = convertPath(files[x]);
             msg += `<a onclick="loadSelected('${sfile}')">${sfile}</a><br>`;
@@ -940,7 +931,7 @@ var msg = `
 <b>CodeScriber Editor<br><br>For You!</b><br><br>
 <a href='https://github.com/MLeidel/CodeScriber' target='_blank'>Github</a><br>
 `;
-    setTimeout(getRunMenuNames, 1500);
+    setTimeout(getRunMenuNames, 1000);
 
 </script>
 

@@ -98,7 +98,7 @@ __Additional Hotkeys:__
 </table>
 
 Right-Click on file tab will close tab.  
-Right-Click also opens contextmenu.
+Right-Click in editor opens contextmenu.
 
 ### Functions of Ace Code Editor
 
@@ -286,7 +286,7 @@ To clear all bookmarks use **Shift-F3**.
 **CodeScriber options**
 
     future1
-    future2
+    fontsize=11pt
     terminal=gnome-terminal --working-directory=
     filemanager=thunar
     previous=yes
@@ -301,7 +301,7 @@ To clear all bookmarks use **Shift-F3**.
 The Windows options.ini could look more like this:
 
     future1
-    future2
+    fontsize=11pt
     terminal=wt -d
     filemanager=explorer.exe
     previous=yes
@@ -349,6 +349,8 @@ solarized_light | textmate | tomorrow_night
 **Notes:** Non URL Run# items are implemented with a simple os.system() method.  
 Make sure your executable is in your system path or supply it with a fullpath.  
 A URL is opened in your system's default browser.
+
+The font family is set in the cs.css file under #editor. 
 
 ---
 
