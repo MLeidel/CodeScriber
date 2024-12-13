@@ -296,7 +296,11 @@ To clear all bookmarks use **Shift-F3**.
     run1=/blah/blahh/CodeSnips/csnips.py
     run2=gnome_terminal -e htop
     run3=python3 {f}
-    run4=ruby {f}
+    run4=https://www.w3schools.com/
+    nam1=CSnips
+    nam2=htop
+    nam3=python3
+    nam4=w3schools
 
 The Windows options.ini could look more like this:
 
@@ -312,7 +316,10 @@ The Windows options.ini could look more like this:
     run2=cmd
     run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
     run4=calc.exe
-
+    nam1=w3schools
+    nam2=cmd
+    nam3=GitHub
+    nam4=Calculator
 
 **terminal**
 >Enter your terminal preference and the option to  
