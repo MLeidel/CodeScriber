@@ -286,32 +286,33 @@ To clear all bookmarks use **Shift-F3**.
 **CodeScriber options**
 
     future1
-    fontsize=11pt
+    future2
     terminal=gnome-terminal --working-directory=
     filemanager=thunar
     previous=yes
     browser=firefox
+    theme=twilight
     scope=/home/UsEr
     run1=/blah/blahh/CodeSnips/csnips.py
     run2=gnome_terminal -e htop
     run3=python3 {f}
     run4=ruby {f}
-    theme=twilight
 
 The Windows options.ini could look more like this:
 
     future1
-    fontsize=11pt
+    future2
     terminal=wt -d
     filemanager=explorer.exe
     previous=yes
     browser="C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+    theme=monokai
     scope=C:\
     run1=https://www.w3schools.com/
     run2=cmd
     run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
     run4=calc.exe
-    theme=monokai
+
 
 **terminal**
 >Enter your terminal preference and the option to  
@@ -350,7 +351,7 @@ solarized_light | textmate | tomorrow_night
 Make sure your executable is in your system path or supply it with a fullpath.  
 A URL is opened in your system's default browser.
 
-The font family is set in the cs.css file under #editor. 
+The **font family** and **size** are set in the cs.css file under #editor. 
 
 ---
 
