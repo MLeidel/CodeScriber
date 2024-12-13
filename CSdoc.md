@@ -259,21 +259,6 @@ This Markdown follows rules from the
 
 ---
 
-## Tools menu external program names
-
-Names to go with run1 ... run4 which you set up in options.ini
-Default names are set in the `tags.js` file.
-Use the Options menu **Tags** to view the `tags.js` file and modify it.
-
-        var menu = {
-            run1: "GptGUI",
-            run2: "CSnips",
-            run3: "KSnip",
-            run4: "Reference"
-        };
-
----
-
 ## Bookmarking
 
 To bookmark a line in the code use **Ctrl-Click in the "gutter"** (where the line numbers are)  
