@@ -29,8 +29,8 @@
         <li>
             <a href="#">File</a>
             <ul class="dropdown-content">
-                <li><a onclick="openRecent();" title="">Recent</a></li>
-                <li><a onclick="openFile();">Open</a></li>
+                <li><a onclick="openRecent();" title="Ctrl-R">Recent</a></li>
+                <li><a onclick="openFile();" title="Ctrl-O">Open</a></li>
                 <li><a onclick="newFile();">New</a></li>
                 <li><a onclick="save();" title="Ctrl-Shft-S">Save-As</a></li>
                 <li><a onclick="quicksaveDocument();" title="Ctrl-S">Save</a></li>
@@ -45,10 +45,11 @@
                 <li><a onclick="execBrowser();" title="open in browser">Browser</a></li>
                 <li><a onclick="mdCurrent();"   title="View HTML">Markdown</a></li>
                 <li><a onclick="findfile();"    title="search filesystem">Find File</a></li>
-                <li><a onclick="execI();"   id="ru1" title="Ctrl - ">Run 1</a></li>
-                <li><a onclick="execII();"  id="ru2" title="Ctrl = ">Run 2</a></li>
-                <li><a onclick="execIII();" id="ru3" title="Alt - ">Run 3</a></li>
-                <li><a onclick="execIV();"  id="ru4" title="Alt = ">Run 4</a></li>
+                <li><a onclick="findfunc();"    title="Ctrl-Alt-F">Functions</a></li>
+                <li><em><a onclick="execI();"   id="ru1" title="Ctrl - ">Run 1</a></em></li>
+                <li><em><a onclick="execII();"  id="ru2" title="Ctrl = ">Run 2</a></em></li>
+                <li><em><a onclick="execIII();" id="ru3" title="Alt - ">Run 3</a></em></li>
+                <li><em><a onclick="execIV();"  id="ru4" title="Alt = ">Run 4</a></em></li>
             </ul>
         </li>
         <li>
@@ -83,15 +84,15 @@
 <!-- Context Menu -->
 
     <div id="customContextMenu" class="context-menu">
-        <em><div class="context-menu-item">Copy</div></em>
-        <em><div class="context-menu-item">Open</div></em>
-        <em><div class="context-menu-item">Recent</div></em>
-        <em><div class="context-menu-item">Save-As</div></em>
-        <em><div class="context-menu-item">Save</div></em>
-        <div class="context-menu-item">Terminal</div>
-        <div class="context-menu-item">File Mgr</div>
-        <div class="context-menu-item">Browser</div>
-        <div class="context-menu-item">Markdown</div>
+        <div class="context-menu-item">Copy</div>
+<!--    <div class="context-menu-item">Open</div>
+        <div class="context-menu-item">Recent</div>
+        <div class="context-menu-item">Save-As</div> -->
+        <em><div class="context-menu-item">Terminal</div></em>
+        <em><div class="context-menu-item">Files</div></em>
+        <em><div class="context-menu-item">Browser</div></em>
+        <em><div class="context-menu-item">Markdown</div></em>
+        <em><div class="context-menu-item">Functions</div></em>
     </div>
 
 <!-- Special Messagebox -->
@@ -153,11 +154,13 @@ editor.$blockScrolling = Infinity;  // ace debug suggestion
 editor.setShowPrintMargin(false);
 editor.setHighlightActiveLine(false);
 editor.session.setTabSize(4);
+editor.session.setUseSoftTabs(true); // use spaces instead of tab chars
+editor.session.setUseWrapMode(false);
 editor.setTheme(theme);  // see above
 
 // SEE CSS #editor FOR FONT STYLING //
 /////////////////////////////////////
-// //Enable the autocompletion
+// //      Not working yet     // //
 // editor.setOptions({
 //     enableBasicAutocompletion: true,
 //     enableSnippets: false,
@@ -333,22 +336,13 @@ contextMenu.addEventListener('click', function(event) {
             case "Copy":
                 copySelectedText();
                 break;
-            case "Open":
-                openFile();
-                break;
-            case "Recent":
-                openRecent();
-                break;
-            case "Save-As":
-                Save();
-                break;
-            case "Save":
-                quicksaveDocument();
+            case "Functions":
+                findfunc();
                 break;
             case "Terminal":
                 execTerm();
                 break;
-            case "File Mgr":
+            case "Files":
                 execFMgr();
                 break;
             case "Browser":
@@ -357,6 +351,15 @@ contextMenu.addEventListener('click', function(event) {
             case "Markdown":
                 mdCurrent();
                 break;
+            // case "Recent":
+            //     openRecent();
+            //     break;
+            // case "Save-As":
+            //     Save();
+            //     break;
+            // case "Save":
+            //     quicksaveDocument();
+            //     break;
         }
     }
 });
@@ -549,6 +552,34 @@ function getRunMenuNames() {
         // begin the find local file process
         filename = prompt("enter the filename to find:")
         DropOpenFile(filename)
+    }
+
+    function golinenumber(lnum) {
+        // comes here from findfunc and showMessageBox
+        editor.gotoLine(lnum + 1);
+        JS.doq('#overlay1').style.display = 'none';
+        editor.focus();
+    }
+
+    function findfunc() {
+        /* make a "list" of "function" lines from the editor
+        and display them for the user to select one */
+        const names = ["function", "def", "func", "fn"];
+        const text = editor.getValue();
+        var lines = text.split("\n");
+        var msg = "";
+        linenbr = 0;
+        for (let line of lines) {
+            line = line.trim();
+            for(let inx = 0; inx < 4; inx++) {
+                if (line.startsWith(names[inx])) {
+                    msg += `<a onclick="golinenumber(${linenbr});">${line}</a><br>\n`;
+                    break;
+                }
+            }
+            linenbr++;
+        }
+        showMessageBox(msg);  // to pick the function to goto
     }
 
     function setSaved() {
@@ -890,6 +921,12 @@ function getRunMenuNames() {
       if (event.altKey && event.key === '=') {
         event.preventDefault();
         execIV();
+      }
+    });
+    window.addEventListener('keydown', function(event) {
+      if (event.altKey && event.ctrlKey && event.key === 'f') {
+        event.preventDefault();
+        findfunc(); // goto a select a function
       }
     });
 

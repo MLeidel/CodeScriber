@@ -94,7 +94,7 @@ li:hover .dropdown-content {
     background-color: #A9A9A9;
 }
 
-/* input text box */
+        /* input file name text box */
 #FN {
     border-width: 0;
     width: 100%;
@@ -104,7 +104,7 @@ li:hover .dropdown-content {
     background-color: #A9A9A9;
 }
 
-/* header styling */
+        /* header styling */
 
 .container {
     display: flex;
@@ -127,7 +127,7 @@ li:hover .dropdown-content {
 }
 
 
-/* messages */
+        /* messages */
 
 #messageBoxText a {
     color:whitesmoke;
@@ -179,7 +179,7 @@ li:hover .dropdown-content {
     background-color: #d32f2f;
 }
 
-/* CONTEXT MENU */
+        /* CONTEXT MENU */
 
 .context-menu {
     position: absolute;
@@ -198,7 +198,7 @@ li:hover .dropdown-content {
     color: #eee;
 }
 
-/* File Folder styling Tabs */
+        /* File Folder styling Tabs */
 
 .folder-container {
   display: flex;

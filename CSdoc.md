@@ -13,92 +13,7 @@ scripting languages: HTML, CSS, Javascript, Python3, making CodeScriber almost c
 
 CodeScriber is _housed_ in a python script that communicates with Javascript (Gtk WebKit2 engine,  
 edgechromium for Windows) via the pywebview python module. See diagram below.  
-This design provides access to both the Internet and the user's host machine.
-
-__Additional Hotkeys:__
-
-<table border=1 cellspacing=0>
-	<tr>
-		<td><b>Ctrl-S</b></td>
-		<td>Save</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Shft-S</b></td>
-		<td>Save-As</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Z</b></td>
-		<td>Insert Zen Tag</td>
-	</tr>
-	<tr>
-		<td><b>Alt-X</b></td>
-		<td>List Zen Tags</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-H</b></td>
-		<td>Display All Keyboard Shortcuts *</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-X</b></td>
-		<td>Display enclosure keys</td>
-	</tr>
-	<tr>
-		<td><b>Esc</b></td>
-		<td>Quit</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Q</b></td>
-		<td>Quit</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-G</b></td>
-		<td>Set up a text encloser</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-0 through 9</b></td>
-		<td>Enclose with text</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl -</b></td>
-		<td>Run 1 (see tags.js)</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl =</b></td>
-		<td>Run 2 (see tags.js)</td>
-	</tr>
-	<tr>
-	<tr>
-		<td><b>Alt -</b></td>
-		<td>Run 3 (see tags.js)</td>
-	</tr>
-	<tr>
-		<td><b>Alt =</b></td>
-		<td>Run 4 (see tags.js)</td>
-	</tr>
-	<tr>
-		<td><b>Alt-W</b></td>
-		<td>Repeat last text enclosure</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-R</b></td>
-		<td>Recent File List</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-o</b></td>
-		<td>Open a file</td>
-	</tr>
-	<tr>
-		<td><b>F3</b></td>
-		<td>Next Bookmark</td>
-	</tr>
-	<tr>
-		<td><b>Shift-F3</b></td>
-		<td>Clear Bookmarks</td>
-	</tr>
-</table>
-
-Right-Click on file tab will close tab.  
-Right-Click in editor opens contextmenu.
+This design allows access to the user's host machine and the use of HTML/Javascript for the GUI.
 
 ### Functions of Ace Code Editor
 
@@ -199,6 +114,97 @@ alignCursors - Ctrl-Alt-A<br>
 findAll - Ctrl-Alt-K<br>
 </td>
 </tr></table>
+
+__Additional Hotkeys:__
+
+<table border=1 cellspacing=0 cellpadding=4>
+	<tr>
+		<td><b>Ctrl-S</b></td>
+		<td>Save</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-Shft-S</b></td>
+		<td>Save-As</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-Z</b></td>
+		<td>Insert Zen Tag</td>
+	</tr>
+	<tr>
+		<td><b>Alt-X</b></td>
+		<td>List Zen Tags</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-Alt-F</b></td>
+		<td>Find Functions</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-Alt-H</b></td>
+		<td>Display All Keyboard Shortcuts *</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-Alt-X</b></td>
+		<td>Display enclosure keys</td>
+	</tr>
+	<tr>
+		<td><b>Esc</b></td>
+		<td>Quit</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-Q</b></td>
+		<td>Quit</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-G</b></td>
+		<td>Set up a text encloser</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-0 through 9</b></td>
+		<td>Enclose with text</td>
+	</tr>
+	<tr>
+		<td><b>Alt-W</b></td>
+		<td>Repeat last text enclosure</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl -</b></td>
+		<td>Run 1 (see tags.js)</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl =</b></td>
+		<td>Run 2 (see tags.js)</td>
+	</tr>
+	<tr>
+	<tr>
+		<td><b>Alt -</b></td>
+		<td>Run 3 (see tags.js)</td>
+	</tr>
+	<tr>
+		<td><b>Alt =</b></td>
+		<td>Run 4 (see tags.js)</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-R</b></td>
+		<td>Recent File List</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-o</b></td>
+		<td>Open a file</td>
+	</tr>
+	<tr>
+		<td><b>F3</b></td>
+		<td>Next Bookmark</td>
+	</tr>
+	<tr>
+		<td><b>Shift-F3</b></td>
+		<td>Clear Bookmarks</td>
+	</tr>
+</table>
+
+Right-Click on file tab will close tab.  
+Right-Click in editor opens contextmenu.
+
+---
 
 ## *Zen*
 
@@ -367,10 +373,13 @@ The **font family** and **size** are set in the cs.css file under #editor.
 - **Find File**  
   Find (and open) a file anywhere on the system
 
+- **Find Function**
+  Goto fuction from list
+
 - **Run 1 ... Run 4**   
   Executes an external process as designated in _options.ini_
 
-**_The context menu is a repeat of the tools menu and some File menu items._**
+**_The context menu repeats some of the tools menu and "Copy"_**
 
 ### Options menu
 
