@@ -566,14 +566,16 @@ function getRunMenuNames() {
         and display them for the user to select one */
         const names = ["function", "def", "func", "fn"];
         const text = editor.getValue();
-        var lines = text.split("\n");
+        const lines = text.split("\n");
         var msg = "";
-        linenbr = 0;
+        var linenbr = 0;
+        var funcName = "";
         for (let line of lines) {
             line = line.trim();
             for(let inx = 0; inx < 4; inx++) {
                 if (line.startsWith(names[inx])) {
-                    msg += `<a onclick="golinenumber(${linenbr});">${line}</a><br>\n`;
+                    funcName = line.substring(names[inx].length + 1, line.indexOf("("))
+                    msg += `<a onclick="golinenumber(${linenbr});">${funcName}</a><br>\n`;
                     break;
                 }
             }
