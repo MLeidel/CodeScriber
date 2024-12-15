@@ -374,7 +374,7 @@ The **font family** and **size** are set in the cs.css file under #editor.
   Find (and open) a file anywhere on the system
 
 - **Find Function**
-  Goto fuction from list _(dynamically typed languages only)_
+  Goto fuction from list _(most languages)_
 
 - **Run 1 ... Run 4**   
   Executes an external process as designated in _options.ini_

@@ -561,23 +561,45 @@ function getRunMenuNames() {
         editor.focus();
     }
 
+    function isFunctionDeclaration(line) {
+        const patterns = {
+            javascript: /^\s*(function\s+\w+\s*\(.*\)\s*{)/, // e.g., function foo() { ... }
+            python: /^\s*def\s+\w+\s*\(.*\)\s*:/, // e.g., def foo(): ...
+            c: /^\s*\w+(\s+\*+)?\s+\w+\s*\(.*\)\s*{/, // e.g., int foo() { ... }
+            java: /^\s*(public|protected|private|static|\s)*\s*\w+(\s+\*+)?\s+\w+\s*\(.*\)\s*{/, // e.g., public void foo() { ... }
+            ruby: /^\s*def\s+\w+\s*(\(.*\))?\s*$/, // e.g., def foo() ... or def foo(args) ...
+            go: /^\s*func\s+\w+\s*\(.*\)\s*{/, // e.g., func foo() { ... }
+        };
+        // Check against each pattern
+        for (const lang in patterns) {
+            const regex = patterns[lang];
+            if (regex.test(line)) {
+                return true;
+            }
+        }
+        // If no pattern matches, it's not a function declaration
+        return false;
+    }
+
     function findfunc() {
         /* make a "list" of "function" lines from the editor
         and display them for the user to select one */
-        const names = ["function", "def", "func", "fn"];
-        const text = editor.getValue();
-        const lines = text.split("\n");
         var msg = "";
-        var linenbr = 0;
+        var line = "";
         var funcName = "";
+        var linenbr = 0;
+        var p = 0;
+        const lines = editor.getValue().split("\n");
         for (let line of lines) {
             line = line.trim();
-            for(let inx = 0; inx < 4; inx++) {
-                if (line.startsWith(names[inx])) {
-                    funcName = line.substring(names[inx].length + 1, line.indexOf("("))
-                    msg += `<a onclick="golinenumber(${linenbr});">${funcName}</a><br>\n`;
-                    break;
+            if (isFunctionDeclaration(line) === true) {
+                p = line.indexOf("(")
+                if (p === -1) {
+                    funcName = line;
+                } else {
+                    funcName = line.substring(0, p);
                 }
+                msg += `<a onclick="golinenumber(${linenbr});">${funcName}</a><br>\n`;
             }
             linenbr++;
         }
