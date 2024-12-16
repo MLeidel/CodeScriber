@@ -13,12 +13,10 @@ body {
     padding: 0;
 }
 
-/* Ace Code Editor*/
+        /* Ace Code Editor*/
 
 #editor {
-    /* FONT STYLING - Suggested coding fonts:
-        These must be present on your system
-        Google Fonts is a good source */
+    /* FONT STYLING - Suggested local coding fonts: */
     /*font-family: 'Roboto Mono';*/
     /*font-family: 'Droid Sans Mono';*/
     /*font-family: 'PT Mono';*/
@@ -130,7 +128,7 @@ li:hover .dropdown-content {
         /* messages */
 
 #messageBoxText a {
-    color:whitesmoke;
+    color:black;
 }
 
 .overlay {
@@ -142,7 +140,7 @@ li:hover .dropdown-content {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(9, 9, 9, 0.5);
+    background-color: black; /* rgba(9, 9, 9, 0.5); */
     z-index: 1000; /* Ensure it's on top */
 }
 
@@ -156,7 +154,7 @@ li:hover .dropdown-content {
     width: 550px;
     height: 500px; /* Set a fixed height */
     padding: 20px;
-    background-color: white;
+    background-color: dimgray;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
