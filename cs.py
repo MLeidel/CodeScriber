@@ -356,10 +356,15 @@ class Api:
     def openSelected(self, filename):
         ''' open the requested recent file
         it's possible file was removed on
-        disk so we return 'file not found' '''
+        disk so we return 'file not found'
+        When no path for file assume program
+        directory "p" '''
         global current_file, current_path
         current_file = filename
         current_path = os.path.dirname(current_file)
+        if current_path == "":
+            current_path = p
+            current_file = current_path + current_file
         if current_file:
             try:
                 with open(current_file, 'r', encoding='utf-8') as file:
