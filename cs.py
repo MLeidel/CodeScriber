@@ -30,7 +30,7 @@ srec = "" # csv string for javascript recent file list
 
 opts = [] # storeing options from the options.ini file
 opts = iniproc.read(optionsFileName,'future1',
-                                   'future2',
+                                   'monitors',
                                    'terminal',
                                    'filemanager',
                                    'previous',
@@ -57,7 +57,7 @@ def window_coord():
     ''' use this func when using multiple monitors '''
     px = window.x
     py = window.y
-    geo = f"20x20+{px}+{py}" # keep tkinter on left screen
+    geo = f"0x0+{px}+{py}" # keep tkinter on left screen
     return geo
 
 def find_file(filename, search_path):
@@ -133,10 +133,9 @@ def updateRecents(item):
 
 def select_file():
     ''' Prompt to open a file using desktop openFileDialog '''
-    root = ThemedTk(theme="black")  # COMMENT IF USING SINGLE MONITOR SYSTEM
-    root.configure(bg="dimgray")  # COMMENT IF USING SINGLE MONITOR SYSTEM
-    #root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
-    root.geometry(window_coord())  # COMMENT IF USING SINGLE MONITOR SYSTEM
+    root = ThemedTk(theme="black")  # provides a theme for dialogs
+    root.configure(bg="dimgray")    # and keeps dialog
+    root.geometry(window_coord())   # on current monitor
     file_path = filedialog.askopenfilename(initialdir=current_path,
                                            initialfile=os.path.basename(current_file),
                                            title="Open file",
@@ -146,7 +145,7 @@ def select_file():
                                                      ("h", "*.h"),
                                                      ("HTML", "*.html"),
                                                      ("CSS", "*.css")))
-    root.destroy()  # COMMENT IF USING SINGLE MONITOR SYSTEM
+    root.destroy()  # no longer needed
     if file_path:
         return file_path  # here is problem - changes current_file!!!!!!
     return ''
@@ -229,10 +228,9 @@ class Api:
             builds HTML from an ".md" file save
         '''
         global current_file, current_path
-        #root = tk.Tk()  # COMMENT IF USING SINGLE MONITOR SYSTEM
-        root = ThemedTk(theme="black")  # COMMENT IF USING SINGLE MONITOR SYSTEM
-        root.configure(bg="dimgray")  # COMMENT IF USING SINGLE MONITOR SYSTEM
-        root.geometry(window_coord())  # COMMENT IF USING SINGLE MONITOR SYSTEM
+        root = ThemedTk(theme="black")  # provides a theme for dialogs
+        root.configure(bg="dimgray")    # and keeps dialog
+        root.geometry(window_coord())   # on current monitor
         file_path = filedialog.asksaveasfilename(initialdir=current_path,
                                                  defaultextension=".txt",
                                                  initialfile=os.path.basename(current_file),
@@ -243,7 +241,7 @@ class Api:
                                                             ("Javascript", "*.js"),
                                                             ("HTML", "*.html"),
                                                             ("CSS", "*.css")))
-        root.destroy()  # remove if single monitor
+        root.destroy()  # no longer needed
         if file_path:
             current_file = file_path
             current_path = os.path.dirname(file_path)
