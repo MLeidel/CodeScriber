@@ -3,10 +3,11 @@
 # USAGE:
 # 1. open terminal
 # 2. copy code into clipboard
-# 3. python3 fzen.py
+# 3. run python3 fzen.py
 # 4. enter new tag name
 # 5. repeat and check tags.js to verify
 # 6. test new tags with codescriber
+# 7. if something goes wrong you can edit tags.js directly
 
 import os
 import pyperclip
