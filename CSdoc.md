@@ -168,20 +168,20 @@ __Additional Hotkeys:__
 	</tr>
 	<tr>
 		<td><b>Ctrl -</b></td>
-		<td>Run 1 (see tags.js)</td>
+		<td>Run 1 (defined in options.ini)</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl =</b></td>
-		<td>Run 2 (see tags.js)</td>
+		<td>Run 2 (defined in options.ini)</td>
 	</tr>
 	<tr>
 	<tr>
 		<td><b>Alt -</b></td>
-		<td>Run 3 (see tags.js)</td>
+		<td>Run 3 (defined in options.ini)</td>
 	</tr>
 	<tr>
 		<td><b>Alt =</b></td>
-		<td>Run 4 (see tags.js)</td>
+		<td>Run 4 (defined in options.ini)</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-R</b></td>
