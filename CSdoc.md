@@ -277,7 +277,7 @@ To clear all bookmarks use **Shift-F3**.
 **CodeScriber options**
 
     future1
-    future2
+    backup=yes
     terminal=gnome-terminal --working-directory=
     filemanager=thunar
     previous=yes
@@ -296,7 +296,7 @@ To clear all bookmarks use **Shift-F3**.
 The Windows options.ini could look more like this:
 
     future1
-    future2
+    backup=yes
     terminal=wt -d
     filemanager=explorer.exe
     previous=yes
@@ -311,6 +311,9 @@ The Windows options.ini could look more like this:
     nam2=cmd
     nam3=GitHub
     nam4=Calculator
+
+**backup**
+>Create a backup of opened files yes|no
 
 **terminal**
 >Enter your terminal preference and the option to  

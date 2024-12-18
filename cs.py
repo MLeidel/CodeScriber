@@ -12,6 +12,8 @@ import platform
 from tkinter.ttk import *
 from tkinter import filedialog
 from ttkthemes import ThemedTk
+from datetime import datetime
+import shutil
 import webview
 import markdown
 
@@ -30,7 +32,7 @@ srec = "" # csv string for javascript recent file list
 
 opts = [] # storeing options from the options.ini file
 opts = iniproc.read(optionsFileName,'future1',
-                                   'monitors',
+                                   'backup',
                                    'terminal',
                                    'filemanager',
                                    'previous',
@@ -175,6 +177,22 @@ def trim_trailing_spaces(code):
     trimmed_code = '\n'.join(trimmed_lines)
     return trimmed_code
 
+def save_backup_file():
+    # Check if the file exists
+    if not os.path.isfile(current_file):
+        raise FileNotFoundError(f"The file {file_path} does not exist.")
+    # Extract the directory and the base file name
+    dir_name, base_name = os.path.split(current_file)
+    # Get the current date and time
+    current_time = datetime.now()
+    # Format the current time as a string
+    timestamp_str = current_time.strftime("%Y%m%d_%H") # %M%S
+    # Construct the backup file name
+    backup_file_name = f"bkup_{base_name}_{timestamp_str}"
+    backup_file_path = os.path.join(dir_name, backup_file_name)
+    # Copy the original file to the backup file
+    shutil.copy2(current_file, backup_file_path)
+
 '''
                     P Y W E B V I E W
 
@@ -219,6 +237,8 @@ class Api:
         current_file = selected
         current_path = os.path.dirname(current_file)
         updateRecents(current_file)  # update recent files list/file
+        if opts[1] == "yes":
+            save_backup_file()  # save backup on open file
         with open(current_file, 'r', encoding='utf-8') as file:
             return file.read()
 
@@ -372,6 +392,8 @@ class Api:
             except:
                 return "file not found"
             updateRecents(current_file)
+            if opts[1] == "yes":
+                save_backup_file()
             return txt
         return ''
 
@@ -431,7 +453,9 @@ if __name__ == '__main__':
             with open(lastFileName, 'r', encoding='utf-8') as f:
                 current_file = f.readline().strip()
                 current_path =  os.path.dirname(current_file)
-        updateRecents(current_file)
+            updateRecents(current_file)
+            if opts[1] == "yes":
+                save_backup_file()
 
     # get last window size and location
     if os.path.isfile(wingeo):
