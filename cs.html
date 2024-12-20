@@ -160,7 +160,7 @@ editor.setTheme(theme);  // see above
 
 // SEE CSS #editor FOR FONT STYLING //
 /////////////////////////////////////
-// //      Not working yet     // //
+// //         FUTURE           // //
 // editor.setOptions({
 //     enableBasicAutocompletion: true,
 //     enableSnippets: false,
@@ -517,10 +517,18 @@ function loadSelected(content) {
 }
 
 function getRunMenuNames() {
-    /* get run menu name tags from options.ini
+    /* at startup get run menu name tags from options.ini
         The returned content will be a CSV string. */
     window.pywebview.api.getRunNames().then(content => {
         setRunMenuNames(content);
+    });
+}
+
+function gogpt(content) {
+    /* Ctrl-g => get an openAI response to this prompt
+            and load it into a 'new' tab */
+    window.pywebview.api.gptAccess(content).then(content => {
+      loadDocument(content);
     });
 }
 
@@ -955,10 +963,17 @@ function getRunMenuNames() {
         findfunc(); // goto a select a function
       }
     });
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
+        event.preventDefault();
+        pt = editor.getValue();
+        gogpt(pt); // process a GPT query using current document
+      }
+    });
 
                 /* alter ctrlKey-0...9  */
     window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'e') {
           event.preventDefault();
           setup_tag();
       }

@@ -16,6 +16,7 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 
 - Syntax highlighting
 - Multi Session Interface
+- OpenAI chat compleation for coding
 - Auto indentation and outdent
 - An optional command line
 - Work with large documents (handles hundreds of thousands of lines without issue)

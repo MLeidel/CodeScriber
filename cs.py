@@ -1,6 +1,6 @@
 '''
 cs.py CodeScriber Code Editor
-Hakable Desktop Code Editor
+Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
 '''
 
@@ -13,10 +13,10 @@ from tkinter.ttk import *
 from tkinter import filedialog
 from ttkthemes import ThemedTk
 from datetime import datetime
+from openai import OpenAI
 import shutil
 import webview
 import markdown
-
 import iniproc
 
 p = os.path.realpath(__file__)
@@ -26,12 +26,11 @@ optionsFileName = p+"options.ini"
 lastFileName = p+"lastfile"
 wingeo = p+"wingeo"
 
-
 rec = []  # recent file list GLOBAL
 srec = "" # csv string for javascript recent file list
 
 opts = [] # storeing options from the options.ini file
-opts = iniproc.read(optionsFileName,'future1',
+opts = iniproc.read(optionsFileName,'future',
                                    'backup',
                                    'terminal',
                                    'filemanager',
@@ -46,7 +45,9 @@ opts = iniproc.read(optionsFileName,'future1',
                                    'nam2',
                                    'nam3',
                                    'nam4',
-                                   'theme')
+                                   'theme',
+                                   'openai',
+                                   'model')
 
 current_file = ""  # tracks current file in use
 current_path = opts[6]  # tracks path
@@ -193,10 +194,32 @@ def save_backup_file():
     # Copy the original file to the backup file
     shutil.copy2(current_file, backup_file_path)
 
+def gptCode(key, model, query):
+    ''' method to access OpenAI API
+        Taken from gptlib.py module '''
+    try:
+        client = OpenAI(
+        api_key = os.environ.get(key)  # openai API
+    )
+    except Exception as e:
+        return e
+
+    try:
+        response = client.chat.completions.create(
+          model=model,
+          messages=[{"role": "user", "content": "You are a helpful coding assistant."},
+              {"role": "user", "content" : query.strip()}
+          ]
+        )
+        output = response.choices[0].message.content
+        return output
+    except Exception as e:
+        return e
+
 '''
                     P Y W E B V I E W
 
-    Javascript pywebview API functions to connect JAVASCRIPT
+    Javascript pywebview API functions connect JAVASCRIPT
 
 '''
 
@@ -242,7 +265,6 @@ class Api:
         with open(current_file, 'r', encoding='utf-8') as file:
             return file.read()
 
-
     def save_file(self, content):
         ''' Save-A or Ctrl-Shift-S
             builds HTML from an ".md" file save
@@ -282,7 +304,6 @@ class Api:
 
         return current_file
 
-
     def quick_save_file(self, content):
         ''' Save or Ctrl-S
             builds HTML from an ".md" file save
@@ -308,6 +329,13 @@ class Api:
             with open(current_file, 'r', encoding='utf-8') as file:
                 return file.read()
         return ''  # File Not Found or no previous on startup
+
+    def gptAccess(self, content):
+        ''' Access gptlib and return query response '''
+        key = opts[16]  # openai User Key
+        mod = opts[17]  # model to use
+        res = gptCode(key, mod, content)
+        return res
 
     def execMarkdown(self):
         ''' open the markdown's HTML file in specified browser '''
@@ -429,7 +457,7 @@ class Api:
         os.execl(python, python, *sys.argv)
 
 
-#  END OF JS_API CLASS  END OF JS_API CLASS  END OF JS_API CLASS
+#               END OF JS_API CLASS
 
 
 if __name__ == '__main__':

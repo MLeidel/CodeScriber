@@ -155,8 +155,13 @@ __Additional Hotkeys:__
 		<td>Quit</td>
 	</tr>
 	<tr>
-		<td><b>Ctrl-G</b></td>
+		<td><b>Ctrl-E</b></td>
 		<td>Set up a text encloser</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-G</b></td>
+		<td>Fire off a GPT prompt using<br>
+		current (new) document</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-0 through 9</b></td>
@@ -288,6 +293,8 @@ To clear all bookmarks use **Shift-F3**.
     browser=firefox
     theme=twilight
     scope=/home/UsEr
+    openai=GPTKEY
+    model=o1-mini
     run1=/blah/blahh/CodeSnips/csnips.py
     run2=gnome_terminal -e htop
     run3=python3 {f}
@@ -307,6 +314,8 @@ The Windows options.ini could look more like this:
     browser="C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
     theme=monokai
     scope=C:\
+    openai=GPTKEY
+    model=o1-mini
     run1=https://www.w3schools.com/
     run2=cmd
     run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
@@ -335,6 +344,13 @@ Default if you want to use your system default browser.
 
 **scope**
 >Set the "root" in your file system that CodeScriber should use.
+
+**openai**
+>Environment variable for your OpenAI key
+
+**model**
+>The model to use for this chat compleation API  
+[about OpenAI models](https://platform.openai.com/docs/models "OpenAI")
 
 **run1 ... run2**
 >External programs you might want to execute via menus or
