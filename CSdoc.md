@@ -346,7 +346,8 @@ Default if you want to use your system default browser.
 >Set the "root" in your file system that CodeScriber should use.
 
 **openai**
->Environment variable for your OpenAI key
+>Environment variable for your OpenAI key  
+[about OpenAI keys](https://platform.openai.com/settings/organization/api-keys "OpenAI keys")
 
 **model**
 >The model to use for this chat compleation API  
