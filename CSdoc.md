@@ -188,8 +188,12 @@ __Additional Hotkeys:__
 		<td>Recent File List</td>
 	</tr>
 	<tr>
-		<td><b>Ctrl-o</b></td>
+		<td><b>Ctrl-O</b></td>
 		<td>Open a file</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-N</b></td>
+		<td>New file</td>
 	</tr>
 	<tr>
 		<td><b>F3</b></td>

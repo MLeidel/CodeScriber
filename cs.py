@@ -302,8 +302,7 @@ class Api:
     def getCmdFile(self):
         ''' Get the starting file from command line
             File was switched into the current_file/path fields
-            If no command line file then opens lastfile
-        '''
+            If no command line file then opens lastfile '''
         if os.path.isfile(current_file):
             updateRecents(current_file)
             with open(current_file, 'r', encoding='utf-8') as file:
@@ -448,14 +447,13 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         current_file = sys.argv[1]  # needs a full path !
         current_path = os.path.dirname(current_file)
-    else:
-        if os.path.isfile(lastFileName) and opts[4] == "yes":
-            with open(lastFileName, 'r', encoding='utf-8') as f:
-                current_file = f.readline().strip()
-                current_path =  os.path.dirname(current_file)
-            updateRecents(current_file)
-            if opts[1] == "yes":
-                save_backup_file()
+    elif os.path.isfile(lastFileName) and opts[4] == "yes":
+        with open(lastFileName, 'r', encoding='utf-8') as f:
+            current_file = f.readline().strip()
+            current_path =  os.path.dirname(current_file)
+        updateRecents(current_file)
+        if opts[1] == "yes":
+            save_backup_file()
 
     # get last window size and location
     if os.path.isfile(wingeo):
