@@ -8,8 +8,9 @@ For detailed information about "Ace" visit the
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
 
 CodeScriber is a desktop application. All the software resides on the local machine.  
-However, the "Ace" library is loaded from a CDN. This editor is written completely in  
-scripting languages: HTML, CSS, Javascript, Python3, making CodeScriber almost completely hack-able.
+However, the "Ace" library is loaded from a CDN, and the AI feature does require an Internet
+connection. CodeScriber is written completely in scripting languages:  
+HTML, CSS, Javascript, Python3, making it almost completely hack-able.
 
 CodeScriber is _housed_ in a python script that communicates with Javascript (Gtk WebKit2 engine,  
 edgechromium for Windows) via the pywebview python module. See diagram below.  
@@ -161,7 +162,7 @@ __Additional Hotkeys:__
 	<tr>
 		<td><b>Ctrl-G</b></td>
 		<td>Fire off a GPT prompt using<br>
-		current (new) document</td>
+		a separate (new) document</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-0 through 9</b></td>
@@ -238,9 +239,10 @@ Example:
 In the editor, type __input__ and press **Alt-Z**  
 'input' is replaced by `<input type='' id='' value='' />`
 
-The program **fzen.py** will reformat any formated code you've copied into the clipboard, ask for a tag name, and then
-append it to the tags.js file correctly formated.  
-Run fzen.py from a terminal.
+These JSON strings can get long and complicated. To assist in this endeavor use the program **fzen.py**.
+This program will reformat any formated code you've copied into the clipboard, ask for a tag name, and then
+append it to the `tags.js` file correctly formated.  
+Run `python3 fzen.py` from a terminal in the `codescriber` directory.
 
 ---
 
@@ -262,7 +264,7 @@ Use the Options menu **Tags** to view the `tags.js` file and modify it.
                     "**,**"];
 
 Apply these to selected text using **Ctrl-0,1,2,...9**  
-Change any of them for current session using **Ctrl-G**.  
+Change any of them for current session using **Ctrl-E**.  
 
 ---
 
