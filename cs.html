@@ -966,7 +966,9 @@ function gogpt(content) {
     window.addEventListener('keydown', function(event) {
       if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
         event.preventDefault();
-        pt = editor.getValue();
+        const r = confirm("Process this prompt for AI assistance?");
+        if (!r) return;  // user hit 'Cancel' ?
+        const pt = editor.getValue();
         gogpt(pt); // process a GPT query using current document
       }
     });
