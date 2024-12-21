@@ -290,13 +290,13 @@ To clear all bookmarks use **Shift-F3**.
 
 ## AI coding query
 
-#### Setup  
+####Setup  
 The advent of AI chat completion engines has definitely changed the art of computer programming.
 This implementation requires an OpenAI API [key](https://platform.openai.com/api-keys "OpenAI").
 Set up your key as a system environment variable and then put the variable name in the _options.ini_ file,
 like _openai=MYKEY_.
 The OpenAI model must also appear in the _options.ini_ file, like _model=GPT-4o_.  
-#### Prompt and Query  
+####Prompt and Query  
 To run an AI query open a "New" tab and construct your prompt. When finished hit Ctrl-G.
 In a few seconds your response will fill the page.
 
