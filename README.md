@@ -31,6 +31,8 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 - Column select and edit mode
 - Customizable Keyword code snipits
 - Drag & Drop to open file
+- Markdown
+- Spell check
 - Find File
 - Sort
 - Recent Files

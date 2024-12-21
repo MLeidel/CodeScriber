@@ -2,6 +2,7 @@
 cs.py CodeScriber Code Editor
 Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
+syntax highlight, themes, tabs, markdown, function list, Find File, Find/replace, macros, Zentags, and more.
 '''
 
 import sys
@@ -14,6 +15,7 @@ from tkinter import filedialog
 from ttkthemes import ThemedTk
 from datetime import datetime
 from openai import OpenAI
+from spellchecker import SpellChecker
 import shutil
 import webview
 import markdown
@@ -25,6 +27,7 @@ p = os.path.dirname(p) + "/"
 optionsFileName = p+"options.ini"
 lastFileName = p+"lastfile"
 wingeo = p+"wingeo"
+spell = SpellChecker()
 
 rec = []  # recent file list GLOBAL
 srec = "" # csv string for javascript recent file list
@@ -427,6 +430,21 @@ class Api:
     def returnRecents(self):
         ''' requesting recent file list as csv string '''
         return srec
+
+    def open_spellcheck(self, content):
+        # process sting of words and return results
+        wlist = content.split()         # string to list
+        words = spell.unknown(wlist)    # spell check the list
+        strwords = "<br>"
+        for word in words:              # concat spell output into one string
+            strwords += word + "<br>"
+            # Get the one `most likely` answer
+            #   spell.correction(word)
+            # Get a list of `likely` options
+            strwords += str(spell.candidates(word))
+            strwords += "<hr>"
+        return strwords
+
 
     def on_file_drop(self, filename):
         ''' Search for the specified filename in the given directory

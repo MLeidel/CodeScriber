@@ -128,6 +128,10 @@ __Additional Hotkeys:__
 		<td>Save-As</td>
 	</tr>
 	<tr>
+		<td><b>Ctrl-Alt-S</b></td>
+		<td>Spell Check Selected</td>
+	</tr>
+	<tr>
 		<td><b>Ctrl-Z</b></td>
 		<td>Insert Zen Tag</td>
 	</tr>
@@ -281,6 +285,27 @@ This Markdown follows rules from the
 To bookmark a line of code use **Ctrl-Click in the "gutter"** (where the line numbers are)  
 To travel through the bookmarks use **F3**.  
 To clear all bookmarks use **Shift-F3**.
+
+---
+
+## AI coding query
+
+**Setup**  
+The advent of AI chat completion engines has definitely changed the art of computer programming.
+This implementation requires an OpenAI API [key](https://platform.openai.com/api-keys "OpenAI").
+Set up your key as a system environment variable and then put the variable name in the _options.ini_ file,
+like _openai=MYKEY_.
+The OpenAI model must also appear in the _options.ini_ file, like _model=GPT-4o_.  
+**Prompt and Query**  
+To run an AI query open a "New" tab and construct your prompt. When finished hit Ctrl-G.
+In a few seconds your response will fill the page.
+
+---
+
+## Spell Check
+
+To spell check some text first select the text. Then hit Ctrl-Alt-S. You will get a list of
+miss-spelled words and possible corrections.
 
 ---
 ## options.ini

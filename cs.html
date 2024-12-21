@@ -220,14 +220,22 @@ editor.commands.addCommand({
     }
 });
 
+editor.commands.addCommand({
+    name: "showSpelling",
+    bindKey: {win: "Ctrl-Alt-s", mac: "Command-Alt-s"},
+    exec: function(editor) {
+        getWords();
+    }
+});
+
 // ZenTags
 editor.commands.addCommand({
-		name: 'myCommand',
-		bindKey: {win: 'Alt-Z',	mac: 'Alt-Z'},
-		exec: function(editor) {
-		  zentag();
-		},
-		readOnly: true // false if this command should not apply in readOnly mode
+	name: 'myCommand',
+	bindKey: {win: 'Alt-Z',	mac: 'Alt-Z'},
+	exec: function(editor) {
+	  zentag();
+	},
+	readOnly: true // false if this command should not apply in readOnly mode
 });
 
 editor.commands.addCommand({
@@ -500,6 +508,12 @@ function DropOpenFile(filename) {
     });
 }
 
+function doSpellCheck(content) {
+ window.pywebview.api.open_spellcheck(content).then(content => {
+     showSpelling(content);
+ });
+}
+
 function openRecent() {
     /* gets the Recent Files csv string from python */
     window.pywebview.api.returnRecents().then(content => {
@@ -554,6 +568,16 @@ function gogpt(content) {
     function convertPath(filePath) { // for Windows
         // replace backslashes with slashes (see selectFile())
         return filePath.replace(/\\/g, '/');
+    }
+
+    function showSpelling(content) {
+        /* executed on return from python
+        which generated spelling correctioins from
+        the selected text */
+        if (content.trim() == "<br>") {
+            content = "All Good! :)"
+        }
+        showMessageBox(content);
     }
 
     function findfile() {
@@ -789,6 +813,21 @@ function gogpt(content) {
         JS.htm("#ru3", nams[2]);
         JS.htm("#ru4", nams[3]);
     }
+
+    function getWords() {
+      /* get the selected words (if selected)
+       and send off to python otherwise,
+       toggle "Nothing Selected". */
+      const selection = editor.getSelectedText();
+      let selectedText = selection.toString();
+      if (selectedText == "") {
+        alert("Nothing Selected");
+      } else {
+        const text = selectedText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()@"?]/g, " ");
+        doSpellCheck(text); // fire off the promise to python
+      }
+    }
+
 
     function basename(str) {
         return str.substr(str.lastIndexOf(gvar.sep) + 1);
