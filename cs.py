@@ -23,7 +23,6 @@ import iniproc
 
 p = os.path.realpath(__file__)
 p = os.path.dirname(p) + "/"
-# os.chdir(os.path.dirname(p))
 optionsFileName = p+"options.ini"
 lastFileName = p+"lastfile"
 wingeo = p+"wingeo"
@@ -33,7 +32,7 @@ rec = []  # recent file list GLOBAL
 srec = "" # csv string for javascript recent file list
 
 opts = [] # storeing options from the options.ini file
-opts = iniproc.read(optionsFileName,'future',
+opts = iniproc.read(optionsFileName,'future1',
                                    'backup',
                                    'terminal',
                                    'filemanager',
@@ -107,7 +106,6 @@ def saveRecent():
             c += 1
             if c < n:
                 srec += ","
-
 
 def newRecent(item):
     ''' modify the recent file list '''
@@ -334,7 +332,7 @@ class Api:
         return ''  # File Not Found or no previous on startup
 
     def gptAccess(self, content):
-        ''' Access gptlib and return query response '''
+        ''' Access OpenAI and return query response '''
         key = opts[16]  # openai User Key
         mod = opts[17]  # model to use
         res = gptCode(key, mod, content)

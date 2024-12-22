@@ -3,7 +3,7 @@
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-	<title>CodeScriber</title>
+	<title>CodeScriber</title> <!-- CodeScriber 2.0 -->
 
   <link rel="stylesheet" href="cs.css" />
 
@@ -177,22 +177,6 @@ editor.commands.addCommand({
     readOnly: false // Do NOT apply this command in readOnly mode
 });
 editor.commands.addCommand({
-    name: 'saveFile',
-    bindKey: {win: 'Ctrl-s', mac: 'Command-s'},
-    exec: function(editor) {
-        quicksaveDocument();
-    },
-    readOnly: false
-});
-editor.commands.addCommand({
-    name: 'saveAsFile',
-    bindKey: {win: 'Ctrl-Shift-s', mac: 'Command-s'},
-    exec: function(editor) {
-        save();
-    },
-    readOnly: false
-});
-editor.commands.addCommand({
     name: 'htmlNbsp',
     bindKey: {win: 'Ctrl-Space', mac: 'Command-Space'},
     exec: function(editor) {
@@ -230,30 +214,12 @@ editor.commands.addCommand({
 
 // ZenTags
 editor.commands.addCommand({
-	name: 'myCommand',
-	bindKey: {win: 'Alt-Z',	mac: 'Alt-Z'},
-	exec: function(editor) {
-	  zentag();
-	},
-	readOnly: true // false if this command should not apply in readOnly mode
-});
-
-editor.commands.addCommand({
-        name: 'viewTagsJS',
-        bindKey: {win: 'Alt-x', mac: 'Alt-x'},
-        exec: function(editor) {
-            viewZenTags();
-        },
-        readOnly: false
-});
-
-editor.commands.addCommand({
-        name: 'viewStag',
-        bindKey: {win: 'Ctrl-Alt-x', mac: 'Ctrl-Alt-x'},
-        exec: function(editor) {
-            viewStags();
-        },
-        readOnly: false
+    name: 'myCommand',
+    bindKey: {win: 'Alt-Z', mac: 'Alt-Z'},
+    exec: function(editor) {
+      zentag();
+    },
+    readOnly: true // false if this command should not apply in readOnly mode
 });
 
 editor.commands.addCommand({
@@ -261,6 +227,15 @@ editor.commands.addCommand({
         bindKey: {win: 'Alt-w', mac: 'Alt-w'},
         exec: function(editor) {
             tagSurround(gvar.last_pre_tag, gvar.last_pst_tag);
+        },
+        readOnly: false
+});
+
+editor.commands.addCommand({
+        name: 'alterEnclose',
+        bindKey: {win: 'Alt-e', mac: 'Alt-e'},
+        exec: function(editor) {
+            setup_tag();
         },
         readOnly: false
 });
@@ -309,19 +284,10 @@ editor.commands.addCommand({
 });
 
 // the following toggles the 'save' button if the text is "dirty" or "saved"
-
 editor.on("input", function() {
         // gvar.saved = editor.session.getUndoManager().isClean();
         gvar.saved = gvar.sesn[gvar.cinx].getUndoManager().isClean();
 });
-
-window.addEventListener('beforeunload', function (e) {
-    if (gvar.saved === false)
-        e.preventDefault();  // Cancel the event
-      else
-        e.returnValue = 'prompt';  // fire the confirm prompt
-});
-
             /* Context Menu Event Handlers */
 
 editor.container.addEventListener('contextmenu', function(event) {
@@ -541,6 +507,7 @@ function getRunMenuNames() {
 function gogpt(content) {
     /* Ctrl-g => get an openAI response to this prompt
             and load it into a 'new' tab */
+    editor.setValue("Please wait one moment . . .");
     window.pywebview.api.gptAccess(content).then(content => {
       loadDocument(content);
     });
@@ -828,11 +795,6 @@ function gogpt(content) {
       }
     }
 
-
-    function basename(str) {
-        return str.substr(str.lastIndexOf(gvar.sep) + 1);
-    }
-
                 /* MDI Folder management
             Don't touch this code
         unless you know what you're doing */
@@ -843,7 +805,7 @@ function gogpt(content) {
         const newFolder = document.createElement('div');
         const allFolders = document.querySelectorAll('.folder');
         newFolder.className = 'folder';
-        newFolder.textContent = basename(fldrname);
+        newFolder.textContent = fldrname.substr(fldrname.lastIndexOf(gvar.sep) + 1); // basename
         newFolder.dataset.sinx = inx;  // store the NEW sinx value with this tab!
         allFolders.forEach(folder => {
             folder.classList.remove('highlighted');
@@ -921,106 +883,101 @@ function gogpt(content) {
     /* Open lastfile or file from command line */
     setTimeout(openCmdFile, 800);
 
-                /* Other Keypress handlers */
+/* * * * * * * * * * * * * Window Event Handlers * * * * * * * * * * * */
 
-    window.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            event.preventDefault();
-            exitApp(); // close application
-        }
-      });
-
-    window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'q') {
-          event.preventDefault();
-          exitApp(); // close application
-      }
-    });
-
-    window.addEventListener('keydown', function(event) {
-      if ( (event.ctrlKey || event.metaKey) && event.key === 'r' ) {
-          event.preventDefault();
-          openRecent(); // show recent file list
-      }
-    });
-
-    window.addEventListener('keydown', function(event) {
-      if ( (event.ctrlKey || event.metaKey) && event.key === 'o' ) {
-          event.preventDefault();
-          openFile(); // open file in current window
-      }
-    });
-
-    window.addEventListener('keydown', function(event) {
-      if ( (event.ctrlKey || event.metaKey) && event.key === 'n' ) {
-          event.preventDefault();
-          newDocument(); // open new blank tab
-      }
-    });
-
-    window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && (event.key >= 0 && event.key < 10)) {
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
         event.preventDefault();
-        const t = stag[event.key].split(",");
-        let pre_tag = t[0];
-        let pst_tag = t[1];
-        tagSurround(pre_tag, pst_tag)  // bold for MD
-        gvar.last_pre_tag = pre_tag;  // save for Alt-W repeat last
-        gvar.last_pst_tag = pst_tag;
-      }
-    });
+        exitApp(); // close application
+    }
+  });
 
-    /* KB handlers for run1 - run4 */
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'q') {
+      event.preventDefault();
+      exitApp(); // close application
+  }
+});
 
-    window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === '-') {
-        event.preventDefault();
-        execI();
-      }
-    });
-    window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === '=') {
-        event.preventDefault();
-        execII();
-      }
-    });
-    window.addEventListener('keydown', function(event) {
-      if (event.altKey && event.key === '-') {
-        event.preventDefault();
-        execIII();
-      }
-    });
-    window.addEventListener('keydown', function(event) {
-      if (event.altKey && event.key === '=') {
-        event.preventDefault();
-        execIV();
-      }
-    });
-    window.addEventListener('keydown', function(event) {
-      if (event.altKey && event.ctrlKey && event.key === 'f') {
-        event.preventDefault();
-        findfunc(); // goto a select a function
-      }
-    });
-    window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
-        event.preventDefault();
-        const r = confirm("Process this prompt for AI assistance?");
-        if (!r) return;  // user hit 'Cancel' ?
-        const pt = editor.getValue();
-        gogpt(pt); // process a GPT query using current document
-      }
-    });
+window.addEventListener('keydown', function(event) {
+  if ( (event.ctrlKey || event.metaKey) && event.key === 'r' ) {
+      event.preventDefault();
+      openRecent(); // show recent file list
+  }
+});
 
-                /* alter ctrlKey-0...9  */
-    window.addEventListener('keydown', function(event) {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'e') {
-          event.preventDefault();
-          setup_tag();
-      }
-    });
+window.addEventListener('keydown', function(event) {
+  if ( (event.ctrlKey || event.metaKey) && event.key === 'o' ) {
+      event.preventDefault();
+      openFile(); // open file in current window
+  }
+});
 
-                 /* File Drag & Drop Code */
+window.addEventListener('keydown', function(event) {
+  if ( (event.ctrlKey || event.metaKey) && event.key === 'n' ) {
+      event.preventDefault();
+      newDocument(); // open new blank tab
+  }
+});
+
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && (event.key >= 0 && event.key < 10)) {
+    event.preventDefault();
+    const t = stag[event.key].split(",");
+    let pre_tag = t[0];
+    let pst_tag = t[1];
+    tagSurround(pre_tag, pst_tag)  // bold for MD
+    gvar.last_pre_tag = pre_tag;  // save for Alt-W repeat last
+    gvar.last_pst_tag = pst_tag;
+  }
+});
+
+/* KB handlers for run1 - run4 */
+
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === '-') {
+    event.preventDefault();
+    execI();
+  }
+});
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === '=') {
+    event.preventDefault();
+    execII();
+  }
+});
+window.addEventListener('keydown', function(event) {
+  if (event.altKey && event.key === '-') {
+    event.preventDefault();
+    execIII();
+  }
+});
+window.addEventListener('keydown', function(event) {
+  if (event.altKey && event.key === '=') {
+    event.preventDefault();
+    execIV();
+  }
+});
+
+
+window.addEventListener('keydown', function(event) {
+  if (event.altKey && event.ctrlKey && event.key === 'f') {
+    event.preventDefault();
+    findfunc(); // goto a selected a function
+  }
+});
+
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
+    event.preventDefault();
+    const r = confirm("Process prompt for AI assistance?");
+    if (!r) return;  // user hit 'Cancel' ?
+    const pt = editor.getValue();
+    gogpt(pt); // process a GPT query using current document
+  }
+});
+
+    /* File Drag & Drop Code */
 
     const dropArea = JS.doq('#FN'); // file input field
 
@@ -1045,6 +1002,43 @@ function gogpt(content) {
             DropOpenFile(files[0].name)
         }
     });
+
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+    event.preventDefault();
+    quicksaveDocument();  // fast save
+  }
+});
+
+window.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 's') {
+    event.preventDefault();
+    save();  // filedialog save (as)
+  }
+});
+
+window.addEventListener('keydown', function(event) {
+  if (event.altKey && event.key === 'x') {
+    event.preventDefault();
+    viewZenTags();  // display all Zen tag names
+  }
+});
+
+window.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && event.altKey && event.key === 'x') {
+    event.preventDefault();
+    viewStags();  // display all 10 enclosures keys
+  }
+});
+
+window.addEventListener('beforeunload', function (e) {
+    if (gvar.saved === false)
+        e.preventDefault();  // Cancel the event
+      else
+        e.returnValue = 'prompt';  // fire the confirm prompt
+});
+
+// --------------------- END OF WINDOW EVENT LISTENERS ---------------------
 
 var msg = `
 <b>CodeScriber Editor<br><br>For You!</b><br><br>

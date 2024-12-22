@@ -215,8 +215,11 @@ __Additional Hotkeys:__
 	</tr>
 </table>
 
-Right-Click on file tab will close tab.  
-Right-Click in editor opens contextmenu.
+_These event keys are coded in the cs.html file._
+
+- Right-Click on file tab will close tab.
+
+- Right-Click in editor opens contextmenu.
 
 ---
 
