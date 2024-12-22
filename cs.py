@@ -10,13 +10,13 @@ import os
 import subprocess
 import webbrowser
 import platform
+import shutil
 from tkinter.ttk import *
 from tkinter import filedialog
-from ttkthemes import ThemedTk
 from datetime import datetime
+from ttkthemes import ThemedTk
 from openai import OpenAI
 from spellchecker import SpellChecker
-import shutil
 import webview
 import markdown
 import iniproc
@@ -166,10 +166,10 @@ def runOptions(inx):
         run = run.replace("{p}", current_path)
         os.system(run)
 
-def windows_path(p):
+def windows_path(path):
     ''' reverse / for Windows path  '''
     ws = "\\"
-    rp = p.replace("/", ws)
+    rp = path.replace("/", ws)
     return rp
 
 def trim_trailing_spaces(code):
@@ -180,9 +180,9 @@ def trim_trailing_spaces(code):
     return trimmed_code
 
 def save_backup_file():
-    # Check if the file exists
+    ''' Check if the file exists '''
     if not os.path.isfile(current_file):
-        raise FileNotFoundError(f"The file {file_path} does not exist.")
+        raise FileNotFoundError(f"The file {current_file} does not exist.")
     # Extract the directory and the base file name
     dir_name, base_name = os.path.split(current_file)
     # Get the current date and time
@@ -217,12 +217,12 @@ def gptCode(key, model, query):
     except Exception as e:
         return e
 
-'''
-                    P Y W E B V I E W
-
-    Javascript pywebview API functions connect JAVASCRIPT
-
-'''
+#
+#                    P Y W E B V I E W
+#
+#    Javascript pywebview API functions connect JAVASCRIPT
+#
+#
 
 class Api:
 
@@ -430,7 +430,7 @@ class Api:
         return srec
 
     def open_spellcheck(self, content):
-        # process sting of words and return results
+        ''' process sting of words and return results '''
         wlist = content.split()         # string to list
         words = spell.unknown(wlist)    # spell check the list
         strwords = "<br>"
