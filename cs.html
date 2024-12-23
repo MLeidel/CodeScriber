@@ -138,17 +138,15 @@ var gvar = {
     sesn: [],
     sefn: []
 };
-        /*                      COLOR THEMES
-            monokai  cobalt  vibrant_ink  clouds_midnight  solarized_dark
-            tomorrow_night_eighties  twilight  kr_theme  Terminal
-            solarized_light  textmate  tomorrow_night
-        */
+
+// bookmarks array
 gvar.abmk = Array(gvar.rows).fill(0).map(() => Array(gvar.cols).fill(0));
 
 gvar.oFN = JS.doq("#FN"); // object for the filename input field
 
 console.clear();
 var editor = ace.edit("editor");
+
 // ACE CONFIGURE
 editor.$blockScrolling = Infinity;  // ace debug suggestion
 editor.setShowPrintMargin(false);
@@ -185,12 +183,12 @@ editor.commands.addCommand({
     readOnly: false
 });
 editor.commands.addCommand({
-        name: 'insertDate',
-        bindKey: {win: 'Alt-t', mac: 'Alt-t'},
-        exec: function(editor) {
-            editor.insert(JS.getMDY());
-        },
-        readOnly: false
+    name: 'insertDate',
+    bindKey: {win: 'Alt-t', mac: 'Alt-t'},
+    exec: function(editor) {
+        editor.insert(JS.getMDY());
+    },
+    readOnly: false
 });
 // add command to lazy-load keybinding_menu extension
 editor.commands.addCommand({
@@ -223,21 +221,21 @@ editor.commands.addCommand({
 });
 
 editor.commands.addCommand({
-        name: 'repeatEnclose',
-        bindKey: {win: 'Alt-w', mac: 'Alt-w'},
-        exec: function(editor) {
-            tagSurround(gvar.last_pre_tag, gvar.last_pst_tag);
-        },
-        readOnly: false
+    name: 'repeatEnclose',
+    bindKey: {win: 'Alt-w', mac: 'Alt-w'},
+    exec: function(editor) {
+        tagSurround(gvar.last_pre_tag, gvar.last_pst_tag);
+    },
+    readOnly: false
 });
 
 editor.commands.addCommand({
-        name: 'alterEnclose',
-        bindKey: {win: 'Alt-e', mac: 'Alt-e'},
-        exec: function(editor) {
-            setup_tag();
-        },
-        readOnly: false
+    name: 'alterEnclose',
+    bindKey: {win: 'Alt-e', mac: 'Alt-e'},
+    exec: function(editor) {
+        setup_tag();
+    },
+    readOnly: false
 });
 
 /*
@@ -288,7 +286,7 @@ editor.on("input", function() {
         // gvar.saved = editor.session.getUndoManager().isClean();
         gvar.saved = gvar.sesn[gvar.cinx].getUndoManager().isClean();
 });
-            /* Context Menu Event Handlers */
+            /* Context-Menu Event Handlers */
 
 editor.container.addEventListener('contextmenu', function(event) {
     event.preventDefault();
@@ -342,36 +340,36 @@ contextMenu.addEventListener('click', function(event) {
 Enhance the Alt-z code insertion
 ***/
 
-    function zentag() {
-      let wsp = [9,10,32, NaN];  // tab, LF, space
-      let inx = 0;
-      let code = 0;
-      let txtbuf = "";
-      let targ = "";
-      inx = editor.session.doc.positionToIndex(editor.selection.getCursor());
-      txtbuf = editor.getValue();
-      code = txtbuf.charCodeAt(inx);
-      if (!wsp.includes(code)) return;  // must be at right whitespace boundary
-      inx -= 1;
-      if (inx < 0) return;
-      code = txtbuf.charCodeAt(inx);
-      while (!wsp.includes(code)) {
-        //console.log(inx);
-        targ = String.fromCharCode(code) + targ;
-        inx -= 1;
-        if (inx >= 0)
-          code = txtbuf.charCodeAt(inx);
-        else
-          break;
-      }
-      // targ should contain the key to look for
-      editor.removeWordLeft();
-      if (atags[targ] !== undefined) {
-        editor.insert(atags[targ]);  // targ is a valid key value
-      } else {  // stag not a valid key value so do this instead
-        editor.insert("<" + targ + "></" + targ + ">");
-      }
-    }
+function zentag() {
+  let wsp = [9,10,32, NaN];  // tab, LF, space
+  let inx = 0;
+  let code = 0;
+  let txtbuf = "";
+  let targ = "";
+  inx = editor.session.doc.positionToIndex(editor.selection.getCursor());
+  txtbuf = editor.getValue();
+  code = txtbuf.charCodeAt(inx);
+  if (!wsp.includes(code)) return;  // must be at right whitespace boundary
+  inx -= 1;
+  if (inx < 0) return;
+  code = txtbuf.charCodeAt(inx);
+  while (!wsp.includes(code)) {
+    //console.log(inx);
+    targ = String.fromCharCode(code) + targ;
+    inx -= 1;
+    if (inx >= 0)
+        code = txtbuf.charCodeAt(inx);
+    else
+        break;
+  }
+  // targ should contain the key to look for
+  editor.removeWordLeft();
+  if (atags[targ] !== undefined) {
+    editor.insert(atags[targ]);  // targ is a valid key value
+  } else {  // stag not a valid key value so do this instead
+    editor.insert("<" + targ + "></" + targ + ">");
+  }
+}
 
 /***
  *                           _        _
@@ -512,10 +510,9 @@ function gogpt(content) {
       loadDocument(content);
     });
 }
+/* -------------------- End Javascript pywebview API functions ------------------------- */
 
-/* ------------------------------------------------------------------------- */
-
-            /* handler functions working with webview functions */
+            /* handler functions working with pywebview functions */
 
     function selectFile(content) {
         /* presents an array of fullpaths for user selection
@@ -561,6 +558,7 @@ function gogpt(content) {
     }
 
     function isFunctionDeclaration(line) {
+        // language patterns to determine function declarations
         const patterns = {
             javascript: /^\s*(function\s+\w+\s*\(.*\)\s*{)/, // e.g., function foo() { ... }
             python: /^\s*def\s+\w+\s*\(.*\)\s*:/, // e.g., def foo(): ...
@@ -582,7 +580,7 @@ function gogpt(content) {
 
     function findfunc() {
         /* make a "list" of "function" lines from the editor
-        and display them for the user to select one */
+        and display them for selection by the user */
         var msg = "";
         var line = "";
         var funcName = "";
@@ -602,12 +600,7 @@ function gogpt(content) {
             }
             linenbr++;
         }
-        showMessageBox(msg);  // to pick the function to goto
-    }
-
-    function setSaved() {
-        // resets the boolean variable for state of editor (clean/dirty)
-        gvar.saved = gvar.sesn[gvar.cinx].setUndoManager(new ace.UndoManager());
+        showMessageBox(msg);  // display the function links
     }
 
     function newDocument() {
@@ -631,6 +624,11 @@ function gogpt(content) {
         getFN();
     }
 
+    function setSaved() {
+        // resets the boolean variable for state of editor (clean/dirty)
+        gvar.saved = gvar.sesn[gvar.cinx].setUndoManager(new ace.UndoManager());
+    }
+
     function setFileName(fn) {
         /* works with loadDocument() & newDocument */
         if (fn !== "") {
@@ -645,14 +643,14 @@ function gogpt(content) {
     }
 
     function save() {
+        // Save-As
         let text = editor.getValue();
         save_File(text);
-        //getFN();
     }
 
     function quicksaveDocument() {
       if (JS.val("#FN") == "") {
-        save();  // Save-As
+        save();  // Save-As for new file
         return;
       }
       let text = editor.getValue();
@@ -671,6 +669,7 @@ function gogpt(content) {
     }
 
     function tagSurround(prefix, suffix) {
+         // performs the text encloser of current selection
         // Get the current selection
         let selectionRange = editor.getSelectionRange();
         let selectedText = editor.getSession().getTextRange(selectionRange);
@@ -679,7 +678,9 @@ function gogpt(content) {
         // Replace the selected text with the new text
         editor.getSession().replace(selectionRange, newText);
     }
+
     function setup_tag() {
+        // Alt-e comes here for temporary enclosure setup
         let inx = 0;
         let tags = prompt("Enter Pre, Post, inx ");
         if (tags === null) return;
@@ -693,18 +694,6 @@ function gogpt(content) {
         showMessageBox("Ctrl-" + inx + " temporarily changed");
     }
 
-    function convertHTML(str) {
-      const symbols = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "\"": "&quot;",
-        "'": "&apos;"
-      };
-
-      return str.replace(/([&<>\"'])/g, match => symbols[match]);
-    }
-
     function copytext() {
         let selectedText = editor.getSelectedText();
         if (selectedText) {
@@ -712,20 +701,34 @@ function gogpt(content) {
         }
     }
 
-    function pastetext() {
-        get_from_clipboard();  // retrieves and inserts text
+    // function pastetext() {
+    //     get_from_clipboard();  // ctrl-v
+    // }
+
+    function convertHTML(str) {
+        // convert symbols for viewStags
+        const symbols = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "\"": "&quot;",
+            "'": "&apos;"
+        };
+        return str.replace(/([&<>\"'])/g, match => symbols[match]);
     }
 
     function viewStags() {
-      let x = 0;
-      let msg = "<strong>Text Enclosing</strong>:<br><br>";
-      for (x=0; x < 10; x++) {
-        msg += "Ctrl-" + x + " - " + convertHTML(stag[x]) + "<br>";
-      }
-      showMessageBox(msg);
+        // view text enclosures
+        let x = 0;
+        let msg = "<strong>Text Enclosing</strong>:<br><br>";
+        for (x=0; x < 10; x++) {
+            msg += "Ctrl-" + x + " - " + convertHTML(stag[x]) + "<br>";
+        }
+        showMessageBox(msg);
     }
 
     function viewZenTags() {
+        // view all Zen tag names
         let str_atags = "ZEN TAGS:<br><br>";
         Object.keys(atags).forEach(function(key) {
           str_atags += key +  " | ";
@@ -733,19 +736,20 @@ function gogpt(content) {
         showMessageBox(str_atags);
     }
 
-    // Function to show the message box
     function showMessageBox(mtext) {
+        // Function to show the message box
         JS.htm('#messageBoxText', mtext);
         JS.doq('#overlay1').style.display = 'block';
     }
 
-    // Close the message box when the close button is clicked
-    JS.doq('#msg_close_1').onclick = function() {
+    // Close the message box when anything in it is clicked
+    JS.doq('#overlay1').onclick = function() {
         JS.doq('#overlay1').style.display = 'none';
         editor.focus()
     };
 
     function exitApp() {
+        // Close the app
         if (gvar.saved === false) {  //
             if (confirm("text not saved! Quit anyway?") !== true) {
                 return;
@@ -762,6 +766,7 @@ function gogpt(content) {
     }
 
     function checkSaved() {
+        // color the filepath field yellow if not saved
         if (gvar.saved === false) {
             gvar.oFN.style.backgroundColor = "#FFE4B5";
         } else  {
@@ -771,10 +776,9 @@ function gogpt(content) {
     }
     checkSaved(); // start up the saved checker
 
-    /* insert the "run" menu names */
     function setRunMenuNames(namescsv) {
+        /* insert the "run" menu names (startup routine) */
         let nams = namescsv.split(",");
-
         JS.htm("#ru1", nams[0]);
         JS.htm("#ru2", nams[1]);
         JS.htm("#ru3", nams[2]);
@@ -799,89 +803,90 @@ function gogpt(content) {
             Don't touch this code
         unless you know what you're doing */
 
-    function addFolder(fldrname, inx) {
-        const container = document.getElementById('FLDR');
-        // Create a new folder element
-        const newFolder = document.createElement('div');
+function addFolder(fldrname, inx) {
+    // adds a new tab(file) session into the editor
+    const container = document.getElementById('FLDR');
+    // Create a new folder element
+    const newFolder = document.createElement('div');
+    const allFolders = document.querySelectorAll('.folder');
+    newFolder.className = 'folder';
+    newFolder.textContent = fldrname.substr(fldrname.lastIndexOf(gvar.sep) + 1); // basename
+    newFolder.dataset.sinx = inx;  // store the NEW sinx value with this tab!
+    allFolders.forEach(folder => {
+        folder.classList.remove('highlighted');
+    });
+    newFolder.classList.add('highlighted');
+    gvar.cinx = newFolder.dataset.sinx;  // new current session folder (tab)
+
+    newFolder.oncontextmenu = function(event) { // same as 'closeButton'
+        event.stopPropagation();
+        removeFolder(newFolder);
+    };
+
+    newFolder.onclick = function() {
+        // switch to "this" folder when user clicks it
         const allFolders = document.querySelectorAll('.folder');
-        newFolder.className = 'folder';
-        newFolder.textContent = fldrname.substr(fldrname.lastIndexOf(gvar.sep) + 1); // basename
-        newFolder.dataset.sinx = inx;  // store the NEW sinx value with this tab!
         allFolders.forEach(folder => {
             folder.classList.remove('highlighted');
         });
-        newFolder.classList.add('highlighted');
-        gvar.cinx = newFolder.dataset.sinx;  // new current session folder (tab)
-
-        newFolder.oncontextmenu = function(event) { // same as 'closeButton'
-            event.stopPropagation();
-            removeFolder(newFolder);
-        };
-
-        newFolder.onclick = function() {
-            // switch to "this" folder when user clicks it
-            const allFolders = document.querySelectorAll('.folder');
-            allFolders.forEach(folder => {
-                folder.classList.remove('highlighted');
-            });
-            // Add the 'highlighted' class to the clicked folder
-            this.classList.add('highlighted');
-            let x = newFolder.dataset.sinx;  // this tab's index!
-            gvar.cinx = x;  // new current session folder (tab)
-            JS.val("#FN", gvar.sefn[x]);
-            editor.setSession(gvar.sesn[x]);
-            editor.focus();
-            update_current_file(gvar.sefn[x]);
-            gvar.saved = gvar.sesn[x].getUndoManager().isClean();
-        };
-        // Add a close button to the folder
-        const closeButton = document.createElement('span');
-        closeButton.className = 'close-btn';
-        closeButton.textContent = '×';
-        closeButton.onclick = function(event) {
-            event.stopPropagation();
-            removeFolder(newFolder);
-        };
-        newFolder.appendChild(closeButton);
-        // Append the new folder to the container
-        container.appendChild(newFolder);
-    }
-
-    function removeFolder(folderElement) {
-        // eliminate folder
-        gvar.saved = gvar.sesn[folderElement.dataset.sinx].getUndoManager().isClean();
-        if (!gvar.saved) {
-            let r = confirm("Current File Not Saved!");
-            if (!r) return;
-        }
-        gvar.sesn[folderElement.dataset.sinx] = null; // free some memory?
-        folderElement.parentNode.removeChild(folderElement);
-        // access folder "first" and switch to it
-        const allFolders = document.querySelectorAll('.folder');
-        const count = allFolders.length;
-        if (count == 0) {
-            editor.setValue("");
-            JS.val("#FN", "");
-            update_current_file("");
-            return;  // last folder nothing to switch to
-        }
-        allFolders.forEach(folder => {
-            folder.classList.remove('highlighted');
-        });
-        const lastFolder = allFolders[allFolders.length - 1]; // last visible folder (right)
-        lastFolder.classList.add('highlighted');
-        let x = lastFolder.dataset.sinx;
+        // Add the 'highlighted' class to the clicked folder
+        this.classList.add('highlighted');
+        let x = newFolder.dataset.sinx;  // this tab's index!
         gvar.cinx = x;  // new current session folder (tab)
         JS.val("#FN", gvar.sefn[x]);
         editor.setSession(gvar.sesn[x]);
+        editor.focus();
         update_current_file(gvar.sefn[x]);
         gvar.saved = gvar.sesn[x].getUndoManager().isClean();
+    };
+    // Add a close button to the folder
+    const closeButton = document.createElement('span');
+    closeButton.className = 'close-btn';
+    closeButton.textContent = '×';
+    closeButton.onclick = function(event) {
+        event.stopPropagation();
+        removeFolder(newFolder);
+    };
+    newFolder.appendChild(closeButton);
+    // Append the new folder to the container
+    container.appendChild(newFolder);
+}
+
+function removeFolder(folderElement) {
+    // eliminate folder
+    gvar.saved = gvar.sesn[folderElement.dataset.sinx].getUndoManager().isClean();
+    if (!gvar.saved) {
+        let r = confirm("Current File Not Saved!");
+        if (!r) return;
     }
-                    /* End MDI folder management*/
+    gvar.sesn[folderElement.dataset.sinx] = null; // free some memory?
+    folderElement.parentNode.removeChild(folderElement);
+    // access folder "first" and switch to it
+    const allFolders = document.querySelectorAll('.folder');
+    const count = allFolders.length;
+    if (count == 0) {
+        editor.setValue("");
+        JS.val("#FN", "");
+        update_current_file("");
+        return;  // last folder nothing to switch to
+    }
+    allFolders.forEach(folder => {
+        folder.classList.remove('highlighted');
+    });
+    const lastFolder = allFolders[allFolders.length - 1]; // last visible folder (right)
+    lastFolder.classList.add('highlighted');
+    let x = lastFolder.dataset.sinx;
+    gvar.cinx = x;  // new current session folder (tab)
+    JS.val("#FN", gvar.sefn[x]);
+    editor.setSession(gvar.sesn[x]);
+    update_current_file(gvar.sefn[x]);
+    gvar.saved = gvar.sesn[x].getUndoManager().isClean();
+}
+                /* End MDI folder management*/
 
 
-    /* Open lastfile or file from command line */
-    setTimeout(openCmdFile, 800);
+/* Open lastfile or file from command line */
+setTimeout(openCmdFile, 800);
 
 /* * * * * * * * * * * * * Window Event Handlers * * * * * * * * * * * */
 
