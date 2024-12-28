@@ -6,7 +6,7 @@ __Uses "web app" technology via Python, pywebview, Ace Code Editor API__
 
 >![diagram](images/CSdiag.png "Conceptual")
 
-CodeScriber is _housed_ in a python script that communicates with the HTML (Gtk WebKit2 engine,
+CodeScriber is _hosted_ in a python script that communicates with HTML (Gtk WebKit2 engine,
 edgechromium for Windows) via the pywebview python module.
 This design provides access to both the Internet and the user's host machine.
 
@@ -48,7 +48,7 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 > - css
 > - html
 
-### Initial language models:
+### Default language modes:
 > _python, c, html, css, markdown, javascript, bash, sql, golang, json_
 Modify this list in `filemodes.js` - see **File Modes** under Options menu.
 

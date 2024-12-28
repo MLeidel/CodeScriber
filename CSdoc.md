@@ -8,11 +8,11 @@ For detailed information about "Ace" visit the
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
 
 CodeScriber is a desktop application. All the software resides on the local machine.  
-However, the "Ace" library is loaded from a CDN, and the AI feature does require an Internet
+However, the "Ace" library is loaded from cdnjs.cloudflare.com, and the AI feature does require an Internet
 connection. CodeScriber is written completely in scripting languages:  
-HTML, CSS, Javascript, Python3, making it almost completely hack-able.
+HTML, CSS, Javascript, Python3, making it almost completely available to modification.
 
-CodeScriber is _housed_ in a python script that communicates with Javascript (Gtk WebKit2 engine,  
+CodeScriber is _hosted_ in a python script that communicates with Javascript (Gtk WebKit2 engine,  
 edgechromium for Windows) via the pywebview python module. See diagram below.  
 This design allows access to the user's host machine and the use of HTML/Javascript for the GUI.
 
@@ -407,6 +407,20 @@ Make sure your executable is in your system path or supply it with a fullpath.
 A URL is opened in your system's default browser.
 
 The **font family** and **size** are set in the cs.css file under #editor. 
+
+---
+
+Some additional **editor options** can be found in the `cs.html` file (around line 150).  
+
+    // ACE CONFIGURE - set at startup
+    editor.$blockScrolling = Infinity;  // ace debug suggestion
+    editor.setShowPrintMargin(false);
+    editor.setHighlightActiveLine(false);
+    editor.session.setTabSize(4);
+    editor.session.setUseSoftTabs(true); // use spaces instead of tab chars
+    editor.session.setUseWrapMode(false);
+
+[more info...](https://ace.c9.io/#nav=howto "Ace Editor Options")
 
 ---
 
