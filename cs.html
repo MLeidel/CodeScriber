@@ -388,12 +388,14 @@ function getFN() {
 
 function openFile() {  // executes python/tkinter code
     window.pywebview.api.open_file().then(content => {
-      loadDocument(content);
+        if (content == "") return;
+        loadDocument(content);
     });
 }
 
 function save_File(content) {  // Save-As
     window.pywebview.api.save_file(content).then(content => {
+        if (content == "") return;
         openCmdFile();
     });
 }

@@ -283,11 +283,13 @@ This Markdown follows rules from the
 
 ---
 
-## Bookmarking
+## Bookmarking?
 
 To bookmark a line of code use **Ctrl-Click in the "gutter"** (where the line numbers are)  
 To travel through the bookmarks use **F3**.  
 To clear all bookmarks use **Shift-F3**.
+
+_Note: bookmarks use line numbers which will be **'off'** when lines are added or deleted._
 
 ---
 

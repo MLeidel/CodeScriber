@@ -182,7 +182,7 @@ def trim_trailing_spaces(code):
 def save_backup_file():
     ''' Check if the file exists '''
     if not os.path.isfile(current_file):
-        raise FileNotFoundError(f"The file {current_file} does not exist.")
+        return
     # Extract the directory and the base file name
     dir_name, base_name = os.path.split(current_file)
     # Get the current date and time
