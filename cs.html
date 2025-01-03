@@ -147,7 +147,14 @@ gvar.oFN = JS.doq("#FN"); // object for the filename input field
 console.clear();
 var editor = ace.edit("editor");
 
-// ACE CONFIGURE
+
+/**********************************************************************
+ *       ___            _____          ____
+ *      / _ |_______   / ___/__  ___  / _(_)__ ___ _________
+ *     / __ / __/ -_) / /__/ _ \/ _ \/ _/ / _ `/ // / __/ -_)
+ *    /_/ |_\__/\__/  \___/\___/_//_/_//_/\_, /\_,_/_/  \__/
+ *                                       /___/
+ */
 editor.$blockScrolling = Infinity;  // ace debug suggestion
 editor.setShowPrintMargin(false);
 editor.setHighlightActiveLine(false);
@@ -155,7 +162,7 @@ editor.session.setTabSize(4);
 editor.session.setUseSoftTabs(true); // use spaces instead of tab chars
 editor.session.setUseWrapMode(false);
 //
-editor.setTheme(theme);  // from options.ini & querystring
+editor.setTheme(theme);  // theme is set in options.ini
 
 // SEE CSS #editor FOR FONT STYLING //
 /////////////////////////////////////
@@ -281,6 +288,8 @@ editor.commands.addCommand({
     readOnly: false
     }
 });
+
+////////////////////////////////////////////////////////////////////////////////
 
 // the following toggles the 'save' button if the text is "dirty" or "saved"
 editor.on("input", function() {
