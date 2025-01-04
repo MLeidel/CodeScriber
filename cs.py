@@ -2,7 +2,7 @@
 cs.py CodeScriber Code Editor
 Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
-syntax highlight, themes, tabs, markdown, function list, Find File, Find/replace, macros, Zentags, and more.
+https://github.com/MLeidel/CodeScriber
 '''
 
 import sys

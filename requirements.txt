@@ -2,3 +2,5 @@ pywebview
 markdown
 ttkthemes
 psutil
+openai
+pyspellchecker
