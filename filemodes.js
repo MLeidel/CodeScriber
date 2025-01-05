@@ -15,6 +15,9 @@
         case "py":
             editor.session.setMode("ace/mode/python");
             break;
+        case "pyw":
+            editor.session.setMode("ace/mode/python");
+            break;
         case "js":
             editor.session.setMode("ace/mode/javascript");
             break;

@@ -48,10 +48,10 @@
                 <li><a onclick="mdCurrent();"   title="View HTML">Markdown</a></li>
                 <li><a onclick="findfile();"    title="search filesystem">Find File</a></li>
                 <li><a onclick="findfunc();"    title="Ctrl-Alt-F">Functions</a></li>
-                <li><em><a onclick="execI();"   id="ru1" title="Ctrl - ">Run 1</a></em></li>
-                <li><em><a onclick="execII();"  id="ru2" title="Ctrl = ">Run 2</a></em></li>
-                <li><em><a onclick="execIII();" id="ru3" title="Alt - ">Run 3</a></em></li>
-                <li><em><a onclick="execIV();"  id="ru4" title="Alt = ">Run 4</a></em></li>
+                <li><em><a onclick="execI();"   id="ru1" title="Ctrl-Alt-1">Run 1</a></em></li>
+                <li><em><a onclick="execII();"  id="ru2" title="Ctrl-Alt-2">Run 2</a></em></li>
+                <li><em><a onclick="execIII();" id="ru3" title="Ctrl-Alt-3">Run 3</a></em></li>
+                <li><em><a onclick="execIV();"  id="ru4" title="Ctrl-Alt-4">Run 4</a></em></li>
             </ul>
         </li>
         <li>
@@ -216,6 +216,35 @@ editor.commands.addCommand({
     bindKey: {win: "Ctrl-Alt-s", mac: "Command-Alt-s"},
     exec: function(editor) {
         getWords();
+    }
+});
+
+editor.commands.addCommand({
+    name: "execXternals1",
+    bindKey: {win: "Ctrl-Alt-1", mac: "Command-Alt-1"},
+    exec: function(editor) {
+        execI();
+    }
+});
+editor.commands.addCommand({
+    name: "execXternals2",
+    bindKey: {win: "Ctrl-Alt-2", mac: "Command-Alt-2"},
+    exec: function(editor) {
+        execII();
+    }
+});
+editor.commands.addCommand({
+    name: "execXternals3",
+    bindKey: {win: "Ctrl-Alt-3", mac: "Command-Alt-3"},
+    exec: function(editor) {
+        execIII();
+    }
+});
+editor.commands.addCommand({
+    name: "execXternals4",
+    bindKey: {win: "Ctrl-Alt-4", mac: "Command-Alt-4"},
+    exec: function(editor) {
+        execIV();
     }
 });
 
@@ -909,12 +938,12 @@ setTimeout(openCmdFile, 800);
 
 /* * * * * * * * * * * * * Window Event Handlers * * * * * * * * * * * */
 
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        event.preventDefault();
-        exitApp(); // close application
-    }
-  });
+// window.addEventListener('keydown', function(event) {
+//     if (event.key === 'Escape') {
+//         event.preventDefault();
+//         exitApp(); // close application
+//     }
+//   });
 
 window.addEventListener('keydown', function(event) {
   if ((event.ctrlKey || event.metaKey) && event.key === 'q') {
@@ -944,6 +973,7 @@ window.addEventListener('keydown', function(event) {
   }
 });
 
+// enclosure tags as defined in tags.js
 window.addEventListener('keydown', function(event) {
   if ((event.ctrlKey || event.metaKey) && (event.key >= 0 && event.key < 10)) {
     event.preventDefault();
@@ -955,34 +985,6 @@ window.addEventListener('keydown', function(event) {
     gvar.last_pst_tag = pst_tag;
   }
 });
-
-/* KB handlers for run1 - run4 */
-
-window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === '-') {
-    event.preventDefault();
-    execI();
-  }
-});
-window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === '=') {
-    event.preventDefault();
-    execII();
-  }
-});
-window.addEventListener('keydown', function(event) {
-  if (event.altKey && event.key === '-') {
-    event.preventDefault();
-    execIII();
-  }
-});
-window.addEventListener('keydown', function(event) {
-  if (event.altKey && event.key === '=') {
-    event.preventDefault();
-    execIV();
-  }
-});
-
 
 window.addEventListener('keydown', function(event) {
   if (event.altKey && event.ctrlKey && event.key === 'f') {

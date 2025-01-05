@@ -152,10 +152,6 @@ __Additional Hotkeys:__
 		<td>Display enclosure keys</td>
 	</tr>
 	<tr>
-		<td><b>Esc</b></td>
-		<td>Quit</td>
-	</tr>
-	<tr>
 		<td><b>Ctrl-Q</b></td>
 		<td>Quit</td>
 	</tr>
@@ -177,20 +173,19 @@ __Additional Hotkeys:__
 		<td>Repeat last text enclosure</td>
 	</tr>
 	<tr>
-		<td><b>Ctrl -</b></td>
+		<td><b>Ctrl-Alt-1</b></td>
 		<td>Run 1 (defined in options.ini)</td>
 	</tr>
 	<tr>
-		<td><b>Ctrl =</b></td>
+		<td><b>Ctrl-Alt-2</b></td>
 		<td>Run 2 (defined in options.ini)</td>
 	</tr>
 	<tr>
-	<tr>
-		<td><b>Alt -</b></td>
+		<td><b>Ctrl-Alt-3</b></td>
 		<td>Run 3 (defined in options.ini)</td>
 	</tr>
 	<tr>
-		<td><b>Alt =</b></td>
+		<td><b>Ctrl-Alt-4</b></td>
 		<td>Run 4 (defined in options.ini)</td>
 	</tr>
 	<tr>
@@ -470,6 +465,8 @@ Changes will not take effect until CodeScriber is re-started.
 - **Re-Launch**  
   Closes and re-opens CodeScriber activating any changes to the Options
 
+- **Wrapping**
+  Toggles word wrap for current session (tab)
 
 ## Note for Windows Users
 
