@@ -163,10 +163,11 @@ editor.setTheme(theme);  // theme is set in options.ini
 // SEE CSS #editor FOR FONT STYLING
 editor.$blockScrolling = Infinity;  // ace debug suggestion
 editor.setShowPrintMargin(false);
-editor.setHighlightActiveLine(false);
 editor.session.setTabSize(4);
 editor.session.setUseSoftTabs(true); // use spaces instead of tab chars
 editor.session.setUseWrapMode(gvar.wrap);
+editor.setOption("highlightActiveLine", false); // or false
+
 
 editor.setOptions({
     enableBasicAutocompletion: true,
@@ -1005,24 +1006,21 @@ window.addEventListener('keydown', function(event) {
 
     /* File Drag & Drop Code */
 
-    const dropArea = JS.doq('#FN'); // file input field
+    const dropArea = JS.doq('#editor'); // Ace editor
 
     dropArea.addEventListener('dragover', (event) => {
         event.preventDefault();
         event.stopPropagation();
-        dropArea.style.borderColor = '#333';
     });
 
     dropArea.addEventListener('dragleave', (event) => {
         event.preventDefault();
         event.stopPropagation();
-        dropArea.style.borderColor = '#ccc';
     });
 
     dropArea.addEventListener('drop', (event) => {
         event.preventDefault();
         event.stopPropagation();
-        dropArea.style.borderColor = '#ccc';
         const files = event.dataTransfer.files;
         if (files.length > 0) {
             DropOpenFile(files[0].name)
