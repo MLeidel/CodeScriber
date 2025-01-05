@@ -1,21 +1,23 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-	<title>CodeScriber</title> <!-- CodeScriber 2.0 -->
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>CodeScriber 2.5</title> <!-- CodeScriber 2.5 -->
 
-  <link rel="stylesheet" href="cs.css" />
+<link rel="stylesheet" href="cs.css" />
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"
-    type="text/javascript" charset="utf-8"></script>
-<!--
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ext-language_tools.js"
-    type="text/javascript" charset="utf-8"></script>
--->
-  <script src="tags.js"></script> <!-- run names, enclosures, Zen tags -->
-  <script src="myJS.js"></script> <!-- A JQuery-ish library -->
-  <script src="filemodes.js"></script> <!-- Ace syntax theme library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.37.1/ace.min.js"
+    integrity="sha512-39pMYj4We1YvsGIsTFctdfIdkqFG09F5lVUM4NzwUgE20xuBHdPWI2Ra4AShMX4qMdwTN2vfb9ATOdkoMU512Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.37.1/ext-language_tools.min.js"
+    integrity="sha512-WPFoecnG6+TbAah6uWLOr+/36IDeXpa9klWh+SFWRzQeVC6x/n7rzODbzctFYL7rqxaDK2pbKj3psH7sws70Ng=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="tags.js"></script> <!-- run names, enclosures, Zen tags -->
+<script src="myJS.js"></script> <!-- A JQuery-ish library -->
+<script src="filemodes.js"></script> <!-- Ace syntax theme library -->
 
 </head>
 
@@ -63,6 +65,8 @@
                         title="Edit File Modes">File Modes</a></li>
                 <li><a onclick="relaunch();"
                         title="re-launch CodeScriber">Re-Launch</a></li>
+                <li><a onclick="toggleWrap();"
+                        title="Toggle the Wrap mode">Wrapping</a></li>
             </ul>
         </li>
         <li>
@@ -126,6 +130,7 @@ var filename = "";
 var gvar = {
     oFN : null,
     saved : true,
+    wrap: false,
     last_pre_tag : "",
     last_pst_tag : "",
     sep: "/",
@@ -144,34 +149,30 @@ gvar.abmk = Array(gvar.rows).fill(0).map(() => Array(gvar.cols).fill(0));
 
 gvar.oFN = JS.doq("#FN"); // object for the filename input field
 
-console.clear();
-var editor = ace.edit("editor");
+var editor = ace.edit("editor"); // the editor instance
 
-
-/**********************************************************************
+/*
  *       ___            _____          ____
  *      / _ |_______   / ___/__  ___  / _(_)__ ___ _________
  *     / __ / __/ -_) / /__/ _ \/ _ \/ _/ / _ `/ // / __/ -_)
  *    /_/ |_\__/\__/  \___/\___/_//_/_//_/\_, /\_,_/_/  \__/
  *                                       /___/
  */
+//
+editor.setTheme(theme);  // theme is set in options.ini
+// SEE CSS #editor FOR FONT STYLING
 editor.$blockScrolling = Infinity;  // ace debug suggestion
 editor.setShowPrintMargin(false);
 editor.setHighlightActiveLine(false);
 editor.session.setTabSize(4);
 editor.session.setUseSoftTabs(true); // use spaces instead of tab chars
-editor.session.setUseWrapMode(false);
-//
-editor.setTheme(theme);  // theme is set in options.ini
+editor.session.setUseWrapMode(gvar.wrap);
 
-// SEE CSS #editor FOR FONT STYLING //
-/////////////////////////////////////
-// //         FUTURE           // //
-// editor.setOptions({
-//     enableBasicAutocompletion: true,
-//     enableSnippets: false,
-//     enableLiveAutocompletion: false
-// });
+editor.setOptions({
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true,
+    enableSnippets: false
+});
 
 ///////// ADD (ACE) CUSTOM HOT KEYS //////////
 editor.commands.addCommand({
@@ -809,6 +810,12 @@ function gogpt(content) {
         const text = selectedText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()@"?]/g, " ");
         doSpellCheck(text); // fire off the promise to python
       }
+    }
+
+    function toggleWrap() {
+        // user selected to toggle wrap mode
+        gvar.wrap = !gvar.wrap;
+        editor.session.setUseWrapMode(gvar.wrap);
     }
 
                 /* MDI Folder management
