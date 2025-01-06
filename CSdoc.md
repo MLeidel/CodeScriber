@@ -157,7 +157,7 @@ __Additional Hotkeys:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-E</b></td>
-		<td>Set up a text encloser</td>
+		<td>Set up temporary text encloser</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-G</b></td>
@@ -210,9 +210,11 @@ __Additional Hotkeys:__
 	</tr>
 </table>
 
-_These event keys are coded in the cs.html file._
+_All event keys are coded in the cs.html file._
 
-- Right-Click on file tab will close tab.
+- Ctrl-Alt-H displays all keyboard hot keys except Ctrl-0..9 text enclosures
+
+- Right-Click on file tab closes tab.
 
 - Right-Click in editor opens contextmenu.
 
@@ -477,30 +479,29 @@ This is because pywebview uses Edge components for rendering.
 
 ## Running CodeScriber
 
-Example:
+There's always more than one way, but here are some suggestions.
 
 <code>
 $>python3 cs.py  
-$>python3 cs.py fileToOpen.c  
+$>python3 cs.py fileToOpen
 </code>
 
-or with a command file:  
+bash file:  
 <code>
->\# cs  
 >cd /home/user/ ... /codescriber  
->python3 cs.py $1 &
+>python3 cs.py $1 &  
+**or**  
+>python3 /home/user/ ... /CodeScriber/cs.py $1 &  
 </code>
+---
 
-><code>
->$>cs  
->$>cs fileToOpen.c
-></code>
+**The geometry of CodeScriber's window is saved.**
 
-The geometry of CodeScriber's window dimensions are remembered.
+---
 
 ### on Windows
 
-Suggest to use `C:\codescriber\` as location for files.
+Suggest to use `C:\codescriber\` for location.
 
 Create a CMD command file, like `cs.cmd` that contains:    
 `pythonw.exe cs.py`

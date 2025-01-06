@@ -251,7 +251,7 @@ editor.commands.addCommand({
 
 // ZenTags
 editor.commands.addCommand({
-    name: 'myCommand',
+    name: 'zenCommand',
     bindKey: {win: 'Alt-Z', mac: 'Alt-Z'},
     exec: function(editor) {
       zentag();
@@ -319,6 +319,80 @@ editor.commands.addCommand({
     readOnly: false
     }
 });
+
+// Non editor events
+
+editor.commands.addCommand({
+    name: "exitApp",
+    bindKey: {win: "Ctrl-Q", mac: "Command-Q"},
+    exec: function(editor) {
+        exitApp();
+    }
+});
+editor.commands.addCommand({
+    name: "openRecent",
+    bindKey: {win: "Ctrl-R", mac: "Command-R"},
+    exec: function(editor) {
+        openRecent();
+    }
+});
+editor.commands.addCommand({
+    name: "openFile",
+    bindKey: {win: "Ctrl-O", mac: "Command-O"},
+    exec: function(editor) {
+        openFile();
+    }
+});
+editor.commands.addCommand({
+    name: "newDocument",
+    bindKey: {win: "Ctrl-N", mac: "Command-N"},
+    exec: function(editor) {
+        newDocument();
+    }
+});
+editor.commands.addCommand({
+    name: "Functions",
+    bindKey: {win: "Ctrl-Alt-F", mac: "Command-Alt-F"},
+    exec: function(editor) {
+        findfunc();
+    }
+});
+editor.commands.addCommand({
+    name: "promtAI",
+    bindKey: {win: "Ctrl-G", mac: "Command-G"},
+    exec: function(editor) {
+        gogpt();
+    }
+});
+editor.commands.addCommand({
+    name: "quickSaveDoc",
+    bindKey: {win: "Ctrl-S", mac: "Command-S"},
+    exec: function(editor) {
+        quicksaveDocument();
+    }
+});
+editor.commands.addCommand({
+    name: "saveAsDoc",
+    bindKey: {win: "Ctrl-Shift-S", mac: "Command-Shift-S"},
+    exec: function(editor) {
+        save();
+    }
+});
+editor.commands.addCommand({
+    name: "viewZenTags",
+    bindKey: {win: "Alt-X", mac: "Alt-X"},
+    exec: function(editor) {
+        viewZenTags();
+    }
+});
+editor.commands.addCommand({
+    name: "viewEnclosures",
+    bindKey: {win: "Ctrl-Alt-X", mac: "Command-Alt-X"},
+    exec: function(editor) {
+        viewStags();
+    }
+});
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -545,11 +619,14 @@ function getRunMenuNames() {
     });
 }
 
-function gogpt(content) {
+function gogpt() {
     /* Ctrl-g => get an openAI response to this prompt
             and load it into a 'new' tab */
+    const r = confirm("Process prompt for AI assistance?");
+    if (!r) return;  // user hit 'Cancel' ?
+    const prompt = editor.getValue();
     editor.setValue("Please wait one moment . . .");
-    window.pywebview.api.gptAccess(content).then(content => {
+    window.pywebview.api.gptAccess(prompt).then(content => {
       loadDocument(content);
     });
 }
@@ -937,42 +1014,8 @@ function removeFolder(folderElement) {
 /* Open lastfile or file from command line */
 setTimeout(openCmdFile, 800);
 
-/* * * * * * * * * * * * * Window Event Handlers * * * * * * * * * * * */
 
-// window.addEventListener('keydown', function(event) {
-//     if (event.key === 'Escape') {
-//         event.preventDefault();
-//         exitApp(); // close application
-//     }
-//   });
-
-window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === 'q') {
-      event.preventDefault();
-      exitApp(); // close application
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if ( (event.ctrlKey || event.metaKey) && event.key === 'r' ) {
-      event.preventDefault();
-      openRecent(); // show recent file list
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if ( (event.ctrlKey || event.metaKey) && event.key === 'o' ) {
-      event.preventDefault();
-      openFile(); // open file in current window
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if ( (event.ctrlKey || event.metaKey) && event.key === 'n' ) {
-      event.preventDefault();
-      newDocument(); // open new blank tab
-  }
-});
+/* * * * *  * Non-Ace Window Event Handlers that are not handled by the Ace API * * * * * */
 
 // enclosure tags as defined in tags.js
 window.addEventListener('keydown', function(event) {
@@ -984,23 +1027,6 @@ window.addEventListener('keydown', function(event) {
     tagSurround(pre_tag, pst_tag)  // bold for MD
     gvar.last_pre_tag = pre_tag;  // save for Alt-W repeat last
     gvar.last_pst_tag = pst_tag;
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if (event.altKey && event.ctrlKey && event.key === 'f') {
-    event.preventDefault();
-    findfunc(); // goto a selected a function
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === 'g') {
-    event.preventDefault();
-    const r = confirm("Process prompt for AI assistance?");
-    if (!r) return;  // user hit 'Cancel' ?
-    const pt = editor.getValue();
-    gogpt(pt); // process a GPT query using current document
   }
 });
 
@@ -1026,34 +1052,6 @@ window.addEventListener('keydown', function(event) {
             DropOpenFile(files[0].name)
         }
     });
-
-window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === 's') {
-    event.preventDefault();
-    quicksaveDocument();  // fast save
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 's') {
-    event.preventDefault();
-    save();  // filedialog save (as)
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if (event.altKey && event.key === 'x') {
-    event.preventDefault();
-    viewZenTags();  // display all Zen tag names
-  }
-});
-
-window.addEventListener('keydown', function(event) {
-  if (event.ctrlKey && event.altKey && event.key === 'x') {
-    event.preventDefault();
-    viewStags();  // display all 10 enclosures keys
-  }
-});
 
 window.addEventListener('beforeunload', function (e) {
     if (gvar.saved === false)
