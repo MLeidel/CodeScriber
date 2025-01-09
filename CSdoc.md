@@ -7,12 +7,12 @@ CodeScriber uses the "Ace" Code Editor - a Javascript library.
 For detailed information about "Ace" visit the 
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
 
-CodeScriber is a desktop application. All the software resides on the local machine.  
+CodeScriber is a desktop application. All the software runs on the local machine.  
 However, the "Ace" library is loaded from cdnjs.cloudflare.com, and the AI feature does require an Internet
 connection. CodeScriber is written completely in scripting languages:  
 HTML, CSS, Javascript, Python3, making it almost completely available to modification.
 
-CodeScriber is _hosted_ in a python script that communicates with Javascript (Gtk WebKit2 engine,  
+The editor resides in a python script that communicates with Javascript (Gtk WebKit2 engine,  
 edgechromium for Windows) via the pywebview python module. See diagram below.  
 This design allows access to the user's host machine and the use of HTML/Javascript for the GUI.
 
@@ -224,24 +224,25 @@ _All event keys are coded in the cs.html file._
 
 The file `tags.js` holds some tags for use with the Zen tag insert feature (Alt-Z.)
 
-To use: type in the "command" word and hit Alt-Z. The word is replaced by "output".
+To use: type in the "command" word and hit Alt-Z. The word is replaced by the code 
+associated with the command.
 
-Use the Options menu **Tags** to view the `tags.js` file and modify it.
+Use the Options menu **Tags** to view and modify the `tags.js` file.
 
-<code>
-  const atags = {<br>
-  	"command": "output",<br>
-  	"command": "output",<br>
-  	"command": "output",<br>
-  };<br>
-</code>
+        const atags = {
+          "command": "output",
+          "command": "output",
+          "command": "output",
+        };
 
-Example:  
-<code>
-`"input": "<input type='' id='' value='' />",`
-</code><br>
+
+_Example_  
+in tags.js enter a new item to the json array:
+
+        "input": "<input type='' id='' value='' />",
+
 In the editor, type __input__ and press **Alt-Z**  
-'input' is replaced by `<input type='' id='' value='' />`
+`input` is replaced by `<input type='' id='' value='' />`
 
 These JSON strings can get long and complicated. To assist in this endeavor use the program **fzen.py**.
 This program will reformat any formated code you've copied into the clipboard, ask for a tag name, and then

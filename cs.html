@@ -20,7 +20,10 @@
 <script src="filemodes.js"></script> <!-- Ace syntax theme library -->
 
 </head>
-
+<!--
+Please practice care when modifing any code in this file.
+Always save a backup copy before making any changes.
+-->
 <body>
 
 <!-- <img src="images/KO.gif" id="LOAD" style="display:none;position:absolute;top:5;left:5;" /> -->
@@ -625,9 +628,10 @@ function gogpt() {
     const r = confirm("Process prompt for AI assistance?");
     if (!r) return;  // user hit 'Cancel' ?
     const prompt = editor.getValue();
-    editor.setValue("Please wait one moment . . .");
+    editor.setValue("one moment . . .");
     window.pywebview.api.gptAccess(prompt).then(content => {
-      loadDocument(content);
+        content = prompt + "\n------------\n" + content;
+        loadDocument(content);
     });
 }
 /* -------------------- End Javascript pywebview API functions ------------------------- */
@@ -821,10 +825,6 @@ function gogpt() {
         }
     }
 
-    // function pastetext() {
-    //     get_from_clipboard();  // ctrl-v
-    // }
-
     function convertHTML(str) {
         // convert symbols for viewStags
         const symbols = {
@@ -888,11 +888,11 @@ function gogpt() {
     function checkSaved() {
         // color the filepath field yellow if not saved
         if (gvar.saved === false) {
-            gvar.oFN.style.backgroundColor = "#FFE4B5";
+            gvar.oFN.style.backgroundColor = "#d8d8a0";
         } else  {
             gvar.oFN.style.backgroundColor = "#A9A9A9";
         }
-        setTimeout(checkSaved, 800);
+        setTimeout(checkSaved, 400);
     }
     checkSaved(); // start up the saved checker
 
