@@ -8,8 +8,11 @@ For detailed information about "Ace" visit the
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
 
 CodeScriber is a desktop application. All the software runs on the local machine.  
-However, the "Ace" library is loaded from cdnjs.cloudflare.com, and the AI feature does require an Internet
-connection. CodeScriber is written completely in scripting languages:  
+However, the "Ace" library is loaded from cdnjs.cloudflare.com,  
+and the AI feature does require an Internet
+connection.  
+
+CodeScriber is written completely in scripting languages:  
 HTML, CSS, Javascript, Python3, making it almost completely available to modification.
 
 The editor resides in a python script that communicates with Javascript (Gtk WebKit2 engine,  
@@ -116,7 +119,7 @@ findAll - Ctrl-Alt-K<br>
 </td>
 </tr></table>
 
-__Additional Hotkeys:__
+__Additional Operation:__
 
 <table border=1 cellspacing=0 cellpadding=4>
 	<tr>
