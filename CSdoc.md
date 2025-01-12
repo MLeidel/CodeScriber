@@ -131,7 +131,7 @@ __Additional Operation:__
 		<td>Save-As</td>
 	</tr>
 	<tr>
-		<td><b>Ctrl-Alt-S</b></td>
+		<td><b>Ctrl-Alt-C</b></td>
 		<td>Spell Check Selected</td>
 	</tr>
 	<tr>
@@ -290,7 +290,7 @@ To bookmark a line of code use **Ctrl-Click in the "gutter"** (where the line nu
 To travel through the bookmarks use **F3**.  
 To clear all bookmarks use **Shift-F3**.
 
-_Note: bookmarks use line numbers which will be **'off'** when lines are added or deleted._
+_Note: bookmarks will be incorrect when lines are added or deleted._
 
 ---
 
@@ -313,7 +313,7 @@ In a few seconds your response will fill the page.
 
 ## Spell Check
 
-To spell check some text first select the text. Then hit Ctrl-Alt-S. You will get a list of
+To spell check some text first select the text. Then hit Ctrl-Alt-C. You will get a list of
 miss-spelled words and possible corrections.
 
 ---
