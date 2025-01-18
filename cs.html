@@ -948,7 +948,7 @@ function addFolder(fldrname, inx) {
         event.stopPropagation();
         removeFolder(newFolder);
     };
-
+    // click on a folder
     newFolder.onclick = function() {
         // switch to "this" folder when user clicks it
         const allFolders = document.querySelectorAll('.folder');

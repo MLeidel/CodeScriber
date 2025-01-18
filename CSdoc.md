@@ -204,6 +204,10 @@ __Additional Operation:__
 		<td>New file</td>
 	</tr>
 	<tr>
+		<td><b>F1</b></td>
+		<td>Command Pallete</td>
+	</tr>
+	<tr>
 		<td><b>F3</b></td>
 		<td>Next Bookmark</td>
 	</tr>

@@ -135,6 +135,7 @@ def updateRecents(item):
         newRecent(item)  # put item at the top of list
     saveRecent()  # write back the recent file list
 
+
 def select_file():
     ''' Prompt to open a file using desktop openFileDialog '''
     root = ThemedTk(theme="black")  # provides a theme for dialogs
@@ -143,12 +144,13 @@ def select_file():
     file_path = filedialog.askopenfilename(initialdir=current_path,
                                            initialfile=os.path.basename(current_file),
                                            title="Open file",
-                                           filetypes=(("all files", "*"),
-                                                     ("Python", "*.py"),
-                                                     ("C", "*.c"),
-                                                     ("h", "*.h"),
-                                                     ("HTML", "*.html"),
-                                                     ("CSS", "*.css")))
+                                           filetypes=(("all files", "*.*"),
+                                                      ("Python", "*.py *.pyw"),
+                                                      ("C/C++", "*.c *.cpp"),
+                                                      ("h", "*.h"),
+                                                      ("Javascript", "*.js"),
+                                                      ("HTML", "*.html"),
+                                                      ("CSS", "*.css")))
     root.destroy()  # no longer needed
     if file_path:
         return file_path  # here is problem - changes current_file!!!!!!
@@ -196,8 +198,7 @@ def save_backup_file():
     shutil.copy2(current_file, backup_file_path)
 
 def gptCode(key, model, query):
-    ''' method to access OpenAI API
-        Taken from gptlib.py module '''
+    ''' method to access OpenAI API '''
     try:
         client = OpenAI(
         api_key = os.environ.get(key)  # openai API
@@ -208,7 +209,7 @@ def gptCode(key, model, query):
     try:
         response = client.chat.completions.create(
           model=model,
-          messages=[{"role": "user", "content": "You are a helpful coding assistant."},
+          messages=[{"role": "user", "content": "You are a helpful computer coding assistant."},
               {"role": "user", "content" : query.strip()}
           ]
         )
@@ -220,7 +221,7 @@ def gptCode(key, model, query):
 #
 #                    P Y W E B V I E W
 #
-#    Javascript pywebview API functions connect JAVASCRIPT
+#    Javascript pywebview API functions connect to JAVASCRIPT
 #
 #
 
@@ -277,9 +278,9 @@ class Api:
         file_path = filedialog.asksaveasfilename(initialdir=current_path,
                                                  defaultextension=".txt",
                                                  initialfile=os.path.basename(current_file),
-                                                 filetypes=(("all files", "*"),
-                                                            ("Python", "*.py"),
-                                                            ("C", "*.c"),
+                                                 filetypes=(("all files", "*.*"),
+                                                            ("Python", "*.py *.pyw"),
+                                                            ("C/C++", "*.c *.cpp"),
                                                             ("h", "*.h"),
                                                             ("Javascript", "*.js"),
                                                             ("HTML", "*.html"),
