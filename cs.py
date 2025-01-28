@@ -32,7 +32,7 @@ rec = []  # recent file list GLOBAL
 srec = "" # csv string for javascript recent file list
 
 opts = [] # storeing options from the options.ini file
-opts = iniproc.read(optionsFileName,'future1',
+opts = iniproc.read(optionsFileName,'ailog',
                                    'backup',
                                    'terminal',
                                    'filemanager',
@@ -197,7 +197,7 @@ def save_backup_file():
     # Copy the original file to the backup file
     shutil.copy2(current_file, backup_file_path)
 
-def gptCode(key, model, query):
+def gptCode(key: str, model: str, query: str) -> str:
     ''' method to access OpenAI API '''
     try:
         client = OpenAI(
@@ -332,11 +332,26 @@ class Api:
                 return file.read()
         return ''  # File Not Found or no previous on startup
 
-    def gptAccess(self, content):
-        ''' Access OpenAI and return query response '''
+    def gptAccess(self, content) -> str:
+        ''' User has hit Ctrl-G with either an AI prompt or the word "log".
+            Access OpenAI and return query response
+            or, return ailog.md if "log" was requested
+            Also write response to the log if option is turned on. '''
+        if content.lower().strip() == "log":
+            with open("ailog.md", 'r', encoding='utf-8') as fin:
+                return fin.read()
         key = opts[16]  # openai User Key
         mod = opts[17]  # model to use
         res = gptCode(key, mod, content)
+        if opts[0].lower() == "yes":
+            timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            with open("ailog.md", "a", encoding='utf-8') as fout:
+                fout.write(timestamp_str + "\n\n")
+                fout.write(res + "\n\n---\n\n")
+            with open("ailog.md", 'r', encoding='utf-8') as file:
+                htmlText = markdown.markdown(file.read())
+            with open("ailog.html", 'w', encoding='utf-8') as file:
+                file.write(htmlText)
         return res
 
     def execMarkdown(self):

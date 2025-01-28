@@ -1,0 +1,75 @@
+<p>2025-01-27 19:57:59</p>
+<p>Sure! Here's a simple Python script that calculates the factorial of a number:</p>
+<p>```python
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)</p>
+<p>number = 5
+result = factorial(number)
+print(f"The factorial of {number} is {result}")
+```</p>
+<p>When you run this code, it will output:</p>
+<p><code>The factorial of 5 is 120</code></p>
+<hr />
+<p>2025-01-27 19:58:35</p>
+<p>Sure! Here's a simple Python script that calculates and prints the Fibonacci sequence up to a specified number of terms:</p>
+<pre><code>    def fibonacci(n):
+        sequence = []
+        a, b = 0, 1
+        while len(sequence) &lt; n:
+            sequence.append(a)
+            a, b = b, a + b
+        return sequence
+
+    number_of_terms = 10
+    fib_sequence = fibonacci(number_of_terms)
+    print(f"Fibonacci sequence up to {number_of_terms} terms: {fib_sequence}")
+</code></pre>
+<p><strong>Output:</strong></p>
+<p><code>Fibonacci sequence up to 10 terms: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></p>
+<p>This script defines a <code>fibonacci</code> function that generates the Fibonacci sequence up to <code>n</code> terms. It then calls this function with <code>number_of_terms</code> set to 10 and prints the resulting sequence.</p>
+<hr />
+<p>2025-01-27 19:59:34</p>
+<p>Certainly! Here's a simple Python script that generates a list of the first 10 Fibonacci numbers and prints them:</p>
+<p><code>
+def generate_fibonacci(n):
+    """Generate a list of the first n Fibonacci numbers."""
+    fib_sequence = []
+    a, b = 0, 1
+    while len(fib_sequence) &lt; n:
+        fib_sequence.append(a)
+        a, b = b, a + b
+    return fib_sequence</p>
+<p># Number of Fibonacci numbers to generate
+count = 10
+fibonacci_numbers = generate_fibonacci(count)</p>
+<p>print(f"The first {count} Fibonacci numbers are:")
+print(fibonacci_numbers)
+</code></p>
+<p><strong>Output:</strong></p>
+<p><code>The first 10 Fibonacci numbers are:
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></p>
+<p><strong>Explanation:</strong></p>
+<ol>
+<li>
+<p><strong>Function <code>generate_fibonacci(n)</code></strong>:</p>
+<ul>
+<li>Initializes an empty list <code>fib_sequence</code> to store Fibonacci numbers.</li>
+<li>Uses two variables <code>a</code> and <code>b</code> starting at 0 and 1, the first two numbers in the Fibonacci sequence.</li>
+<li>Appends <code>a</code> to the list and then updates <code>a</code> and <code>b</code> to the next two numbers in the sequence.</li>
+<li>Continues this process until the list contains <code>n</code> numbers.</li>
+</ul>
+</li>
+<li>
+<p><strong>Generating and Printing</strong>:</p>
+<ul>
+<li>Sets <code>count</code> to 10, meaning we want the first 10 Fibonacci numbers.</li>
+<li>Calls the <code>generate_fibonacci</code> function with <code>count</code> and stores the result in <code>fibonacci_numbers</code>.</li>
+<li>Prints the list of Fibonacci numbers.</li>
+</ul>
+</li>
+</ol>
+<p>You can run this script in any Python environment to see the output. Feel free to modify the <code>count</code> variable to generate a different number of Fibonacci numbers!</p>
+<hr />
