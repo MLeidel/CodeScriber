@@ -120,8 +120,8 @@ def newRecent(item):
             pass #  already at top of list
     else:
         n = len(rec)          # put new item into to list
-        if n > 5:             # keep the list to 6 or less items (COULD BE A VARIABLE)
-            rec.pop(n-1)        # remove the bottom item (0 relative)
+        if n > 6:             # keep the list to 7 or less items (COULD BE A VARIABLE)
+            rec.pop(n-1)      # remove the bottom item (0 relative)
         rec.insert(0, item)   # put the new item at the top
 
 def updateRecents(item):
