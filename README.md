@@ -49,7 +49,7 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 > - html
 
 ### Default language modes:
-> _python, c, html, css, markdown, javascript, bash, sql, golang, json_
+> _python, c, html, css, markdown, javascript, bash, sql, golang, json_  
 Modify this list in `filemodes.js` - see **File Modes** under Options menu.
 
 ![CodeScriber](images/CS1.png "CodeScriber")

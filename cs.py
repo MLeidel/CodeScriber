@@ -120,7 +120,7 @@ def newRecent(item):
             pass #  already at top of list
     else:
         n = len(rec)          # put new item into to list
-        if n > 6:             # keep the list to 7 or less items (COULD BE A VARIABLE)
+        if n > 8:             # keep the list to 9 or less items (COULD BE A VARIABLE)
             rec.pop(n-1)      # remove the bottom item (0 relative)
         rec.insert(0, item)   # put the new item at the top
 
@@ -380,7 +380,10 @@ class Api:
             wp = windows_path(current_path)
             subprocess.call([opts[3], wp])
         else:
-            subprocess.call([opts[3], current_path])
+            fm = opts[3].split()
+            fm.append(current_path)
+            # subprocess.call([opts[3], current_path])
+            subprocess.call(fm)
 
     def execTerminal(self):
         ''' open the terminal specified in the options.ini
