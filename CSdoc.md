@@ -325,7 +325,7 @@ miss-spelled words and possible corrections.
 
 **CodeScriber options**
 
-    future1
+    ailog=yes
     backup=yes
     terminal=gnome-terminal --working-directory=
     filemanager=thunar
@@ -346,7 +346,7 @@ miss-spelled words and possible corrections.
 
 The Windows options.ini could look more like this:
 
-    future1
+    ailog=yes
     backup=yes
     terminal=wt -d
     filemanager=explorer.exe
@@ -365,32 +365,38 @@ The Windows options.ini could look more like this:
     nam3=GitHub
     nam4=Calculator
 
+
+**ailog**
+>Append OpenAI reponses to `ailog.md` **yes|no**
+
 **backup**
->Create a backup of opened files yes|no
+>Create a backup of opened files **yes|no**
 
 **terminal**
 >Enter your terminal preference and the option to  
-start at a specific working directory.
+start at a specific working directory.  
+Current path will be added as final argument.
 
 **filemanager**
->The name of your systems file manager executable file.
+>The name of your systems file manager executable file.  
+Current path will be added as final argument.
 
 **previous**
->yes|no Open last file at start-up.
+>Open last file at start-up **yes|no**
 
 **browser**
->The executable of the browser you wish to use.
-Default if you want to use your system default browser.
+>The executable of the browser you wish to use.  
+**Default** if you want to use your system default browser.
 
 **scope**
->Set the "root" in your file system that CodeScriber should use.
+>Set the _starting directory_ in your file system that CodeScriber should use.
 
 **openai**
 >Environment variable for your OpenAI key  
 [about OpenAI keys](https://platform.openai.com/settings/organization/api-keys "OpenAI keys")
 
 **model**
->The model to use for this chat compleation API  
+>The model to use for the OpenAI API  
 [about OpenAI models](https://platform.openai.com/docs/models "OpenAI")
 
 **run1 ... run2**
@@ -481,7 +487,7 @@ Changes will not take effect until CodeScriber is re-started.
 ## Note for Windows Users
 
 If you uninstall Microsoft Edge or any of its components, CodeScriber will not work.  
-This is because pywebview uses Edge components for rendering.
+This is because pywebview uses some Edge components for rendering.
 
 ---
 
