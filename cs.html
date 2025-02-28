@@ -51,6 +51,7 @@ Always save a backup copy before making any changes.
                 <li><a onclick="mdCurrent();"   title="View HTML">Markdown</a></li>
                 <li><a onclick="findfile();"    title="search filesystem">Find File</a></li>
                 <li><a onclick="findfunc();"    title="Ctrl-Alt-F">Functions</a></li>
+                <li><a onclick="deletebk();"    title="Remove backups in current dir">DEL bkups</a></li>
                 <li><em><a onclick="execI();"   id="ru1" title="Ctrl-Alt-1">Run 1</a></em></li>
                 <li><em><a onclick="execII();"  id="ru2" title="Ctrl-Alt-2">Run 2</a></em></li>
                 <li><em><a onclick="execIII();" id="ru3" title="Ctrl-Alt-3">Run 3</a></em></li>
@@ -506,10 +507,9 @@ function getFN() {
 }
 
 function openFile() {  // executes python/tkinter code
-    window.pywebview.api.open_file().then(content => {
-        if (content == "") return;
-        loadDocument(content);
-    });
+    // changed to load multiple docs at once
+    // uses openCmdFile to load docs
+    window.pywebview.api.open_file();
 }
 
 function save_File(content) {  // Save-As
@@ -560,6 +560,10 @@ function execTerm() {
 
 function execBrowser() {
     window.pywebview.api.execWebbrowser();  // open current in browser
+}
+
+function deletebk() {
+    window.pywebview.api.delete_backups();
 }
 
 function execI() {

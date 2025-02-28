@@ -4,15 +4,26 @@ Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
 https://github.com/MLeidel/CodeScriber
 '''
+        # from tkinter import messagebox
+        # messagebox.showerror("Error", "Error message")
+        # messagebox.showwarning("Warning", "Warning message")
+        # messagebox.showinfo("Information", "Informative message")
+        # messagebox.askokcancel("Message title", "Message content")
+        # messagebox.askretrycancel("Message title", "Message content")
+        #     ok, yes, retry returns TRUE
+        #     no, cancel returns FALSE
 
 import sys
 import os
+import glob
+import time
 import subprocess
 import webbrowser
 import platform
 import shutil
 from tkinter.ttk import *
 from tkinter import filedialog
+from tkinter import messagebox
 from datetime import datetime
 from ttkthemes import ThemedTk
 from openai import OpenAI
@@ -136,14 +147,14 @@ def updateRecents(item):
     saveRecent()  # write back the recent file list
 
 
-def select_file():
+def select_files():
     ''' Prompt to open a file using desktop openFileDialog '''
     root = ThemedTk(theme="black")  # provides a theme for dialogs
     root.configure(bg="dimgray")    # and keeps dialog
     root.geometry(window_coord())   # on current monitor
-    file_path = filedialog.askopenfilename(initialdir=current_path,
-                                           initialfile=os.path.basename(current_file),
-                                           title="Open file",
+    file_paths = filedialog.askopenfilenames(initialdir=current_path,
+                                           # initialfile=os.path.basename(current_file),
+                                           title="Open files",
                                            filetypes=(("all files", "*.*"),
                                                       ("Python", "*.py *.pyw"),
                                                       ("C/C++", "*.c *.cpp"),
@@ -152,9 +163,9 @@ def select_file():
                                                       ("HTML", "*.html"),
                                                       ("CSS", "*.css")))
     root.destroy()  # no longer needed
-    if file_path:
-        return file_path  # here is problem - changes current_file!!!!!!
-    return ''
+    if file_paths:
+        return list(file_paths)  # Return as a list of file paths
+    return []
 
 def runOptions(inx):
     ''' User executes external process (run1 - run4)
@@ -242,6 +253,7 @@ class Api:
                        + str(window.height))
         # exit app
         window.destroy()
+        sys.exit()
 
     def set_current_file(self, content):
         ''' In a tab switch the current_file is updated '''
@@ -256,16 +268,19 @@ class Api:
     def open_file(self):
         ''' Prompt to open a file using desktop openFileDialog '''
         global current_file, current_path
-        selected = select_file()
-        if selected == '':
+        selected = select_files()
+        print(selected)
+        if len(selected) == 0:
             return ''
-        current_file = selected
-        current_path = os.path.dirname(current_file)
-        updateRecents(current_file)  # update recent files list/file
-        if opts[1] == "yes":
-            save_backup_file()  # save backup on open file
-        with open(current_file, 'r', encoding='utf-8') as file:
-            return file.read()
+        for file in selected:
+            print(file)
+            current_file = file
+            current_path = os.path.dirname(current_file)
+            updateRecents(current_file)  # update recent files list/file
+            if opts[1] == "yes":
+                save_backup_file()  # save backup on open file
+            window.evaluate_js("openCmdFile()")
+            time.sleep(.3)
 
     def save_file(self, content):
         ''' Save-A or Ctrl-Shift-S
@@ -301,8 +316,8 @@ class Api:
             mdToHTML()
 
         # save last file name
-        with open(lastFileName, "w", encoding='utf-8') as fout:
-            fout.write(current_file)
+        # with open(lastFileName, "w", encoding='utf-8') as fout:
+        #     fout.write(current_file)
 
         return current_file
 
@@ -317,8 +332,8 @@ class Api:
         if current_file.endswith(".md"):
             mdToHTML()
         # save last file name
-        with open(lastFileName, "w", encoding='utf-8') as fout:
-            fout.write(current_file)
+        # with open(lastFileName, "w", encoding='utf-8') as fout:
+        #     fout.write(current_file)
 
         return current_file
 
@@ -397,6 +412,18 @@ class Api:
             os.system(opts[2] + " " + current_path)
         else:
             os.system(opts[2] + current_path)
+
+    def delete_backups(self):
+        root = ThemedTk(theme="black")  # provides a theme for dialogs
+        root.configure(bg="dimgray")    # and keeps dialog
+        root.geometry(window_coord())   # on current monitor
+        rsp = messagebox.askokcancel("Remove Backups?", f" for: {current_path}")
+        if rsp is True:
+            files = glob.glob(current_path + "/bkup_*")
+            for file_path in files:
+                os.remove(file_path)
+        root.destroy()
+
 
     def exec1(self):
         ''' execute/open run 1 opts[7] '''
