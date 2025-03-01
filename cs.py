@@ -150,7 +150,7 @@ def updateRecents(item):
 def select_files():
     ''' Prompt to open a file using desktop openFileDialog '''
     root = ThemedTk(theme="black")  # provides a theme for dialogs
-    root.configure(bg="#505860")    # and keeps dialog
+    # root.configure(bg="#954056")    # and keeps dialog
     root.geometry(window_coord())   # on current monitor
     file_paths = filedialog.askopenfilenames(initialdir=current_path,
                                            # initialfile=os.path.basename(current_file),
@@ -288,7 +288,7 @@ class Api:
         '''
         global current_file, current_path
         root = ThemedTk(theme="black")  # provides a theme for dialogs
-        root.configure(bg="#505860")    # and keeps dialog
+        # root.configure(bg="#954056")    # and keeps dialog
         root.geometry(window_coord())   # on current monitor
         file_path = filedialog.asksaveasfilename(initialdir=current_path,
                                                  defaultextension=".txt",
@@ -415,7 +415,7 @@ class Api:
 
     def delete_backups(self):
         root = ThemedTk(theme="black")  # provides a theme for dialogs
-        root.configure(bg="#505860")    # and keeps dialog
+        # root.configure(bg="#954056")    # and keeps dialog
         root.geometry(window_coord())   # on current monitor
         rsp = messagebox.askokcancel("Remove Backups?", f" for: {current_path}")
         if rsp is True:

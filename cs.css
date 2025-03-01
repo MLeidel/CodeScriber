@@ -4,14 +4,15 @@
 */
 
 :root {
-    --main-color: #505860; /* cs.py - ttkthemes dialogs also */
-    --hover-color: #A9A9A9;
+    --main-color: #687691;  /* Window Manager: Numix-compact-Nordic-fulldark */
+    --hover-color: #4c566a; /* a9a9a9 */
+    --text-color: #fff;
 }
 
 body {
     background: var(--main-color);
     font: normal 12pt "sans-serif", Arial;
-    color: black;
+    color: var(--text-color);
     width: 100%;
     height: 100%;
     margin: 0;
@@ -59,7 +60,7 @@ a {
     display: block;
     padding: 6px;
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
     background-color: var(--main-color);
     border-radius: 4px;
 }
@@ -83,7 +84,7 @@ a:hover {
 li:hover .dropdown-content {
     display: inline;
     background-color: var(--main-color);
-    color: black;
+    color: var(--text-color);
 }
 
 .dropdown-content a {
@@ -186,7 +187,7 @@ li:hover .dropdown-content {
 
 .context-menu {
     position: absolute;
-    background-color: white;
+    background-color: var(--main-color);
     border: 1px solid #eee;
     border-radius: 4px;
     display: none;
@@ -197,8 +198,8 @@ li:hover .dropdown-content {
     cursor: pointer;
 }
 .context-menu-item:hover {
-    background-color: #111;
-    color: #eee;
+    background-color: var(--hover-color);
+    color: var(--text-color);
 }
 
         /* File Folder styling Tabs */
