@@ -1,0 +1,5 @@
+# Enter a trigger word and place code below trigger word. Ctrl-S to save.
+Trigger Word:trigWord
+
+Start code here...
+

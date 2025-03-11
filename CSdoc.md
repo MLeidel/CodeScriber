@@ -251,10 +251,17 @@ in tags.js enter a new item to the json array:
 In the editor, type __input__ and press **Alt-Z**  
 `input` is replaced by `<input type='' id='' value='' />`
 
-These JSON strings can get long and complicated. To assist in this endeavor use the program **fzen.py**.
-This program will reformat any formated code you've copied into the clipboard, ask for a tag name, and then
-append it to the `tags.js` file correctly formated.  
-Run `python3 fzen.py` from a terminal in the `codescriber` directory.
+### New Snipits
+
+Creating a new Zen snipit is very easy.  
+In the menu click on "Options" --> "New Snipit".  
+Enter a _trigger word_ that you will use with Ctrl-Z to insert the snip of code.  
+Enter the code to be inserted with the _trigger word_.  
+Hit Save (Ctrl-S).
+
+The new snipits will not be available to use until CodeScriber is re-launched.
+
+View and edit/delete snipits from the `tags.js` file.
 
 ---
 
@@ -477,6 +484,12 @@ Changes will not take effect until CodeScriber is re-started.
 
 - **File Modes**  
   Open the `filemodes.js` file for editing language modes
+
+- **Open AI Log**  
+  Open the `ailog.md` file for editing or viewing
+
+- **New Snipit**  
+  Opens the Zen Snipit template for entering a new code snipit
 
 - **Re-Launch**  
   Closes and re-opens CodeScriber activating any changes to the Options

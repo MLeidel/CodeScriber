@@ -36,6 +36,7 @@ p = os.path.realpath(__file__)
 p = os.path.dirname(p) + "/"
 optionsFileName = p+"options.ini"
 lastFileName = p+"lastfile"
+tags = p+"tags.js"
 wingeo = p+"wingeo"
 spell = SpellChecker()
 
@@ -517,6 +518,45 @@ class Api:
         python = sys.executable
         window.destroy()
         os.execl(python, python, *sys.argv)
+
+    def addsnipit(self, content):
+        ''' extract trigger word and code to
+            append a new zen snipit to tags.js
+            this replaces the fzen.py program '''
+        sniplist = content.split("\n")
+        parts = sniplist[1].split(":")
+        trig = parts[1].strip()
+        code = sniplist[2:]
+
+        # print(trig)
+        # print(code)
+
+        tagstr = "\"" + trig + "\": \""
+
+        # escape all double quotes
+        for line in code:
+            line = line.replace('"', r'\"')
+            tagstr += line + "\\n"
+        tagstr += "\","  # concat final double quote
+
+        print("")
+        print(tagstr)
+        print("")
+
+        # read in the Zen tags file
+        with open(tags, "r") as fin:
+            zenlst = fin.readlines()
+        zenlst = [i.strip() for i in zenlst]
+
+        # add the new tag at end of list
+        zenlst.remove("}; //")
+        zenlst.append(tagstr)
+
+        # write back the list to the file
+        with open(tags, "w") as fout:
+            for line in zenlst:
+                fout.write(line + "\n")
+            fout.write("}; //\n")
 
 
 #               END OF JS_API CLASS
