@@ -467,6 +467,18 @@ contextMenu.addEventListener('click', function(event) {
 Enhance the Alt-z code insertion
 ***/
 
+function insert_code(inx, bRemove = true) {
+  // inx should contain the key to look for
+  if (bRemove) {
+    editor.removeWordLeft();
+  }
+    if (atags[inx] !== undefined) {
+    editor.insert(atags[inx]);  // targ is a valid key value
+  } else {  // stag not a valid key value so do this instead
+    editor.insert("<" + inx + "></" + inx + ">");
+  }
+}
+
 function zentag() {
   let wsp = [9,10,32, NaN];  // tab, LF, space
   let inx = 0;
@@ -489,13 +501,7 @@ function zentag() {
     else
         break;
   }
-  // targ should contain the key to look for
-  editor.removeWordLeft();
-  if (atags[targ] !== undefined) {
-    editor.insert(atags[targ]);  // targ is a valid key value
-  } else {  // stag not a valid key value so do this instead
-    editor.insert("<" + targ + "></" + targ + ">");
-  }
+  insert_code(targ);
 }
 
 /***
@@ -873,7 +879,8 @@ function gogpt() {
         // view all Zen tag names
         let str_atags = "ZEN TAGS:<br><br>";
         Object.keys(atags).forEach(function(key) {
-          str_atags += key +  " | ";
+        //   str_atags += key +  " | ";
+        str_atags += `<a onclick='insert_code("${key}", false)'>${key}</a>`;
         });
         showMessageBox(str_atags);
     }

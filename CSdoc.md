@@ -140,7 +140,7 @@ __Additional Operation:__
 	</tr>
 	<tr>
 		<td><b>Alt-X</b></td>
-		<td>List Zen Tags</td>
+		<td>Select Zen Snipit from List</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-Alt-F</b></td>
@@ -232,7 +232,7 @@ _All event keys are coded in the cs.html file._
 The file `tags.js` holds some tags for use with the Zen tag insert feature (Alt-Z.)
 
 To use: type in the "command" word and hit Alt-Z. The word is replaced by the code 
-associated with the command.
+associated with the command. Alternatively, hit Alt-X and select from a list.
 
 Use the Options menu **Tags** to view and modify the `tags.js` file.
 
@@ -243,8 +243,7 @@ Use the Options menu **Tags** to view and modify the `tags.js` file.
         };
 
 
-_Example_  
-in tags.js enter a new item to the json array:
+_Example from `tags.js`_  
 
         "input": "<input type='' id='' value='' />",
 
