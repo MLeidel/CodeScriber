@@ -256,11 +256,12 @@ Creating a new Zen snipit is very easy.
 In the menu click on "Options" --> "New Snipit".  
 Enter a _trigger word_ that you will use with Ctrl-Z to insert the snip of code.  
 Enter the code to be inserted with the _trigger word_.  
-Hit Save (Ctrl-S).
+Hit Save (Ctrl-S) to append to the snipit list.
 
-The new snipits will not be available to use until CodeScriber is re-launched.
+**The new snipits will not be available to use until CodeScriber is re-launched.**
 
-View and edit/delete snipits from the `tags.js` file.
+View and edit/delete snipits from the `tags.js` file.  
+You can sort the snipits by selecting them in the `tags.js` file and hitting Ctrl-Alt-S.
 
 ---
 

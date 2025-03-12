@@ -38,6 +38,7 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 - Recent Files
 - Context Menu
 - Optional file backups
+- Snipit Management
 
 [Documentation](CSdoc.md "Doc")
 
