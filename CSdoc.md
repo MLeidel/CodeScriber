@@ -119,7 +119,7 @@ findAll - Ctrl-Alt-K<br>
 </td>
 </tr></table>
 
-__Additional Operation:__
+__Additional Functions:__
 
 <table border=1 cellspacing=0 cellpadding=4>
 	<tr>
@@ -132,7 +132,7 @@ __Additional Operation:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-Alt-C</b></td>
-		<td>Spell Check Selected</td>
+		<td>Spell Check Selected text</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-Z</b></td>
@@ -159,7 +159,7 @@ __Additional Operation:__
 		<td>Quit</td>
 	</tr>
 	<tr>
-		<td><b>Ctrl-E</b></td>
+		<td><b>Alt-E</b></td>
 		<td>Set up temporary text encloser</td>
 	</tr>
 	<tr>
@@ -169,7 +169,7 @@ __Additional Operation:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-0 through 9</b></td>
-		<td>Enclose with text</td>
+		<td>Enclose selected text</td>
 	</tr>
 	<tr>
 		<td><b>Alt-W</b></td>
@@ -201,7 +201,7 @@ __Additional Operation:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-N</b></td>
-		<td>New file</td>
+		<td>New document (file)</td>
 	</tr>
 	<tr>
 		<td><b>F1</b></td>
@@ -217,24 +217,22 @@ __Additional Operation:__
 	</tr>
 </table>
 
-_All event keys are coded in the cs.html file._
+_All event keys are coded in the `cs.html` file._
 
-- Ctrl-Alt-H displays all keyboard hot keys except Ctrl-0..9 text enclosures
+- Ctrl-Alt-H displays all keyboard hot keys _except Ctrl-0..9 text enclosures_
 
-- Right-Click on file tab closes tab.
-
-- Right-Click in editor opens contextmenu.
+- Right-Click file tab to close.
 
 ---
 
-## *Zen*
+## *Zen Znipits*
 
-The file `tags.js` holds some tags for use with the Zen tag insert feature (Alt-Z.)
+The file `tags.js` holds a json array for use with the Zen snipit feature.
 
-To use: type in the "command" word and hit Alt-Z. The word is replaced by the code 
-associated with the command. Alternatively, hit Alt-X and select from a list.
+To use: type in the "command/trigger" word and hit **Alt-Z**. The word is replaced by the code 
+associated with the command. Alternatively, hit **Alt-X** and select from a list.
 
-Use the Options menu **Tags** to view and modify the `tags.js` file.
+Use the menu **Options --> Tags** to view and modify the `tags.js` file.
 
         const atags = {
           "command": "output",
@@ -253,23 +251,24 @@ In the editor, type __input__ and press **Alt-Z**
 ### New Snipits
 
 Creating a new Zen snipit is very easy.  
-In the menu click on "Options" --> "New Snipit".  
+In the menu click on **Options --> New Snipit**.  
 Enter a _trigger word_ that you will use with Ctrl-Z to insert the snip of code.  
-Enter the code to be inserted with the _trigger word_.  
-Hit Save (Ctrl-S) to append to the snipit list.
+Enter the snipit code to be inserted.  
+Hitting _Save_ (or Ctrl-S) appends the snipit to the json array in `tags.js`.
 
 **The new snipits will not be available to use until CodeScriber is re-launched.**
 
 View and edit/delete snipits from the `tags.js` file.  
-You can sort the snipits by selecting them in the `tags.js` file and hitting Ctrl-Alt-S.
+You can sort the individual lines of snipits in the `tags.js` file by
+using the _sortlines_ feature of the editor (Ctrl-Alt-S) if desired.
 
 ---
 
 ## Enclosing text with markup hotkeys
 
-There is an array to hold up to 10 (0-9) surrounding markup texts.  
-Defaults are set in the `tags.js` file.  
-Use the Options menu **Tags** to view the `tags.js` file and modify it.
+You can designate up to 10 (0-9) surrounding markup texts.  
+The defaults are set in the `tags.js` file.  
+Use the menu **Options --> Tags** to modify the text enclosures.
 
         var stag = ["<strong>,</strong>",
                     "<center>,</center>",
@@ -282,7 +281,7 @@ Use the Options menu **Tags** to view the `tags.js` file and modify it.
                     "_,_",
                     "**,**"];
 
-Apply these to selected text using **Ctrl-0,1,2,...9**  
+Apply these to selected text using **Ctrl-0, Ctrl-1, Ctrl-2, ... Ctrl-9**  
 Change any of them for current session using **Ctrl-E**.  
 
 ---
@@ -301,7 +300,7 @@ To bookmark a line of code use **Ctrl-Click in the "gutter"** (where the line nu
 To travel through the bookmarks use **F3**.  
 To clear all bookmarks use **Shift-F3**.
 
-_Note: bookmarks will be incorrect when lines are added or deleted._
+_Note: bookmarks will align when lines are added or deleted._
 
 ---
 
@@ -406,13 +405,9 @@ Current path will be added as final argument.
 >The model to use for the OpenAI API  
 [about OpenAI models](https://platform.openai.com/docs/models "OpenAI")
 
-**run1 ... run2**
->External programs you might want to execute via menus or
-_Ctrl -_ and _Ctrl =_ respectively.
-
-**run3 ... run4**
->External programs you might want to execute via menus or
-_Alt -_ and _Alt =_ respectively.
+**run1 ... run4**
+>External programs you might want to execute via menus or  
+_Ctrl-Alt-1_ _Ctrl-Alt-2_ _Ctrl-Alt-3_ _Ctrl-Alt-4_ 
 
 **theme**
 >Editor theme name for all file types.  
@@ -464,13 +459,16 @@ Some additional **editor options** can be found in the `cs.html` file (around li
 - **Find File**  
   Find (and open) a file anywhere on the system
 
-- **Find Function**
+- **List Function**
   Goto fuction from list _(most languages)_
+
+- **Delete Backups**  
+  Remove all backups in directory of active tab (file)
 
 - **Run 1 ... Run 4**   
   Executes an external process as designated in _options.ini_
 
-**_The context menu repeats some of the tools menu and "Copy"_**
+**_The context menu has "Copy" and some of these commands_**
 
 ### Options menu
 

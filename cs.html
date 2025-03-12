@@ -193,7 +193,7 @@ function shortcuts() {
 
 ///////// ADD (ACE) CUSTOM HOT KEYS //////////
 editor.commands.addCommand({
-    name: 'htmlBreak',
+    name: 'HTML Break',
     bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
     exec: function(editor) {
         editor.insert("<br>");
@@ -201,7 +201,7 @@ editor.commands.addCommand({
     readOnly: false // Do NOT apply this command in readOnly mode
 });
 editor.commands.addCommand({
-    name: 'htmlNbsp',
+    name: 'HTML nbsp',
     bindKey: {win: 'Ctrl-Space', mac: 'Command-Space'},
     exec: function(editor) {
         editor.insert("&nbsp;");
@@ -209,7 +209,7 @@ editor.commands.addCommand({
     readOnly: false
 });
 editor.commands.addCommand({
-    name: 'insertDate',
+    name: 'Insert Date',
     bindKey: {win: 'Alt-t', mac: 'Alt-t'},
     exec: function(editor) {
         editor.insert(JS.getMDY());
@@ -218,7 +218,7 @@ editor.commands.addCommand({
 });
 // add command to lazy-load keybinding_menu extension
 editor.commands.addCommand({
-    name: "showAllKBshortcuts",
+    name: "show all hotkeys",
     bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
     exec: function(editor) {
         shortcuts();
@@ -226,7 +226,7 @@ editor.commands.addCommand({
 });
 
 editor.commands.addCommand({
-    name: "showSpelling",
+    name: "Show selected spelling",
     bindKey: {win: "Ctrl-Alt-c", mac: "Command-Alt-c"},
     exec: function(editor) {
         getWords();
@@ -234,28 +234,28 @@ editor.commands.addCommand({
 });
 
 editor.commands.addCommand({
-    name: "execXternals1",
+    name: "EXEC external 1",
     bindKey: {win: "Ctrl-Alt-1", mac: "Command-Alt-1"},
     exec: function(editor) {
         execI();
     }
 });
 editor.commands.addCommand({
-    name: "execXternals2",
+    name: "EXEC external 2",
     bindKey: {win: "Ctrl-Alt-2", mac: "Command-Alt-2"},
     exec: function(editor) {
         execII();
     }
 });
 editor.commands.addCommand({
-    name: "execXternals3",
+    name: "EXEC external 3",
     bindKey: {win: "Ctrl-Alt-3", mac: "Command-Alt-3"},
     exec: function(editor) {
         execIII();
     }
 });
 editor.commands.addCommand({
-    name: "execXternals4",
+    name: "EXEC external 4",
     bindKey: {win: "Ctrl-Alt-4", mac: "Command-Alt-4"},
     exec: function(editor) {
         execIV();
@@ -264,7 +264,7 @@ editor.commands.addCommand({
 
 // ZenTags
 editor.commands.addCommand({
-    name: 'zenCommand',
+    name: 'Zen Snipit Insert',
     bindKey: {win: 'Alt-Z', mac: 'Alt-Z'},
     exec: function(editor) {
       zentag();
@@ -273,7 +273,7 @@ editor.commands.addCommand({
 });
 
 editor.commands.addCommand({
-    name: 'repeatEnclose',
+    name: 'Repeat last enclosure',
     bindKey: {win: 'Alt-w', mac: 'Alt-w'},
     exec: function(editor) {
         tagSurround(gvar.last_pre_tag, gvar.last_pst_tag);
@@ -282,7 +282,7 @@ editor.commands.addCommand({
 });
 
 editor.commands.addCommand({
-    name: 'alterEnclose',
+    name: 'Alter Enclosure',
     bindKey: {win: 'Alt-e', mac: 'Alt-e'},
     exec: function(editor) {
         setup_tag();
@@ -304,7 +304,7 @@ editor.on("guttermousedown", function(e){
 });
 
 editor.commands.addCommand({
-    name: 'gotoBKMK',
+    name: 'Goto Bookmark',
     bindKey: {win: 'F3',    mac: 'F3'},
     exec: function(editor) {
     if (gvar.abmk[gvar.cinx].length == 0) return;
@@ -322,7 +322,7 @@ editor.commands.addCommand({
 });
 
 editor.commands.addCommand({
-    name: 'clearBKMK',
+    name: 'Clear Bookmarks',
     bindKey: {win: 'Shift-F3',  mac: 'Shift-F3'},
     exec: function(editor) {
     if (confirm("Clear Bookmarks")) {
@@ -336,70 +336,70 @@ editor.commands.addCommand({
 // Non editor events
 
 editor.commands.addCommand({
-    name: "exitApp",
+    name: "Exit App",
     bindKey: {win: "Ctrl-Q", mac: "Command-Q"},
     exec: function(editor) {
         exitApp();
     }
 });
 editor.commands.addCommand({
-    name: "openRecent",
+    name: "Open Recent Files",
     bindKey: {win: "Ctrl-R", mac: "Command-R"},
     exec: function(editor) {
         openRecent();
     }
 });
 editor.commands.addCommand({
-    name: "openFile",
+    name: "Open File",
     bindKey: {win: "Ctrl-O", mac: "Command-O"},
     exec: function(editor) {
         openFile();
     }
 });
 editor.commands.addCommand({
-    name: "newDocument",
+    name: "New Document",
     bindKey: {win: "Ctrl-N", mac: "Command-N"},
     exec: function(editor) {
         newDocument();
     }
 });
 editor.commands.addCommand({
-    name: "Functions",
+    name: "Function List",
     bindKey: {win: "Ctrl-Alt-F", mac: "Command-Alt-F"},
     exec: function(editor) {
         findfunc();
     }
 });
 editor.commands.addCommand({
-    name: "promtAI",
+    name: "Send AI prompt",
     bindKey: {win: "Ctrl-G", mac: "Command-G"},
     exec: function(editor) {
         gogpt();
     }
 });
 editor.commands.addCommand({
-    name: "quickSaveDoc",
+    name: "Save File (quick)",
     bindKey: {win: "Ctrl-S", mac: "Command-S"},
     exec: function(editor) {
         quicksaveDocument();
     }
 });
 editor.commands.addCommand({
-    name: "saveAsDoc",
+    name: "Save-As File",
     bindKey: {win: "Ctrl-Shift-S", mac: "Command-Shift-S"},
     exec: function(editor) {
         save();
     }
 });
 editor.commands.addCommand({
-    name: "viewZenTags",
+    name: "List Zen Snipits",
     bindKey: {win: "Alt-X", mac: "Alt-X"},
     exec: function(editor) {
         viewZenTags();
     }
 });
 editor.commands.addCommand({
-    name: "viewEnclosures",
+    name: "View Enclosures",
     bindKey: {win: "Ctrl-Alt-X", mac: "Command-Alt-X"},
     exec: function(editor) {
         viewStags();
@@ -835,7 +835,7 @@ function gogpt() {
     function setup_tag() {
         // Alt-e comes here for temporary enclosure setup
         let inx = 0;
-        let tags = prompt("Enter Pre, Post, inx ");
+        let tags = prompt("Enter Pre, Post, inx\nexample:\n <a href=''>, </a>, 2");
         if (tags === null) return;
         const t = tags.split(",");
         let pre_tag = t[0];
@@ -873,6 +873,7 @@ function gogpt() {
         for (x=0; x < 10; x++) {
             msg += "Ctrl-" + x + " - " + convertHTML(stag[x]) + "<br>";
         }
+        msg += "<br>Repeat with Alt-W<br>Edit in Options --> Tags";
         showMessageBox(msg);
     }
 
