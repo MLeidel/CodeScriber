@@ -6,9 +6,22 @@ __Uses "web app" technology via Python, pywebview, Ace Code Editor API__
 
 >![diagram](images/CSdiag.png "Conceptual")
 
-CodeScriber is _hosted_ in a python script that communicates with HTML (Gtk WebKit2 engine,
-edgechromium for Windows) via the pywebview python module.
-This design provides access to both the Internet and the user's host machine.
+CodeScriber uses the "Ace" Code Editor - a Javascript library.
+
+For detailed information about "Ace" visit the 
+[Ace website](https://ace.c9.io/ "https://ace.c9.io/")
+
+CodeScriber is a desktop application. All the software runs on the local machine.  
+However, the "Ace" library is loaded from cdnjs.cloudflare.com,  
+and the AI feature does require an Internet
+connection.  
+
+CodeScriber is written completely in scripting languages:  
+HTML, CSS, Javascript, Python3, making it almost completely available to modification.
+
+The editor resides in a python script that communicates with Javascript (Gtk WebKit2 engine,  
+edgechromium for Windows) via the pywebview python module. 
+This design allows access to the user's host machine and the use of HTML/Javascript for the GUI.
 
 _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the Ace Code Editor._
 
