@@ -3,10 +3,15 @@
     of the files you wish to modify.
 */
 
+/* the CSS variables under "root" will control most
+   of the "NON-Ace" HTML appearance */
+
 :root {
-    --main-color: #687691;  /* Window Manager: Numix-compact-Nordic-fulldark */
-    --hover-color: #4c566a; /* a9a9a9 */
-    --text-color: #fff;
+    --main-color: #687691;  /* HTML area background */
+    --hover-color: #4c566a; /* hover areas for menus, and tabs */
+    --text-color: #fff;     /* HTML area text color */
+    --ace-start-top: 82px;  /* distance to Ace area from HTML top
+                               changes gap between tabs bottom and Ace control */
 }
 
 body {
@@ -23,6 +28,7 @@ body {
 
 #editor {
     /* FONT STYLING - Suggested local coding fonts: */
+    /* you may need to install on your system */
     /*font-family: 'Roboto Mono';*/
     /*font-family: 'Droid Sans Mono';*/
     /*font-family: 'PT Mono';*/
@@ -36,7 +42,7 @@ body {
 
     border-top: 1px solid black;
     position: absolute;
-    top: 82px;
+    top: var(--ace-start-top);
     right: 0;
     bottom: 0;
     left: 0;
