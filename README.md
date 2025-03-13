@@ -13,8 +13,7 @@ For detailed information about "Ace" visit the
 
 CodeScriber is a desktop application. All the software runs on the local machine.  
 However, the "Ace" library is loaded from cdnjs.cloudflare.com,  
-and the AI feature does require an Internet
-connection.  
+and the AI feature requires an Internet connection.  
 
 CodeScriber is written completely in scripting languages:  
 HTML, CSS, Javascript, Python3, making it almost completely available to modification.
