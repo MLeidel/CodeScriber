@@ -9,8 +9,7 @@ For detailed information about "Ace" visit the
 
 CodeScriber is a desktop application. All the software runs on the local machine.  
 However, the "Ace" library is loaded from cdnjs.cloudflare.com,  
-and the AI feature does require an Internet
-connection.  
+and the AI feature requires an Internet connection.  
 
 CodeScriber is written completely in scripting languages:  
 HTML, CSS, Javascript, Python3, making it almost completely available to modification.
@@ -300,7 +299,7 @@ To bookmark a line of code use **Ctrl-Click in the "gutter"** (where the line nu
 To travel through the bookmarks use **F3**.  
 To clear all bookmarks use **Shift-F3**.
 
-_Note: bookmarks will align when lines are added or deleted._
+_Note: bookmarks will not align when lines are added or deleted._
 
 ---
 
