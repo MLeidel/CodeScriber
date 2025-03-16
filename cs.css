@@ -1,6 +1,6 @@
 /* CodeScriber.css
     Keep a backup of this and any
-    of the files you wish to modify.
+    of the files you modify.
 */
 
 /* the CSS variables under "root" will control most
@@ -10,8 +10,8 @@
     --main-color: #687691;  /* HTML area background */
     --hover-color: #4c566a; /* hover areas for menus, and tabs */
     --text-color: #fff;     /* HTML area text color */
-    --ace-start-top: 82px;  /* distance to Ace area from HTML top
-                               changes gap between tabs bottom and Ace control */
+    --ace-start-top: 82px;  /* changes distance between bottom of tabs and top of Ace Editor */
+    --mu-exec-apps: #3b464b; /* text color of external apps in Tools menu */
 }
 
 body {
@@ -46,6 +46,11 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
+}
+
+/* external applications */
+#ru1, #ru2, #ru3, #ru4 {
+    color: var(--mu-exec-apps);
 }
 
         /* Header drop-down MENUS */
