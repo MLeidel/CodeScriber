@@ -4,14 +4,6 @@ Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
 https://github.com/MLeidel/CodeScriber
 '''
-        # from tkinter import messagebox
-        # messagebox.showerror("Error", "Error message")
-        # messagebox.showwarning("Warning", "Warning message")
-        # messagebox.showinfo("Information", "Informative message")
-        # messagebox.askokcancel("Message title", "Message content")
-        # messagebox.askretrycancel("Message title", "Message content")
-        #     ok, yes, retry returns TRUE
-        #     no, cancel returns FALSE
 
 import sys
 import os
@@ -191,7 +183,7 @@ def trim_trailing_spaces(code):
     lines = code.splitlines()
     trimmed_lines = [line.rstrip() for line in lines]
     trimmed_code = '\n'.join(trimmed_lines)
-    return trimmed_code
+    return trimmed_code + '\n'
 
 def save_backup_file():
     ''' Check if the file exists '''

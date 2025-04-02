@@ -163,8 +163,8 @@ __Additional Functions:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-G</b></td>
-		<td>Fire off a GPT prompt using<br>
-		a separate (new) document</td>
+		<td>Fire off a GPT prompt<br>
+		using a selection of text</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-0 through 9</b></td>
@@ -315,14 +315,17 @@ The OpenAI model must also appear in the _options.ini_ file, like _model=GPT-4o_
 
 #### Prompt and Query
 
-To run an AI query open a "New" tab and construct your prompt. When finished hit Ctrl-G.
-In a few seconds your response will fill the page.
+To run an AI query start a new document and construct your prompt,  
+or select some text for the prompt.
+
+Then use **Ctrl-G** to send the prompt.  
+In a few seconds the response will fill a new document page.
 
 ---
 
 ## Spell Check
 
-To spell check some text first select the text. Then hit Ctrl-Alt-C. You will get a list of
+To spell check some text first select the text. Then hit **Ctrl-Alt-C**. You will get a list of
 miss-spelled words and possible corrections.
 
 ---

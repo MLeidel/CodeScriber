@@ -651,11 +651,19 @@ function gogpt() {
             and load it into a 'new' tab */
     const r = confirm("Process prompt for AI assistance?");
     if (!r) return;  // user hit 'Cancel' ?
-    const prompt = editor.getValue();
-    editor.setValue("one moment . . .");
-    window.pywebview.api.gptAccess(prompt).then(content => {
-        content = prompt + "\n------------\n" + content;
-        loadDocument(content);
+    // const prompt = editor.getValue();
+    // editor.setValue("one moment . . .");
+    let selection = editor.getSelectedText();
+    let selectedText = selection.toString();
+    if (selectedText == "") {
+        selectedText = editor.getValue();
+    } else {
+        newDocument();  // need new document with a selection
+    }
+    window.pywebview.api.gptAccess(selectedText).then(content => {
+    content = selectedText + "\n------------\n" + content;
+    //loadDocument(content);
+    editor.setValue(content);
     });
 }
 /* -------------------- End Javascript pywebview API functions ------------------------- */

@@ -1,0 +1,52 @@
+// program
+
+//#include <myc.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
+#include <unistd.h>
+
+// Create global vars for gtk widgets
+
+GtkWidget *g_obj_listbox;
+GtkWidget *g_obj_window1;
+
+
+//Signal Handler Functions
+
+void btn_select_clicked_cb() {
+
+}
+void btn_close_clicked_cb() {
+
+}
+void on_dlg_button_open_clicked() {
+
+}
+///////////////////////////////////////////////
+
+int main(int argc, char *argv[]) {
+    GtkBuilder      *builder;
+    GtkWidget       *window1;
+
+    gtk_init(&argc, &argv);
+
+    builder = gtk_builder_new();
+    //builder = gtk_builder_new_from_string (glade_xml, -1);
+    gtk_builder_add_from_file (builder, "gtkLISTbx.glade", NULL);
+
+    window1 = GTK_WIDGET(gtk_builder_get_object(builder, "window1"));
+    gtk_builder_connect_signals(builder, NULL);
+
+    // set GtkWidget Pointers to their builder objects
+    // g_ = GTK_WIDGET(gtk_builder_get_object(builder, "WIDGET_ID"));
+    // g_ = GTK_WIDGET(gtk_builder_get_object(builder, "WIDGET_ID"));
+
+    g_obj_listbox = GTK_WIDGET(gtk_builder_get_object(builder, "listbox"));
+    g_obj_window1 = window1;
+    g_object_unref(builder);
+
+    gtk_widget_show(window1);
+    gtk_main();
+
+    return 0;
+}

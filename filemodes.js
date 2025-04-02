@@ -51,6 +51,9 @@
         case "sql":
             editor.session.setMode("ace/mode/sql");
             break;
+        case "glade":
+            editor.session.setMode("ace/mode/xml");
+            break;
         default:
             editor.session.setMode("ace/mode/text");
       }

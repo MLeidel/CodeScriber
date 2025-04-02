@@ -11,7 +11,7 @@
     --hover-color: #4c566a; /* hover areas for menus, and tabs */
     --text-color: #fff;     /* HTML area text color */
     --ace-start-top: 82px;  /* changes distance between bottom of tabs and top of Ace Editor */
-    --mu-exec-apps: #3b464b; /* text color of external apps in Tools menu */
+    --mu-exec-apps: #333;   /* text color of external apps in Tools menu */
 }
 
 body {
