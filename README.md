@@ -4,7 +4,7 @@
 
 __Uses "web app" technology via Python, pywebview, Ace Code Editor API__
 
->![diagram](images/CSdiag.png "Conceptual")
+>![CodeScriber](images/CS1.png "CodeScriber")
 
 CodeScriber uses the "Ace" Code Editor - a Javascript library.
 
@@ -65,7 +65,7 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 > _python, c, html, css, markdown, javascript, bash, sql, golang, json_  
 Modify this list in `filemodes.js` - see **File Modes** under Options menu.
 
-![CodeScriber](images/CS1.png "CodeScriber")
+>![diagram](images/CSdiag.png "Conceptual")
 
 [Documentation](CSdoc.md "Doc")
 
