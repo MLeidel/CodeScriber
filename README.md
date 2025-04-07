@@ -11,24 +11,20 @@ CodeScriber uses the "Ace" Code Editor - a Javascript library.
 For detailed information about "Ace" visit the 
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
 
-CodeScriber is a desktop application. All the software runs on the local machine.  
-However, the "Ace" library is loaded from cdnjs.cloudflare.com,  
-and the AI feature requires an Internet connection.  
-
-CodeScriber is written completely in scripting languages:  
-HTML, CSS, Javascript, Python3, making it almost completely available to modification.
-
-The editor resides in a python script that communicates with Javascript (Gtk WebKit2 engine,  
-edgechromium for Windows) via the pywebview python module. 
-This design allows access to the user's host machine and the use of HTML/Javascript for the GUI.
+* The entire application runs locally on the user's machine, which is great for privacy and performance.  
+* External dependencies include the Ace library loaded from cdnjs.cloudflare.com and an AI feature that requires an Internet connection.  
+* The application is primarily implemented in scripting languages: HTML, CSS, JavaScript, and Python3, making it flexible and easy to modify.  
+* The editor component is implemented as a Python script that uses the pywebview module to communicate with a JavaScript-based GUI (leveraging the Gtk WebKit2 engine on Linux and edgechromium on Windows). This design effectively bridges the gap between native host capabilities and a modern web-based interface.
 
 _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the Ace Code Editor._
+
+[Documentation](CSdoc.md "CodeScriber Documentation")
 
 ### Features:
 
 - Syntax highlighting
 - Multi Session Interface
-- OpenAI chat compleation for coding
+- AI access built-in (requires Internet)
 - Auto indentation and outdent
 - An optional command line
 - Work with large documents (handles hundreds of thousands of lines without issue)
@@ -52,7 +48,7 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 - Optional file backups
 - Snipit Management
 
-[Documentation](CSdoc.md "Doc")
+[Documentation](CSdoc.md "CodeScriber Documentation")
 
 ### CodeScriber combines the following technologies:
 > - python (pywebview, markdown, tkinter.ttk)
@@ -67,7 +63,7 @@ Modify this list in `filemodes.js` - see **File Modes** under Options menu.
 
 >![diagram](images/CSdiag.png "Conceptual")
 
-[Documentation](CSdoc.md "Doc")
+[Documentation](CSdoc.md "CodeScriber Documentation")
 
 ---
 

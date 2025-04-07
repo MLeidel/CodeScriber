@@ -7,16 +7,17 @@ CodeScriber uses the "Ace" Code Editor - a Javascript library.
 For detailed information about "Ace" visit the 
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
 
-CodeScriber is a desktop application. All the software runs on the local machine.  
-However, the "Ace" library is loaded from cdnjs.cloudflare.com,  
-and the AI feature requires an Internet connection.  
+* The core application (CodeScriber) is written entirely in scripting languages—HTML, CSS, JavaScript, and Python 3—which makes it highly modifiable and extensible.
 
-CodeScriber is written completely in scripting languages:  
-HTML, CSS, Javascript, Python3, making it almost completely available to modification.
+* The UI is built using HTML/JavaScript. A Python script acts as the host for the editor using _webview_ (via the pywebview module). On Linux (for example) the Gtk WebKit2 engine is used, while on Windows it might use a variant like edgechromium. This setup allows JavaScript in the webview to communicate with Python running on the host machine.
 
-The editor resides in a python script that communicates with Javascript (Gtk WebKit2 engine,  
-edgechromium for Windows) via the pywebview python module. See diagram below.  
-This design allows access to the user's host machine and the use of HTML/Javascript for the GUI.
+* Although nearly all functionality runs locally, the “Ace” code editor library is loaded from cdnjs.cloudflare.com. Additionally, the AI feature requires an internet connection, so not every feature is completely offline.
+
+This design gives you several benefits:
+
+* You have local file access and integration through Python.
+* The UI enjoys the flexibility and ease of web technologies.
+* Because it’s built entirely in scripting languages, users can dive in and customize or extend the tool.
 
 ### Functions of Ace Code Editor
 
@@ -163,8 +164,8 @@ __Additional Functions:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-G</b></td>
-		<td>Fire off a GPT prompt<br>
-		using a selection of text</td>
+		<td>Fire off an AI prompt from<br>
+		    new page or selected text</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-0 through 9</b></td>
@@ -307,11 +308,11 @@ _Note: bookmarks will not align when lines are added or deleted._
 
 #### Setup
 
-The advent of AI chat completion engines has definitely changed the art of computer programming.
+The advent of AI has definitely changed the art of computer programming.
 This implementation requires an OpenAI API [key](https://platform.openai.com/api-keys "OpenAI").
 Set up your key as a system environment variable and then put the variable name in the _options.ini_ file,
-like _openai=MYKEY_.
-The OpenAI model must also appear in the _options.ini_ file, like _model=GPT-4o_.  
+like `openai=MYKEY`
+The OpenAI _model_ must also appear in the `options.ini` file, like `model=GPT-4o` or whatever model you use.
 
 #### Prompt and Query
 
@@ -378,7 +379,8 @@ The Windows options.ini could look more like this:
 >Append OpenAI reponses to `ailog.md` **yes|no**
 
 **backup**
->Create a backup of opened files **yes|no**
+>Create a backup of opened files **yes|no**  
+Backups appear as `bkup_*`
 
 **terminal**
 >Enter your terminal preference and the option to  
@@ -414,9 +416,9 @@ _Ctrl-Alt-1_ _Ctrl-Alt-2_ _Ctrl-Alt-3_ _Ctrl-Alt-4_
 **theme**
 >Editor theme name for all file types.  
 COLOR THEMES:  
-monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark  
-tomorrow_night_eighties | twilight | kr_theme | Terminal  
-solarized_light | textmate | tomorrow_night
+monokai | cobalt | vibrant\_ink | clouds\_midnight | solarized\_dark  
+tomorrow\_night\_eighties | twilight | kr\_theme | Terminal  
+solarized\_light | textmate | tomorrow\_night
 
 
 **Notes:** Non URL Run# items are implemented with a simple os.system() method.  
@@ -461,8 +463,8 @@ Some additional **editor options** can be found in the `cs.html` file (around li
 - **Find File**  
   Find (and open) a file anywhere on the system
 
-- **List Function**
-  Goto fuction from list _(most languages)_
+- **Functions**
+  Go to a fuction from a list of functions _(most languages)_
 
 - **Delete Backups**  
   Remove all backups in directory of active tab (file)
@@ -479,6 +481,12 @@ Changes will not take effect until CodeScriber is re-started.
 - **Options**  
   Open the `options.ini` file for editing various options
 
+- **Re-Launch**  
+  Closes and re-opens CodeScriber activating any changes to the Options
+
+- **New Snipit**  
+  Opens the Zen Snipit template for entering a new code snipit
+
 - **Tags**  
   Open the `tags.js` file for editing the various tags and options
 
@@ -488,19 +496,8 @@ Changes will not take effect until CodeScriber is re-started.
 - **Open AI Log**  
   Open the `ailog.md` file for editing or viewing
 
-- **New Snipit**  
-  Opens the Zen Snipit template for entering a new code snipit
-
-- **Re-Launch**  
-  Closes and re-opens CodeScriber activating any changes to the Options
-
 - **Wrapping**
   Toggles word wrap for current session (tab)
-
-## Note for Windows Users
-
-If you uninstall Microsoft Edge or any of its components, CodeScriber will not work.  
-This is because pywebview uses some Edge components for rendering.
 
 ---
 
@@ -526,7 +523,10 @@ bash file:
 
 ---
 
-### on Windows
+## Note for Windows Users
+
+**If you uninstall Microsoft Edge or any of its components, CodeScriber will not work.  
+This is because pywebview uses some Edge components for rendering.**
 
 Suggest to use `C:\codescriber\` for location.
 
