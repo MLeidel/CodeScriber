@@ -466,6 +466,9 @@ Some additional **editor options** can be found in the `cs.html` file (around li
 - **Functions**
   Go to a fuction from a list of functions _(most languages)_
 
+- **Pic color**
+  HTML5 color picker saves selected to clipboard
+
 - **Delete Backups**  
   Remove all backups in directory of active tab (file)
 

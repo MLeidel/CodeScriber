@@ -49,8 +49,9 @@ Always save a backup copy before making any changes.
                 <li><a onclick="execFMgr();"    title="open file manager">Files</a></li>
                 <li><a onclick="execBrowser();" title="open in browser">Browser</a></li>
                 <li><a onclick="mdCurrent();"   title="View HTML">Markdown</a></li>
-                <li><a onclick="findfile();"    title="search filesystem">Find File</a></li>
+                <li><a onclick="findfile();"    title="search filesystem">Find file</a></li>
                 <li><a onclick="findfunc();"    title="Ctrl-Alt-F">Functions</a></li>
+                <li><a onclick="getcolor();"    title="color picker">Pic color</a></li>
                 <li><a onclick="deletebk();"    title="Remove backups in current dir">DEL bkups</a></li>
                 <li><em><a onclick="execI();"   id="ru1" title="Ctrl-Alt-1">Run 1</a></em></li>
                 <li><em><a onclick="execII();"  id="ru2" title="Ctrl-Alt-2">Run 2</a></em></li>
@@ -113,7 +114,7 @@ Always save a backup copy before making any changes.
     <div id="overlay1" class="overlay"> <!-- Hidden -->
         <div class="messageBox">
             <p id="messageBoxText"></p>
-            <button id="msg_close_1" class="closeBtn">Close</button>
+            <button id="msg_close_1" class="closeBtn" onclick="close_msgbox();">Close</button>
         </div>
     </div>
 
@@ -140,6 +141,7 @@ var gvar = {
     oFN : null,
     saved : true,
     wrap: false,
+    onMsgWait: false,
     last_pre_tag : "",
     last_pst_tag : "",
     sep: "/",
@@ -736,7 +738,7 @@ function gogpt() {
 
     function findfunc() {
         /* make a "list" of "function" lines from the editor
-        and display them for selection by the user */
+        and display them, not sorted, for selection by the user */
         var msg = "";
         var line = "";
         var funcName = "";
@@ -757,6 +759,22 @@ function gogpt() {
             linenbr++;
         }
         showMessageBox(msg);  // display the function links
+    }
+
+    function updateColor() {
+      // Get the selected color from the color input
+      var color = document.getElementById("colorInput").value;
+      navigator.clipboard.writeText(color);
+      JS.htm("#COLOR", color + " saved to clipboard");
+    }
+
+    function getcolor() {
+        // displays an HTML5 color input in the MesssageBox and waits for Close button
+        var msg = "<h2>Color Picker</h2>";
+        msg += "<input type='color' id='colorInput' value='#000000' onchange='updateColor()'>";
+        msg += "<br><br><a id='COLOR'></a><br>";
+        onMsgWait = true;
+        showMessageBox(msg);
     }
 
     function newDocument() {
@@ -901,8 +919,17 @@ function gogpt() {
         JS.doq('#overlay1').style.display = 'block';
     }
 
+    function close_msgbox() {
+        // messageBox Close button clicked
+        JS.doq('#overlay1').style.display = 'none';
+        onMsgWait = false;
+        editor.focus()
+    }
     // Close the message box when anything in it is clicked
     JS.doq('#overlay1').onclick = function() {
+        if (onMsgWait) {
+            return;  // only close button accepted - see close_msgbox()
+        }
         JS.doq('#overlay1').style.display = 'none';
         editor.focus()
     };
