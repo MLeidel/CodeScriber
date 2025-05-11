@@ -842,6 +842,7 @@ function gogpt() {
         var selectedText = editor.getSelectedText();
         if (selectedText) {
             navigator.clipboard.writeText(selectedText);
+            alert("selected: " + selectedText.length + " characters.");
         } else {
             alert('No text selected');
         }

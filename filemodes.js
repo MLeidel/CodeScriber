@@ -45,6 +45,9 @@
         case "go":
             editor.session.setMode("ace/mode/golang");
             break;
+        case "cpp":
+            editor.session.setMode("ace/mode/c_cpp");
+            break;
         case "rb":
             editor.session.setMode("ace/mode/ruby");
             break;
@@ -53,6 +56,9 @@
             break;
         case "glade":
             editor.session.setMode("ace/mode/xml");
+            break;
+        case "cob":
+            editor.session.setMode("ace/mode/cobol");
             break;
         default:
             editor.session.setMode("ace/mode/text");

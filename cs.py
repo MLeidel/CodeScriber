@@ -213,7 +213,7 @@ def gptCode(key: str, model: str, query: str) -> str:
     try:
         response = client.chat.completions.create(
           model=model,
-          messages=[{"role": "user", "content": "You are a helpful computer coding assistant."},
+          messages=[{"role": "user", "content": "You are a helpful computer coding and IT assistant."},
               {"role": "user", "content" : query.strip()}
           ]
         )
