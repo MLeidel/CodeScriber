@@ -53,10 +53,10 @@ Always save a backup copy before making any changes.
                 <li><a onclick="findfunc();"    title="Ctrl-Alt-F">Functions</a></li>
                 <li><a onclick="getcolor();"    title="color picker">Pic color</a></li>
                 <li><a onclick="deletebk();"    title="Remove backups in current dir">DEL bkups</a></li>
-                <li><em><a onclick="execI();"   id="ru1" title="Ctrl-Alt-1">Run 1</a></em></li>
-                <li><em><a onclick="execII();"  id="ru2" title="Ctrl-Alt-2">Run 2</a></em></li>
-                <li><em><a onclick="execIII();" id="ru3" title="Ctrl-Alt-3">Run 3</a></em></li>
-                <li><em><a onclick="execIV();"  id="ru4" title="Ctrl-Alt-4">Run 4</a></em></li>
+                <li><em><a onclick="execI();"   id="RU1" class="rux" title="Ctrl-Alt-1">Run 1</a></em></li>
+                <li><em><a onclick="execII();"  id="RU2" class="rux" title="Ctrl-Alt-2">Run 2</a></em></li>
+                <li><em><a onclick="execIII();" id="RU3" class="rux" title="Ctrl-Alt-3">Run 3</a></em></li>
+                <li><em><a onclick="execIV();"  id="RU4" class="rux" title="Ctrl-Alt-4">Run 4</a></em></li>
             </ul>
         </li>
         <li>
@@ -967,10 +967,10 @@ function gogpt() {
     function setRunMenuNames(namescsv) {
         /* insert the "run" menu names (startup routine) */
         let nams = namescsv.split(",");
-        JS.htm("#ru1", nams[0]);
-        JS.htm("#ru2", nams[1]);
-        JS.htm("#ru3", nams[2]);
-        JS.htm("#ru4", nams[3]);
+        JS.htm("#RU1", nams[0]);
+        JS.htm("#RU2", nams[1]);
+        JS.htm("#RU3", nams[2]);
+        JS.htm("#RU4", nams[3]);
     }
 
     function getWords() {

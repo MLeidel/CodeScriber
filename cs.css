@@ -7,11 +7,11 @@
    of the "NON-Ace" HTML appearance */
 
 :root {
-    --main-color: #687691;  /* HTML area background */
-    --hover-color: #411c25; /* hover areas for menus, and tabs */
+    --main-color: #757575;  /* HTML area background */
+    --hover-color: #353535; /* hover areas for menus, and tabs */
     --text-color: #fff;     /* HTML area text color */
-    --ace-start-top: 82px;  /* changes distance between bottom of tabs and top of Ace Editor */
-    --mu-exec-apps: #333;   /* text color of external apps in Tools menu */
+    --ace-start-top: 74px;  /* changes distance between bottom of tabs and top of Ace Editor */
+    --mu-exec-apps: #cccc00;   /* text color of external apps in Tools menu */
 }
 
 body {
@@ -49,8 +49,11 @@ body {
 }
 
 /* external applications */
-#ru1, #ru2, #ru3, #ru4 {
+#rux{
     color: var(--mu-exec-apps);
+}
+#rux:hover {
+    color: var(--hover-color);
 }
 
         /* Header drop-down MENUS */
