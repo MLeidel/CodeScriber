@@ -78,7 +78,7 @@ a {
 a:hover {
 /*    background-color: var(--hover-color);*/
     color: var(--hover-color);
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
 
 /* Hide the dropdown content initially */

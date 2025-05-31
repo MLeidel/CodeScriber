@@ -53,7 +53,8 @@ opts = iniproc.read(optionsFileName,'ailog',
                                    'nam4',
                                    'theme',
                                    'openai',
-                                   'model')
+                                   'model',
+                                   'role')
 
 current_file = ""  # tracks current file in use
 current_path = opts[6]  # tracks path
@@ -203,6 +204,7 @@ def save_backup_file():
 
 def gptCode(key: str, model: str, query: str) -> str:
     ''' method to access OpenAI API '''
+    print(opts[18])
     try:
         client = OpenAI(
         api_key = os.environ.get(key)  # openai API
@@ -213,7 +215,7 @@ def gptCode(key: str, model: str, query: str) -> str:
     try:
         response = client.chat.completions.create(
           model=model,
-          messages=[{"role": "user", "content": "You are a helpful computer coding and IT assistant."},
+          messages=[{"role": "user", "content": opts[18]},
               {"role": "user", "content" : query.strip()}
           ]
         )
@@ -355,6 +357,7 @@ class Api:
             timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             with open("ailog.md", "a", encoding='utf-8') as fout:
                 fout.write(timestamp_str + "\n\n")
+                fout.write(content + "\n---\n")
                 fout.write(res + "\n\n---\n\n")
             with open("ailog.md", 'r', encoding='utf-8') as file:
                 htmlText = markdown.markdown(file.read(), extensions=['tables', 'fenced_code'])

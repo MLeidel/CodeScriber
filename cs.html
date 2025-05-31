@@ -67,7 +67,7 @@ Always save a backup copy before making any changes.
                 <li><a onclick="relaunch();"
                         title="re-launch CodeScriber">Re-Launch</a></li>
                 <li><a onclick="openOptionFile('snip.txt');"
-                        title="Add code snipit">New Snipit</a></li>
+                        title="New zen code snipit">New Zen</a></li>
                 <li><a onclick="openOptionFile('tags.js');"
                         title="Zen snipits and other tags">Tags</a></li>
                 <li><a onclick="openOptionFile('filemodes.js');"
@@ -662,6 +662,7 @@ function gogpt() {
     } else {
         newDocument();  // need new document with a selection
     }
+    editor.setValue("Processing . . .\n")
     window.pywebview.api.gptAccess(selectedText).then(content => {
     content = selectedText + "\n------------\n" + content;
     //loadDocument(content);
