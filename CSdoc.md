@@ -1,8 +1,11 @@
 # CodeScriber Documentation
 
+## CodeScriber is a code Editor
+
+
 ![Image](images/CSdoc1.png "CodeScriber Image")
 
-CodeScriber uses the "Ace" Code Editor - a Javascript library.
+CodeScriber built around the "Ace" Code Editor - a Javascript library.
 
 For detailed information about "Ace" visit the 
 [Ace website](https://ace.c9.io/ "https://ace.c9.io/")
