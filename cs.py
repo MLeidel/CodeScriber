@@ -62,6 +62,8 @@ myfpath = os.path.abspath(__file__)  # save this instance full path
 myOS = platform.system()  # Linux or Windows
 mypy = 'python3'  # for linux default
 
+messages = []
+
 # UNCOMMENT THIS FUNCTION TO WORK ON DUAL MONITORS (there is more)
 def window_coord():
     ''' use this func when using multiple monitors '''
@@ -204,7 +206,8 @@ def save_backup_file():
 
 def gptCode(key: str, model: str, query: str) -> str:
     ''' method to access OpenAI API '''
-    print(opts[18])
+    global messages
+    # print(opts[18])
     try:
         client = OpenAI(
         api_key = os.environ.get(key)  # openai API
@@ -212,15 +215,24 @@ def gptCode(key: str, model: str, query: str) -> str:
     except Exception as e:
         return e
 
+    # add the new query to the messages
+    messages.append(
+        {"role": "user", "content": query}
+    )
+
     try:
         response = client.chat.completions.create(
           model=model,
-          messages=[{"role": "user", "content": opts[18]},
-              {"role": "user", "content" : query.strip()}
-          ]
+          messages=messages
         )
         output = response.choices[0].message.content
+
+        # append response to messages
+        messages.append(
+            {"role": "assistant", "content": output}
+        )
         return output
+
     except Exception as e:
         return e
 
@@ -347,9 +359,14 @@ class Api:
             Access OpenAI and return query response
             or, return ailog.md if "log" was requested
             Also write response to the log if option is turned on. '''
+        global messages
+
         if content.lower().strip() == "log":
             with open("ailog.md", 'r', encoding='utf-8') as fin:
                 return fin.read()
+        if content.lower().strip() == "new":
+            messages = []
+            return "NEW CHAT"
         key = opts[16]  # openai User Key
         mod = opts[17]  # model to use
         res = gptCode(key, mod, content)
