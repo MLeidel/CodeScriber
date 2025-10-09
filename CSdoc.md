@@ -319,17 +319,20 @@ The OpenAI _model_ must also appear in the `options.ini` file, like `model=GPT-4
 
 #### Prompt and Query
 
-To run an AI query start a new document and construct your prompt,  
+To run an AI query **start a new document** and construct your prompt,  
 or select some text for the prompt.
 
 Then use **Ctrl-G** to send the prompt.  
 In a few seconds the response will fill a new document page.
 
+Instead of a promt, if you enter:  
+-    _log_ the current AIlog will load into the document  
+-    _new_ will start a new chat conversation
 ---
 
 ## Spell Check
 
-To spell check some text first select the text. Then hit **Ctrl-Alt-C**. You will get a list of
+To spell check some text **first select the text**. Then hit **Ctrl-Alt-C**. You will get a list of
 miss-spelled words and possible corrections.
 
 ---

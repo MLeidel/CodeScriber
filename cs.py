@@ -276,7 +276,7 @@ class Api:
         ''' Prompt to open a file using desktop openFileDialog '''
         global current_file, current_path
         selected = select_files()
-        print(selected)
+        # print(selected)
         if len(selected) == 0:
             return ''
         for file in selected:
