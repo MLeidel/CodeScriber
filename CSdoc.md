@@ -451,6 +451,12 @@ Some additional **editor options** can be found in the `cs.html` file (around li
 
 ## Menus
 
+![File menu](images/cs_mn_file.png "menu item") 
+![](images/cs_mn_tools.png "menu item") 
+![](images/cs_mn_options.png "menu item") 
+![](images/cs_mn_help.png "menu item")
+
+
 ### Tools menu
 
 - **Terminal**  
@@ -465,6 +471,10 @@ Some additional **editor options** can be found in the `cs.html` file (around li
 - **Markdown**  
   Open your markdown document's compiled HTML in your browser.  
   Each save of a markdown document generates it's HTML file.
+
+- **Insert Zen**
+  Insert a code snipit from a list of tags stored in the tags.js file.  
+  Alternatively, if you know the tag name you can type it and click Alt-Z.
 
 - **Find File**  
   Find (and open) a file anywhere on the system
@@ -494,7 +504,8 @@ Changes will not take effect until CodeScriber is re-started.
   Closes and re-opens CodeScriber activating any changes to the Options
 
 - **New Snipit**  
-  Opens the Zen Snipit template for entering a new code snipit
+  Opens the Zen Snipit template for creating a new code snipit  
+  which gets written into the tags.js file.
 
 - **Tags**  
   Open the `tags.js` file for editing the various tags and options
