@@ -3,6 +3,7 @@ cs.py CodeScriber Code Editor
 Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
 https://github.com/MLeidel/CodeScriber
+Dec 2025 Fixing "New" to require file name
 '''
 
 import sys
@@ -24,6 +25,7 @@ import webview
 import markdown
 import iniproc
 
+version = "CodeScriber 2.5.2"
 p = os.path.realpath(__file__)
 p = os.path.dirname(p) + "/"
 optionsFileName = p+"options.ini"
@@ -149,9 +151,9 @@ def select_files():
     # root.configure(bg="#954056")    # and keeps dialog
     root.geometry(window_coord())   # on current monitor
     file_paths = filedialog.askopenfilenames(initialdir=current_path,
-                                           # initialfile=os.path.basename(current_file),
-                                           title="Open files",
-                                           filetypes=(("all files", "*.*"),
+                                          # initialfile=os.path.basename(current_file),
+                                          title="Open files",
+                                          filetypes=(("all files", "*.*"),
                                                       ("Python", "*.py *.pyw"),
                                                       ("C/C++", "*.c *.cpp"),
                                                       ("h", "*.h"),
@@ -162,6 +164,26 @@ def select_files():
     if file_paths:
         return list(file_paths)  # Return as a list of file paths
     return []
+
+# webview GTK VERSION
+# def select_files():
+#     #file_types = ('Image Files (*.bmp;*.jpg;*.gif)', 'All files (*.*)')
+#     filetypes = (
+#         'All files (*.*)',
+#         'Python Files (*.py;*.pyw)',
+#         'C Files (*.c;*.cpp)',
+#         'Header Files (*.h)',
+#         'JavaScript Files (*.js)',
+#         'HTML Files (*.html)',
+#         'CSS Files (*.css)'
+#     )
+#     result = window.create_file_dialog(
+#         webview.FileDialog.OPEN, allow_multiple=True, directory=os.path.basename(current_file), file_types=filetypes
+#     )
+#     if result:
+#         return list(result)  # Return as a list of file paths
+#     return []
+
 
 def runOptions(inx):
     ''' User executes external process (run1 - run4)
@@ -205,7 +227,9 @@ def save_backup_file():
     shutil.copy2(current_file, backup_file_path)
 
 def gptCode(key: str, model: str, query: str) -> str:
-    ''' method to access OpenAI API '''
+    ''' Method to access OpenAI API
+    Control comes here from gptAccess(...)
+    Conversation is not serialized. '''
     global messages
     # print(opts[18])
     try:
@@ -332,6 +356,10 @@ class Api:
         ''' Save or Ctrl-S
             builds HTML from an ".md" file save
         '''
+        currbase = os.path.basename(current_file)
+        # if not os.path.isfile(current_file) and not os.path.isfile(currbase):
+        #     self.save_file(content)
+        #     return
         if not current_file.endswith(".md"):
             content = trim_trailing_spaces(content)
         with open(current_file, 'w', encoding='utf-8') as file:
@@ -341,8 +369,19 @@ class Api:
         # save last file name
         # with open(lastFileName, "w", encoding='utf-8') as fout:
         #     fout.write(current_file)
-
         return current_file
+
+
+    def check_new_to_overwrite(self, content):
+        ''' HTML check to see if "new" file exists '''
+        currbase = os.path.basename(content)
+        if os.path.isfile(content) or os.path.isfile(currbase):
+            print("YES", content)
+            return "yes"
+        else:
+            print(content)
+            return content
+
 
     def getCmdFile(self):
         ''' Get the starting file from command line
@@ -606,7 +645,7 @@ if __name__ == '__main__':
 
     urlquery = f"cs.html?theme={opts[15]}"
 
-    window = webview.create_window('CodeScriber 2.5',
+    window = webview.create_window(version,
                      url=urlquery, x=win[0], y=win[1],
                      width=win[2],
                      height=win[3],

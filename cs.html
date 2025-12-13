@@ -540,6 +540,13 @@ function quicksaveFile(content) {  // executes python/tkinter code
     });
 }
 
+function quick_save_file_check(content) {
+    window.pywebview.api.check_new_to_overwrite(content).then(content => {
+        finish_new_file(content);
+    });
+}
+
+
 function on_close() {
     window.pywebview.api.onClose();  // immediate close no ask
 }
@@ -780,13 +787,26 @@ function gogpt() {
         showMessageBox(msg);
     }
 
+    function finish_new_file(newfn) {
+        // callback from quick_save_file_check
+        if (newfn == "yes") {
+            alert("WARNING!\n\nThis will overwrite an existing file!\n\nOperation Canceled.");
+        } else {
+            gvar.sinx++;
+            gvar.sesn[gvar.sinx] = ace.createEditSession("");
+            editor.setSession(gvar.sesn[gvar.sinx]);
+            setFileName(newfn);
+            update_current_file(newfn);
+        }
+    }
+
     function newDocument() {
         // load a blank unknown (new) document
-        gvar.sinx++;
-        gvar.sesn[gvar.sinx] = ace.createEditSession("");
-        editor.setSession(gvar.sesn[gvar.sinx]);
-        setFileName("untitled");
-        update_current_file("untitled");
+        var newfn = "";
+        newfn = prompt("Enter new file name for current path,\nor, enter Fullpath.");
+        if (newfn == null) return;  // cancelled
+        if (newfn == "") newfn = "untitled";  // user hit OK with no new filename
+        quick_save_file_check(newfn);  // check for existing file ...
     }
 
     function loadDocument(text) {
@@ -845,7 +865,7 @@ function gogpt() {
         var selectedText = editor.getSelectedText();
         if (selectedText) {
             navigator.clipboard.writeText(selectedText);
-            alert("selected: " + selectedText.length + " characters.");
+            //alert("selected: " + selectedText.length + " characters.");
         } else {
             alert('No text selected');
         }
