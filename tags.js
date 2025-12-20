@@ -52,6 +52,7 @@ const atags = {
 "mdimage": '![alttext](http:// "title")',
 "mdlink": '[linktext](http:// "title")',
 "mdtable": "\n| xxxxx | xxxxx | xxxxx | xxxxx |\n| :---: | :---: | :---: | :---: |\n|       |       |       |       |\n\n\n\n",
+"prompt1": "\n===  ===\n\n===  ===\n\n===  ===\n\n===  ===\n\n",
 "py_env": "\n# import os\nuser = os.environ.get(\"USER\")\n\n\n",
 "py_file1": "\nwith open(FILENAME, 'w|r|a', encoding='utf-8') as file:\n    file.write(CONTENT)\n\n",
 "py_file2": "\nVAR = open(FILENAME, encoding='utf-8').read().strip()\n\n",
