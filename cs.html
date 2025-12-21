@@ -1120,28 +1120,6 @@ window.addEventListener('keydown', function(event) {
   }
 });
 
-    /* File Drag & Drop Code */
-
-    const dropArea = JS.doq('#editor'); // Ace editor
-
-    dropArea.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-    });
-
-    dropArea.addEventListener('dragleave', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-    });
-
-    dropArea.addEventListener('drop', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const files = event.dataTransfer.files;
-        if (files.length > 0) {
-            DropOpenFile(files[0].name)
-        }
-    });
 
 window.addEventListener('beforeunload', function (e) {
     if (gvar.saved === false)

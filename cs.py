@@ -21,6 +21,7 @@ from datetime import datetime
 from ttkthemes import ThemedTk
 from openai import OpenAI
 from spellchecker import SpellChecker
+from screeninfo import get_monitors
 import webview
 import markdown
 import iniproc
@@ -147,9 +148,11 @@ def updateRecents(item):
 
 def select_files():
     ''' Prompt to open a file using desktop openFileDialog '''
-    root = ThemedTk(theme="black")  # provides a theme for dialogs
-    # root.configure(bg="#954056")    # and keeps dialog
-    root.geometry(window_coord())   # on current monitor
+
+    if MONITORS > 1:
+        root = ThemedTk(theme="black")  # provides a theme for dialogs
+        root.geometry(window_coord())   # on current monitor
+
     file_paths = filedialog.askopenfilenames(initialdir=current_path,
                                           # initialfile=os.path.basename(current_file),
                                           title="Open files",
@@ -160,7 +163,8 @@ def select_files():
                                                       ("Javascript", "*.js"),
                                                       ("HTML", "*.html"),
                                                       ("CSS", "*.css")))
-    root.destroy()  # no longer needed
+    if MONITORS > 1:
+        root.destroy()  # no longer needed
     if file_paths:
         return list(file_paths)  # Return as a list of file paths
     return []
@@ -318,9 +322,9 @@ class Api:
             builds HTML from an ".md" file save
         '''
         global current_file, current_path
-        root = ThemedTk(theme="black")  # provides a theme for dialogs
-        # root.configure(bg="#954056")    # and keeps dialog
-        root.geometry(window_coord())   # on current monitor
+        if MONITORS > 1:
+            root = ThemedTk(theme="black")  # provides a theme for dialogs
+            root.geometry(window_coord())   # on current monitor
         file_path = filedialog.asksaveasfilename(initialdir=current_path,
                                                  defaultextension=".txt",
                                                  initialfile=os.path.basename(current_file),
@@ -331,7 +335,8 @@ class Api:
                                                             ("Javascript", "*.js"),
                                                             ("HTML", "*.html"),
                                                             ("CSS", "*.css")))
-        root.destroy()  # no longer needed
+        if MONITORS > 1:
+            root.destroy()  # no longer needed
         if file_path:
             current_file = file_path
             current_path = os.path.dirname(file_path)
@@ -466,15 +471,17 @@ class Api:
             os.system(opts[2] + current_path)
 
     def delete_backups(self):
-        root = ThemedTk(theme="black")  # provides a theme for dialogs
-        # root.configure(bg="#954056")    # and keeps dialog
-        root.geometry(window_coord())   # on current monitor
+
+        if MONITORS > 1:
+            root = ThemedTk(theme="black")  # provides a theme for dialogs
+            root.geometry(window_coord())   # on current monitor
         rsp = messagebox.askokcancel("Remove Backups?", f" for: {current_path}")
         if rsp is True:
             files = glob.glob(current_path + "/bkup_*")
             for file_path in files:
                 os.remove(file_path)
-        root.destroy()
+        if MONITORS > 1:
+            root.destroy()
 
 
     def exec1(self):
@@ -545,6 +552,7 @@ class Api:
     def on_file_drop(self, filename):
         ''' Search for the specified filename in the given directory
             and its subdirectories. Return a csv string of fullpaths. '''
+        print(filename)
         search_path = opts[6]  # file system scope. ex: /home/usER...
         matches = []
         drpath = ""  # holds csv string
@@ -562,6 +570,7 @@ class Api:
             if c < n:
                 drpath += ","
 
+        print(drpath)
         return drpath
 
     def reLaunch(self):
@@ -620,6 +629,9 @@ if __name__ == '__main__':
 
     if myOS == 'Windows':
         mypy = 'pythonw.exe'
+
+    monitors = get_monitors()
+    MONITORS = len(monitors)
 
     '''
     The following opens a file from the command line

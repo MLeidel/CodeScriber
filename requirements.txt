@@ -4,3 +4,4 @@ ttkthemes
 psutil
 openai
 pyspellchecker
+screeninfo
