@@ -87,6 +87,8 @@ Always save a backup copy before making any changes.
                         target="_blank">Documentation</a></li>
                 <li><a onclick="shortcuts();"
                         title="Ctrl-Alt-H">KB Shortcuts</a></li>
+                <li><a onclick="showMessageBox(ai_msg);"
+                        title="How To">Use AI</a></li>
             </ul>
         </li>
     </ul>
@@ -1134,7 +1136,21 @@ var msg = `
 <b>CodeScriber Code Editor<br><br>For You!</b><br><br>
 <a href='https://github.com/MLeidel/CodeScriber' target='_blank'>Github</a><br>
 `;
+var ai_msg = `
+<h2>To use openAI:</h2>
 
+    open a new page <br>
+    type in a prompt <br>
+    hit Ctrl-G . . . <br>
+
+    <br>
+You may need to turn on word-wrap (Options menu)<br>
+<br><br>
+Also:<br><br>
+An ENV variable for your OpenAI key <br>
+must corespond to the 'openai' options variable value.
+
+`;
 setTimeout(getRunMenuNames, 1000);
 
 </script>
