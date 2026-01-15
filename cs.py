@@ -44,20 +44,21 @@ opts = iniproc.read(optionsFileName,'ailog',
                                    'terminal',
                                    'filemanager',
                                    'previous',
-                                   'browser',
+                                   'browser',   # 5
                                    'scope',
                                    'run1',
                                    'run2',
                                    'run3',
-                                   'run4',
+                                   'run4',      # 10
                                    'nam1',
                                    'nam2',
                                    'nam3',
                                    'nam4',
-                                   'theme',
+                                   'theme',     # 15
                                    'openai',
                                    'model',
-                                   'role')
+                                   'role',
+                                   'aiconfirm') # 19
 
 current_file = ""  # tracks current file in use
 current_path = opts[6]  # tracks path
@@ -308,7 +309,7 @@ class Api:
         if len(selected) == 0:
             return ''
         for file in selected:
-            print(file)
+            # print(file)
             current_file = file
             current_path = os.path.dirname(current_file)
             updateRecents(current_file)  # update recent files list/file
@@ -655,7 +656,7 @@ if __name__ == '__main__':
         win = geom.split('|')  # 0 left, 1 top, 2 width, 3 height
         win = [int(i) for i in win]  # make integers
 
-    urlquery = f"cs.html?theme={opts[15]}"
+    urlquery = f"cs.html?theme={opts[15]}&aiconfirm={opts[19]}"
 
     window = webview.create_window(version,
                      url=urlquery, x=win[0], y=win[1],

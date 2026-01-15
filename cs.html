@@ -73,10 +73,10 @@ Always save a backup copy before making any changes.
                         title="Zen snipits and other tags">Tags</a></li>
                 <li><a onclick="openOptionFile('filemodes.js');"
                         title="Edit File Modes">File Modes</a></li>
-                <li><a onclick="openOptionFile('ailog.md');"
-                        title="Open AIlog File">AI log</a></li>
+                <li><a onclick="loadSelected('ailog.md');"
+                        title="Ctrl-L Open AI log">AI log</a></li>
                 <li><a onclick="toggleWrap();"
-                        title="Toggle the Wrap mode">Wrapping</a></li>
+                        title="Ctrl-Alt-W Toggle Wrap mode">Wrapping</a></li>
             </ul>
         </li>
         <li>
@@ -135,7 +135,8 @@ Always save a backup copy before making any changes.
 // get theme from URL querystring
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const thm = urlParams.get('theme');
+const thm = urlParams.get('theme');  // options.ini setting
+const aicon = urlParams.get('aiconfirm');  // options.ini setting
 const theme = "ace/theme/" + thm;
 
 var contextMenu = JS.doq('#customContextMenu');
@@ -197,6 +198,23 @@ function shortcuts() {
 }
 
 ///////// ADD (ACE) CUSTOM HOT KEYS //////////
+editor.commands.addCommand({
+    name: 'Word Wrap',
+    bindKey: {win: 'Ctrl-Alt-W', mac: 'Command-Alt-W'},
+    exec: function(editor) {
+        toggleWrap();
+    },
+    readOnly: false // Do NOT apply this command in readOnly mode
+});
+editor.commands.addCommand({
+    name: 'Open AI Log File',
+    bindKey: {win: 'Ctrl-L', mac: 'Command-L'},
+    exec: function(editor) {
+        loadSelected('ailog.md');
+    },
+    readOnly: false // Do NOT apply this command in readOnly mode
+});
+
 editor.commands.addCommand({
     name: 'HTML Break',
     bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
@@ -335,6 +353,14 @@ editor.commands.addCommand({
       gvar.bmk_inx = 0;
     }
     readOnly: false
+    }
+});
+
+editor.commands.addCommand({
+    name: "Refresh File",
+    bindKey: {win: "Ctrl-I", mac: "Command-I"},
+    exec: function(editor) {
+        refreshFile();
     }
 });
 
@@ -521,6 +547,10 @@ function zentag() {
 function getFN() {
     window.pywebview.api.getFileName().then(content => {
       setFileName(content);
+      if (content.endsWith("ailog.md")) {
+        const lastLine = editor.session.getLength(); // total lines (1-based for gotoLine)
+        editor.gotoLine(lastLine, 1, true);
+      }
     });
 }
 
@@ -528,6 +558,11 @@ function openFile() {  // executes python/tkinter code
     // changed to load multiple docs at once
     // uses openCmdFile to load docs
     window.pywebview.api.open_file();
+}
+
+function refreshFile() {  // executes python/tkinter code
+    // uses openCmdFile to load docs
+    openCmdFile();
 }
 
 function save_File(content) {  // Save-As
@@ -661,10 +696,10 @@ function getRunMenuNames() {
 function gogpt() {
     /* Ctrl-g => get an openAI response to this prompt
             and load it into a 'new' tab */
-    const r = confirm("Process prompt for AI assistance?");
-    if (!r) return;  // user hit 'Cancel' ?
-    // const prompt = editor.getValue();
-    // editor.setValue("one moment . . .");
+    if (aicon.toLowerCase() == "yes") {  // based on options.ini
+        const r = confirm("Send AI prompt for AI assistance?");
+        if (!r) return;  // user hit 'Cancel' ?
+    }
     let selection = editor.getSelectedText();
     let selectedText = selection.toString();
     if (selectedText == "") {

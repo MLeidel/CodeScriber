@@ -2,7 +2,6 @@
 
 ## CodeScriber is a code Editor
 
-
 ![Image](images/CSdoc1.png "CodeScriber Image")
 
 CodeScriber built around the "Ace" Code Editor - a Javascript library.
@@ -138,6 +137,14 @@ __Additional Functions:__
 		<td>Spell Check Selected text</td>
 	</tr>
 	<tr>
+		<td><b>Ctrl-Alt-W</b></td>
+		<td>Toggle Word Wrap</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-L</b></td>
+		<td>Open AI Log</td>
+	</tr>
+	<tr>
 		<td><b>Ctrl-Z</b></td>
 		<td>Insert Zen Tag</td>
 	</tr>
@@ -217,6 +224,10 @@ __Additional Functions:__
 	<tr>
 		<td><b>Shift-F3</b></td>
 		<td>Clear Bookmarks</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-I</b></td>
+		<td>Re-Open (New) Active Tab</td>
 	</tr>
 </table>
 
@@ -340,49 +351,80 @@ miss-spelled words and possible corrections.
 
 **CodeScriber options**
 
-    ailog=yes
-    backup=yes
-    terminal=gnome-terminal --working-directory=
-    filemanager=thunar
-    previous=yes
-    browser=firefox
-    theme=twilight
-    scope=/home/UsEr
-    openai=GPTKEY
-    model=o1-mini
-    run1=/blah/blahh/CodeSnips/csnips.py
-    run2=gnome_terminal -e htop
-    run3=python3 {f}
-    run4=https://www.w3schools.com/
-    nam1=CSnips
-    nam2=htop
-    nam3=python3
-    nam4=w3schools
+        # Editor options
+        backup=yes
+        terminal=xfce4-terminal --geometry 90x22+20+560 --working-directory=
+        filemanager=nemo --geometry 750x500+104+0
+        previous=yes
+        browser=firefox
+        theme=twilight
+        scope=/home/ml
+        # AI stuff
+        openai=GPTKEY
+        model=gpt-5-nano
+        ailog=yes
+        aiconfirm=no
+        role=You are a helpful coding and technology assistant
+        # User applications
+        run1=firefox https://ttkbootstrap.readthedocs.io/en/latest
+        run2=/home/ml/bin/yac.sh
+        run3=firefox https://michaelleidel.net/ref
+        run4=python3 {f}
+        nam1=ttkbootstrap
+        nam2=Yacsnips
+        nam3=Reference
+        nam4=python3
+        # COLOR THEMES:
+        # monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark
+        # tomorrow_night_eighties | twilight | kr_theme | Terminal
+        # solarized_light | textmate | tomorrow_night
 
 The Windows options.ini could look more like this:
 
-    ailog=yes
-    backup=yes
-    terminal=wt -d
-    filemanager=explorer.exe
-    previous=yes
-    browser="C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
-    theme=monokai
-    scope=C:\
-    openai=GPTKEY
-    model=o1-mini
-    run1=https://www.w3schools.com/
-    run2=cmd
-    run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
-    run4=calc.exe
-    nam1=w3schools
-    nam2=cmd
-    nam3=GitHub
-    nam4=Calculator
-
+        # Editor options
+        backup=yes
+        terminal=wt -d
+        filemanager=explorer.exe
+        previous=yes
+        browser="C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+        theme=twilight
+        scope=C:\
+        # AI stuff
+        openai=GPTKEY
+        model=gpt-5-nano
+        ailog=yes
+        aiconfirm=no
+        role=You are a helpful coding and technology assistant
+        # User applications
+        run1=https://www.w3schools.com/
+        run2=cmd
+        run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+        run4=pythonw.exe {f}
+        nam1=w3schools
+        nam2=cmd
+        nam3=Github
+        nam4=python
+        # COLOR THEMES:
+        # monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark
+        # tomorrow_night_eighties | twilight | kr_theme | Terminal
+        # solarized_light | textmate | tomorrow_night
 
 **ailog**
 >Append OpenAI reponses to `ailog.md` **yes|no**
+
+**openai**
+>Environment variable for your OpenAI key  
+[about OpenAI keys](https://platform.openai.com/settings/organization/api-keys "OpenAI keys")
+
+**aiconfirm**
+>Warn before sending prompt to AI **yes|no**
+
+**role**
+>AI system message
+
+**model**
+>The model to use for the OpenAI API  
+[about OpenAI models](https://platform.openai.com/docs/models "OpenAI")
 
 **backup**
 >Create a backup of opened files **yes|no**  
@@ -406,14 +448,6 @@ Current path will be added as final argument.
 
 **scope**
 >Set the _starting directory_ in your file system that CodeScriber should use.
-
-**openai**
->Environment variable for your OpenAI key  
-[about OpenAI keys](https://platform.openai.com/settings/organization/api-keys "OpenAI keys")
-
-**model**
->The model to use for the OpenAI API  
-[about OpenAI models](https://platform.openai.com/docs/models "OpenAI")
 
 **run1 ... run4**
 >External programs you might want to execute via menus or  
@@ -515,9 +549,11 @@ Changes will not take effect until CodeScriber is re-started.
 
 - **Open AI Log**  
   Open the `ailog.md` file for editing or viewing
+  Ctrl-L
 
 - **Wrapping**
   Toggles word wrap for current session (tab)
+  Ctrl-Alt-W
 
 ---
 
