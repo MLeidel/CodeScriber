@@ -66,7 +66,7 @@ myfpath = os.path.abspath(__file__)  # save this instance full path
 myOS = platform.system()  # Linux or Windows
 mypy = 'python3'  # for linux default
 
-messages = []
+messages = []  # list to hold AI conversation
 
 # UNCOMMENT THIS FUNCTION TO WORK ON DUAL MONITORS (there is more)
 def window_coord():
@@ -76,12 +76,14 @@ def window_coord():
     geo = f"0x0+{px}+{py}" # keep tkinter on left screen
     return geo
 
+
 def find_file(filename, search_path):
     ''' finds full-path of a file on Linux system '''
     for root, dirs, files in os.walk(search_path):
         if filename in files:
             return os.path.join(root, filename)
     return None
+
 
 def mdToHTML():
     ''' convert MD file to HTML file '''
@@ -103,6 +105,7 @@ def loadRecent():
         rec = file.readlines()
         rec = [item.rstrip('\n') for item in rec]
 
+
 def saveRecent():
     ''' save the recent file list to 'recent' text file '''
     global srec
@@ -117,6 +120,7 @@ def saveRecent():
             c += 1
             if c < n:
                 srec += ","
+
 
 def newRecent(item):
     ''' modify the recent file list '''
@@ -134,6 +138,7 @@ def newRecent(item):
         if n > 8:             # keep the list to 9 or less items (COULD BE A VARIABLE)
             rec.pop(n-1)      # remove the bottom item (0 relative)
         rec.insert(0, item)   # put the new item at the top
+
 
 def updateRecents(item):
     ''' update the recent file with next item ( open file )
@@ -208,12 +213,14 @@ def windows_path(path):
     rp = path.replace("/", ws)
     return rp
 
+
 def trim_trailing_spaces(code):
     ''' Trim Trailing space from lines of code '''
     lines = code.splitlines()
     trimmed_lines = [line.rstrip() for line in lines]
     trimmed_code = '\n'.join(trimmed_lines)
     return trimmed_code + '\n'
+
 
 def save_backup_file():
     ''' Check if the file exists '''
@@ -230,6 +237,7 @@ def save_backup_file():
     backup_file_path = os.path.join(dir_name, backup_file_name)
     # Copy the original file to the backup file
     shutil.copy2(current_file, backup_file_path)
+
 
 def gptCode(key: str, model: str, query: str) -> str:
     ''' Method to access OpenAI API
@@ -291,15 +299,18 @@ class Api:
         window.destroy()
         sys.exit()
 
+
     def set_current_file(self, content):
         ''' In a tab switch the current_file is updated '''
         global current_file, current_path
         current_file = content
         current_path = os.path.dirname(current_file)
 
+
     def getFileName(self):
         ''' JS/HTML needs the current filename '''
         return current_file
+
 
     def open_file(self):
         ''' Prompt to open a file using desktop openFileDialog '''
@@ -317,6 +328,7 @@ class Api:
                 save_backup_file()  # save backup on open file
             window.evaluate_js("openCmdFile()")
             time.sleep(.3)
+
 
     def save_file(self, content):
         ''' Save-A or Ctrl-Shift-S
@@ -358,6 +370,7 @@ class Api:
 
         return current_file
 
+
     def quick_save_file(self, content):
         ''' Save or Ctrl-S
             builds HTML from an ".md" file save
@@ -382,10 +395,10 @@ class Api:
         ''' HTML check to see if "new" file exists '''
         currbase = os.path.basename(content)
         if os.path.isfile(content) or os.path.isfile(currbase):
-            print("YES", content)
+            # print("YES", content)
             return "yes"
         else:
-            print(content)
+            # print(content)
             return content
 
 
@@ -399,6 +412,7 @@ class Api:
                 return file.read()
         return ''  # File Not Found or no previous on startup
 
+
     def gptAccess(self, content) -> str:
         ''' User has hit Ctrl-G with either an AI prompt or the word "log".
             Access OpenAI and return query response
@@ -410,8 +424,12 @@ class Api:
             with open("ailog.md", 'r', encoding='utf-8') as fin:
                 return fin.read()
         if content.lower().strip() == "new":
-            messages = []
+            messages = []  # clear message chain for new conversation
             return "NEW CHAT"
+        if content.lower().strip() == "prompt":
+            with open("prompt.txt", 'r', encoding='utf-8') as fin:
+                return fin.read()
+
         key = opts[16]  # openai User Key
         mod = opts[17]  # model to use
         res = gptCode(key, mod, content)
@@ -426,6 +444,7 @@ class Api:
             with open("ailog.html", 'w', encoding='utf-8') as file:
                 file.write(htmlText)
         return res
+
 
     def execMarkdown(self):
         ''' open the markdown's HTML file in specified browser '''
@@ -446,6 +465,7 @@ class Api:
         else:
             subprocess.call([opts[5], current_file])
 
+
     def execFileMgr(self):
         ''' open the file manager specified in the options.ini '''
         #os.system(opts[3] + " " + current_path)
@@ -457,6 +477,7 @@ class Api:
             fm.append(current_path)
             # subprocess.call([opts[3], current_path])
             subprocess.call(fm)
+
 
     def execTerminal(self):
         ''' open the terminal specified in the options.ini
@@ -471,8 +492,9 @@ class Api:
         else:
             os.system(opts[2] + current_path)
 
-    def delete_backups(self):
 
+    def delete_backups(self):
+        ''' Removes backup files for current directory '''
         if MONITORS > 1:
             root = ThemedTk(theme="black")  # provides a theme for dialogs
             root.geometry(window_coord())   # on current monitor
@@ -501,11 +523,13 @@ class Api:
         ''' open run 4 '''
         runOptions(10)
 
+
     def getRunNames(self):
         ''' title names for run1-4 tools menu items -
         send names 1-4 from options.ini 11 12 13 14 '''
         names = ",".join(opts[11:15])
         return names
+
 
     def openSelected(self, filename):
         ''' open the requested recent file
@@ -531,9 +555,11 @@ class Api:
             return txt
         return ''
 
+
     def returnRecents(self):
         ''' requesting recent file list as csv string '''
         return srec
+
 
     def open_spellcheck(self, content):
         ''' process sting of words and return results '''
@@ -574,11 +600,13 @@ class Api:
         print(drpath)
         return drpath
 
+
     def reLaunch(self):
         ''' close and re-open this instance '''
         python = sys.executable
         window.destroy()
         os.execl(python, python, *sys.argv)
+
 
     def addsnipit(self, content):
         ''' extract trigger word and code to
