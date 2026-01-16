@@ -32,8 +32,6 @@ python3 cs.py path/to/file
 - [Bookmarks](#bookmarks)
 - [Menus and Tools](#menus-and-tools)
 - [Windows note and troubleshooting](#windows-note-and-troubleshooting)
-- [Contributing / Editing this doc](#contributing--editing-this-doc)
-- [Changelog](#changelog)
 
 ---
 
@@ -54,7 +52,7 @@ Images (for reference):
 ![Options menu screenshot](images/cs_mn_options.png)
 
 ---
-
+<a name="running-codescriber"></a>
 ## Running CodeScriber
 
 **Common ways to run:**
@@ -76,7 +74,7 @@ python3 /path/to/CodeScriber/cs.py "$1" &
 The window geometry is saved between sessions.
 
 ---
-
+<a name="quick-configuration-optionsini"></a>
 ## Quick configuration (`options.ini`)
 
 Place settings in `options.ini`. Below are copy-paste examples.
@@ -147,6 +145,7 @@ Key options explained:
 
 ---
 
+<a name="zen-snippets-tagsjs"></a>
 ## Zen Snippets (`tags.js`)
 
 Zen snippets (previously called "Zen snipits" in the older document) are stored in `tags.js`. Snippets let you type a trigger word and expand it into a code template.
@@ -167,6 +166,7 @@ Usage:
 
 ---
 
+<a name="enclosing-text-with-markup-hotkeys"></a>
 ## Enclosing text with markup hotkeys
 
 You can define up to 10 enclosers for wrapping selected text (Ctrl-0 … Ctrl-9). Defaults are defined in `tags.js` — examples:
@@ -192,6 +192,7 @@ var stag = [
 
 ---
 
+<a name="keyboard-shortcuts-summary--full-reference"></a>
 ## Keyboard shortcuts — summary
 
 A compact, grouped summary of common shortcuts. All keys are configured in `cs.html`.
@@ -283,6 +284,7 @@ Full, raw key mappings are defined in `cs.html`. Consider long lists as referenc
 
 ---
 
+<a name="openai-integration-ai-features"></a>
 ## OpenAI integration (AI features)
 
 Setup
@@ -320,6 +322,7 @@ Appends AI responses to `ailog.md` when `ailog=yes`.
 
 ---
 
+<a name="spell-check"></a>
 ## Spell Check
 
 - Select text and press `Ctrl-Alt-C`.
@@ -327,6 +330,7 @@ Appends AI responses to `ailog.md` when `ailog=yes`.
 
 ---
 
+<a name="bookmarks"></a>
 ## Bookmarks
 
 - Add a bookmark: `Ctrl-Click` in the gutter (line numbers area).
@@ -337,6 +341,7 @@ Note: bookmarks are positional and may not track after large edits.
 
 ---
 
+<a name="menus-and-tools"></a>
 ## Menus and Tools
 
 Tools menu highlights:
@@ -366,6 +371,7 @@ Context (right-click) menu includes common actions such as Copy and some Tools c
 
 ---
 
+<a name="windows-note-and-troubleshooting"></a>
 ## Editor configuration and preferences
 
 Some Ace Editor configuration is set in `cs.html` (search for ACE CONFIGURE):
