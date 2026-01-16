@@ -88,7 +88,7 @@ def find_file(filename, search_path):
 def mdToHTML():
     ''' convert MD file to HTML file '''
     with open(current_file, 'r', encoding='utf-8') as file:
-        htmlText = markdown.markdown(file.read(), extensions=['tables', 'fenced_code'])
+        htmlText = markdown.markdown(file.read(), extensions=['extra'])
     htmlFile = current_file[:-3] + ".html"
     # open in default browser
     with open(htmlFile, 'w', encoding='utf-8') as file:
@@ -440,7 +440,7 @@ class Api:
                 fout.write(content + "\n---\n")
                 fout.write(res + "\n\n---\n\n")
             with open("ailog.md", 'r', encoding='utf-8') as file:
-                htmlText = markdown.markdown(file.read(), extensions=['tables', 'fenced_code'])
+                htmlText = markdown.markdown(file.read(), extensions=['extra'])
             with open("ailog.html", 'w', encoding='utf-8') as file:
                 file.write(htmlText)
         return res

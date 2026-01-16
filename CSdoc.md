@@ -1,600 +1,408 @@
-# CodeScriber Documentation
+# CodeScriber — Documentation
 
-## CodeScriber is a code Editor
+A compact, user-focused reference for CodeScriber — a lightweight code editor built on the Ace Editor and a small Python host (pywebview). This document focuses on usage, configuration, and shortcuts. For code-level details see the project files such as `cs.py`, `cs.html`, `cs.css`, and `tags.js`.
 
-![Image](images/CSdoc1.png "CodeScriber Image")
-
-CodeScriber built around the "Ace" Code Editor - a Javascript library.
-
-For detailed information about "Ace" visit the 
-[Ace website](https://ace.c9.io/ "https://ace.c9.io/")
-
-* The core application (CodeScriber) is written entirely in scripting languages—HTML, CSS, JavaScript, and Python 3—which makes it highly modifiable and extensible.
-
-* The UI is built using HTML/JavaScript. A Python script acts as the host for the editor using _webview_ (via the pywebview module). On Linux (for example) the Gtk WebKit2 engine is used, while on Windows it might use a variant like edgechromium. This setup allows JavaScript in the webview to communicate with Python running on the host machine.
-
-* Although nearly all functionality runs locally, the “Ace” code editor library is loaded from cdnjs.cloudflare.com. Additionally, the AI feature requires an internet connection, so not every feature is completely offline.
-
-This design gives you several benefits:
-
-* You have local file access and integration through Python.
-* The UI enjoys the flexibility and ease of web technologies.
-* Because it’s built entirely in scripting languages, users can dive in and customize or extend the tool.
-
-### Functions of Ace Code Editor
-
-<table style="font-size: 9pt;">
-<tr>
-<td>
-goToNextError - Alt-E<br>
-goToPreviousError - Alt-Shift-E<br>
-selectall - Ctrl-A<br>
-centerselection - null<br>
-gotoline - Ctrl-L<br>
-fold - Alt-L|Ctrl-F1<br>
-unfold - Alt-Shift-L|Ctrl-Shift-F1<br>
-toggleFoldWidget - F2<br>
-toggleParentFoldWidget - Alt-F2<br>
-foldall - null<br>
-foldAllComments - null<br>
-foldOther - Alt-0<br>
-unfoldall - Alt-Shift-0<br>
-findnext - Ctrl-K<br>
-findprevious - Ctrl-Shift-K<br>
-selectOrFindNext - Alt-K<br>
-selectOrFindPrevious - Alt-Shift-K<br>
-find - Ctrl-F<br>
-selecttostart - Ctrl-Shift-Home<br>
-gotostart - Ctrl-Home<br>
-selectup - Shift-Up<br>
-golineup - Up<br>
-selecttoend - Ctrl-Shift-End<br>
-gotoend - Ctrl-End<br>
-selectdown - Shift-Down<br>
-golinedown - Down<br>
-selectwordleft - Ctrl-Shift-Left<br>
-gotowordleft - Ctrl-Left<br>
-selecttolinestart - Alt-Shift-Left<br>
-</td>
-<td>
-gotolinestart - Alt-Left|Home<br>
-selectleft - Shift-Left<br>
-gotoleft - Left<br>
-selectwordright - Ctrl-Shift-Right<br>
-gotowordright - Ctrl-Right<br>
-selecttolineend - Alt-Shift-Right<br>
-gotolineend - Alt-Right|End<br>
-selectright - Shift-Right<br>
-gotoright - Right<br>
-gotopagedown - PageDown<br>
-scrollup - Ctrl-Up<br>
-scrolldown - Ctrl-Down<br>
-togglerecording - Ctrl-Alt-E<br>
-replaymacro - Ctrl-Shift-E<br>
-jumptomatching - Ctrl-\\|Ctrl-P<br>
-selecttomatching - Ctrl-Shift-\\|Ctrl-Shift-P<br>
-expandToMatching - Ctrl-Shift-M<br>
-removeline - Ctrl-D<br>
-duplicateSelection - Ctrl-Shift-D<br>
-sortlines - Ctrl-Alt-S<br>
-togglecomment - Ctrl-/<br>
-toggleBlockComment - Ctrl-Shift-/<br>
-modifyNumberUp - Ctrl-Shift-Up<br>
-modifyNumberDown - Ctrl-Shift-Down<br>
-replace - Ctrl-H<br>
-undo - Ctrl-Z<br>
-redo - Ctrl-Shift-Z|Ctrl-Y<br>
-copylinesup - Alt-Shift-Up<br>
-movelinesup - Alt-Up<br>
-</td>
-<td>
-copylinesdown - Alt-Shift-Down<br>
-movelinesdown - Alt-Down<br>
-backspace - Shift-Backspace|Backspace<br>
-cut_or_delete - Shift-Delete<br>
-removetolinestart - Alt-Backspace<br>
-removetolineend - Alt-Delete<br>
-removetolinestarthard - Ctrl-Shift-Backspace<br>
-removetolineendhard - Ctrl-Shift-Delete<br>
-removewordleft - Ctrl-Backspace<br>
-removewordright - Ctrl-Delete<br>
-outdent - Shift-Tab<br>
-indent - Tab<br>
-blockoutdent - Ctrl-[<br>
-blockindent - Ctrl-]<br>
-transposeletters - Alt-Shift-X<br>
-touppercase - Ctrl-U<br>
-tolowercase - Ctrl-Shift-U<br>
-expandtoline - Ctrl-Shift-L<br>
-openCommandPallete - F1<br>
-addCursorAbove - Ctrl-Alt-Up<br>
-addCursorBelow - Ctrl-Alt-Down<br>
-addCursorAboveSkipCurrent - Ctrl-Alt-Shift-Up<br>
-addCursorBelowSkipCurrent - Ctrl-Alt-Shift-Down<br>
-selectMoreBefore - Ctrl-Alt-Left<br>
-selectMoreAfter - Ctrl-Alt-Right<br>
-selectNextBefore - Ctrl-Alt-Shift-Left<br>
-selectNextAfter - Ctrl-Alt-Shift-Right<br>
-toggleSplitSelectionIntoLines - Ctrl-Alt-L<br>
-alignCursors - Ctrl-Alt-A<br>
-findAll - Ctrl-Alt-K<br>
-</td>
-</tr></table>
-
-__Additional Functions:__
-
-<table border=1 cellspacing=0 cellpadding=4>
-	<tr>
-		<td><b>Ctrl-S</b></td>
-		<td>Save</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Shft-S</b></td>
-		<td>Save-As</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-C</b></td>
-		<td>Spell Check Selected text</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-W</b></td>
-		<td>Toggle Word Wrap</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-L</b></td>
-		<td>Open AI Log</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Z</b></td>
-		<td>Insert Zen Tag</td>
-	</tr>
-	<tr>
-		<td><b>Alt-X</b></td>
-		<td>Select Zen Snipit from List</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-F</b></td>
-		<td>Find Functions</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-H</b></td>
-		<td>Display All Keyboard Shortcuts</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-X</b></td>
-		<td>Display enclosure keys</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Q</b></td>
-		<td>Quit - Close CodeScriber</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-I</b></td>
-		<td>Re-Open (New) Active Tab</td>
-	</tr>
-	<tr>
-		<td><b>Alt-E</b></td>
-		<td>Set up temporary text encloser</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-G</b></td>
-		<td>Executes prompt for AI</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-0 through 9</b></td>
-		<td>Enclose selected text</td>
-	</tr>
-	<tr>
-		<td><b>Alt-W</b></td>
-		<td>Repeat last text enclosure</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-1</b></td>
-		<td>Run 1 (defined in options.ini)</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-2</b></td>
-		<td>Run 2 (defined in options.ini)</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-3</b></td>
-		<td>Run 3 (defined in options.ini)</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-Alt-4</b></td>
-		<td>Run 4 (defined in options.ini)</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-R</b></td>
-		<td>Recent File List</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-O</b></td>
-		<td>Open a file</td>
-	</tr>
-	<tr>
-		<td><b>Ctrl-N</b></td>
-		<td>New document (file)</td>
-	</tr>
-	<tr>
-		<td><b>F1</b></td>
-		<td>Editor Command Pallete</td>
-	</tr>
-	<tr>
-		<td><b>F3</b></td>
-		<td>Next Bookmark</td>
-	</tr>
-	<tr>
-		<td><b>Shift-F3</b></td>
-		<td>Clear Bookmarks</td>
-	</tr>
-</table>
-
-_All event keys are coded in the `cs.html` file._
-
-- Ctrl-Alt-H displays all keyboard shortcuts _except Ctrl-0..9 text enclosures_
-
-- Right-Click file tab to close it.
+Last updated: 2026-01-16
 
 ---
 
-## *Zen Znipits*
+## Quickstart
 
-The file `tags.js` holds a json array for use with the Zen snipit feature.
-
-To use: type in the "command/trigger" word and hit **Alt-Z**. The word is replaced by the code 
-associated with the command. Alternatively, hit **Alt-X** and select from a list.
-
-Use the menu **Options --> Tags** to view and modify the `tags.js` file.
-
-        const atags = {
-          "command": "output",
-          "command": "output",
-          "command": "output",
-        };
-
-
-_Example from `tags.js`_  
-
-        "input": "<input type='' id='' value='' />",
-
-In the editor, type __input__ and press **Alt-Z**  
-`input` is replaced by `<input type='' id='' value='' />`
-
-### New Snipits
-
-Creating a new Zen snipit is very easy.  
-In the menu click on **Options --> New Snipit**.  
-Enter a _trigger word_ that you will use with Ctrl-Z to insert the snip of code.  
-Enter the snipit code to be inserted.  
-Hitting _Save_ (or Ctrl-S) appends the snipit to the json array in `tags.js`.
-
-**The new snipits will not be available to use until CodeScriber is re-launched.**
-
-View and edit/delete snipits from the `tags.js` file.  
-You can sort the individual lines of snipits in the `tags.js` file by
-using the _sortlines_ feature of the editor (Ctrl-Alt-S) if desired.
+- Install Python 3 and required packages (if any).
+- Run the editor:
+```bash
+pip install -r requirements.txt        # if the repo provides requirements
+python3 cs.py
+# or
+python3 cs.py path/to/file
+```
 
 ---
 
-## Enclosing text with markup hotkeys
+## Table of Contents
 
-You can designate up to 10 (0-9) surrounding markup texts.  
-The defaults are set in the `tags.js` file.  
-Use the menu **Options --> Tags** to modify the text enclosures.
-
-        var stag = ["<strong>,</strong>",
-                    "<center>,</center>",
-                    "<em>,</em>",
-                    "<code>,</code>",
-                    "<dt>,</dt>",
-                    "<dd>,</dd>",
-                    "<div id=''>,</div>",
-                    "<span id='',</span>",
-                    "_,_",
-                    "**,**"];
-
-Apply these to selected text using **Ctrl-0, Ctrl-1, Ctrl-2, ... Ctrl-9**  
-Change any of them for current session using **Ctrl-E**.  
+- [Overview](#overview)
+- [Running CodeScriber](#running-codescriber)
+- [Quick Configuration (options.ini)](#quick-configuration-optionsini)
+- [Zen Snippets (`tags.js`)](#zen-snippets-tagsjs)
+- [Enclosing text with markup hotkeys](#enclosing-text-with-markup-hotkeys)
+- [Keyboard shortcuts (summary + full reference)](#keyboard-shortcuts-summary--full-reference)
+- [OpenAI integration (AI features)](#openai-integration-ai-features)
+- [Spell Check](#spell-check)
+- [Bookmarks](#bookmarks)
+- [Menus and Tools](#menus-and-tools)
+- [Windows note and troubleshooting](#windows-note-and-troubleshooting)
+- [Contributing / Editing this doc](#contributing--editing-this-doc)
+- [Changelog](#changelog)
 
 ---
 
-_When working with Markdown, HTML is **generated on every save**._  
-Use the Tools menu "**Markdown**" to open the HTML in a browser for review.  
-There after refresh the browser whenever the markdown is saved.  
-This Markdown follows rules from the 
-[Markdown 3.7](https://pypi.org/project/Markdown/ "markdown module") python3 module.
-
----
-
-## Bookmarking?
-
-To bookmark a line of code use **Ctrl-Click in the "gutter"** (where the line numbers are)  
-To travel through the bookmarks use **F3**.  
-To clear all bookmarks use **Shift-F3**.
-
-_Note: bookmarks will not align when lines are added or deleted._
-
----
-
-## Access to OpenAI modles
-
-#### Setup
-
-This implementation requires an OpenAI API [key](https://platform.openai.com/api-keys "OpenAI").
-Set up your key as a system environment variable and then put the variable name in the _options.ini_ file,
-like `openai=MYKEY`
-
-The OpenAI _model_ must also appear in the `options.ini` file, like `model=GPT-4o` or whatever model you choose.
-
-#### Prompt and Query
-
-To run an AI query **start a new document** and construct your prompt.  
-
-Then use **Ctrl-G** to send the prompt.  
-
-Instead of a promt, if you enter:  
--    __log__ the current AIlog will load into the document  
--    __new__ will start a new chat conversation  
--    __prompt__ returns a prompt structure (prompt.txt)
-
----
-
-## Spell Check
-
-To spell check some text **first select the text**. Then hit **Ctrl-Alt-C**. You will get a list of
-miss-spelled words and possible corrections.
-
----
-## options.ini
-
-**CodeScriber options**
-
-        # Editor options
-        backup=yes
-        terminal=xfce4-terminal --geometry 90x22+20+560 --working-directory=
-        filemanager=nemo --geometry 750x500+104+0
-        previous=yes
-        browser=firefox
-        theme=twilight
-        scope=/home/ml
-        # AI stuff
-        openai=GPTKEY
-        model=gpt-5-nano
-        ailog=yes
-        aiconfirm=no
-        role=You are a helpful coding and technology assistant
-        # User applications
-        run1=firefox https://ttkbootstrap.readthedocs.io/en/latest
-        run2=/home/ml/bin/yac.sh
-        run3=firefox https://michaelleidel.net/ref
-        run4=python3 {f}
-        nam1=ttkbootstrap
-        nam2=Yacsnips
-        nam3=Reference
-        nam4=python3
-        # COLOR THEMES:
-        # monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark
-        # tomorrow_night_eighties | twilight | kr_theme | Terminal
-        # solarized_light | textmate | tomorrow_night
-
-The Windows options.ini could look more like this:
-
-        # Editor options
-        backup=yes
-        terminal=wt -d
-        filemanager=explorer.exe
-        previous=yes
-        browser="C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
-        theme=twilight
-        scope=C:\
-        # AI stuff
-        openai=GPTKEY
-        model=gpt-5-nano
-        ailog=yes
-        aiconfirm=no
-        role=You are a helpful coding and technology assistant
-        # User applications
-        run1=https://www.w3schools.com/
-        run2=cmd
-        run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
-        run4=pythonw.exe {f}
-        nam1=w3schools
-        nam2=cmd
-        nam3=Github
-        nam4=python
-        # COLOR THEMES:
-        # monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark
-        # tomorrow_night_eighties | twilight | kr_theme | Terminal
-        # solarized_light | textmate | tomorrow_night
-
-**ailog**
->Append OpenAI reponses to `ailog.md` **yes|no**
-
-**openai**
->Environment variable for your OpenAI key  
-[about OpenAI keys](https://platform.openai.com/settings/organization/api-keys "OpenAI keys")
-
-**aiconfirm**
->Warn before sending prompt to AI **yes|no**
-
-**role**
->AI system message
-
-**model**
->The model to use for the OpenAI API  
-[about OpenAI models](https://platform.openai.com/docs/models "OpenAI")
-
-**backup**
->Create a backup of opened files **yes|no**  
-Backups appear as `bkup_*`
-
-**terminal**
->Enter your terminal preference and the option to  
-start at a specific working directory.  
-Current path will be added as final argument.
-
-**filemanager**
->The name of your systems file manager executable file.  
-Current path will be added as final argument.
-
-**previous**
->Open last file at start-up **yes|no**
-
-**browser**
->The executable of the browser you wish to use.  
-**Default** if you want to use your system default browser.
-
-**scope**
->Set the _starting directory_ in your file system that CodeScriber should use.
-
-**run1 ... run4**
->External programs you might want to execute via menus or  
-_Ctrl-Alt-1_ _Ctrl-Alt-2_ _Ctrl-Alt-3_ _Ctrl-Alt-4_ 
-
-**theme**
->Editor theme name for all file types.  
-COLOR THEMES:  
-monokai | cobalt | vibrant\_ink | clouds\_midnight | solarized\_dark  
-tomorrow\_night\_eighties | twilight | kr\_theme | Terminal  
-solarized\_light | textmate | tomorrow\_night
-
-
-**Notes:** Non URL Run# items are implemented with a simple os.system() method.  
-Make sure your executable is in your system path or supply it with a fullpath.  
-A URL is opened in your system's default browser.
-
-The **font family** and **size** are set in the cs.css file under #editor. 
-
----
-
-Some additional **editor options** can be found in the `cs.html` file (around line 150).  
-
-    // ACE CONFIGURE - set at startup
-    editor.$blockScrolling = Infinity;  // ace debug suggestion
-    editor.setShowPrintMargin(false);
-    editor.setHighlightActiveLine(false);
-    editor.session.setTabSize(4);
-    editor.session.setUseSoftTabs(true); // use spaces instead of tab chars
-    editor.session.setUseWrapMode(false);
-
-[more info...](https://ace.c9.io/#nav=howto "Ace Editor Options")
-
----
-
-## Menus
-
-![File menu](images/cs_mn_file.png "menu item") 
-![](images/cs_mn_tools.png "menu item") 
-![](images/cs_mn_options.png "menu item") 
-![](images/cs_mn_help.png "menu item")
-
-
-### Tools menu
-
-- **Terminal**  
-  Open a terminal as designated in the _options.ini_
-
-- **Files**  
-  Open your file manager as designated in the _options.ini_ 
-
-- **Browser**  
-  Open current file with the browser specified in _options.ini_
-
-- **Markdown**  
-  Open your markdown document's compiled HTML in your browser.  
-  Each save of a markdown document generates it's HTML file.
-
-- **Insert Zen**
-  Insert a code snipit from a list of tags stored in the tags.js file.  
-  Alternatively, if you know the tag name you can type it and click Alt-Z.
-
-- **Find File**  
-  Find (and open) a file anywhere on the system
-
-- **Functions**
-  Go to a fuction from a list of functions _(most languages)_
-
-- **Pic color**
-  HTML5 color picker saves selected to clipboard
-
-- **Delete Backups**  
-  Remove all backups in directory of active tab (file)
-
-- **Run 1 ... Run 4**   
-  Executes an external process as designated in _options.ini_
-
-**_The context menu has "Copy" and some of these commands_**
-
-### Options menu
-
-Changes will not take effect until CodeScriber is re-started.   
-
-- **Options**  
-  Open the `options.ini` file for editing various options
-
-- **Re-Launch**  
-  Closes and re-opens CodeScriber activating any changes to the Options
-
-- **New Snipit**  
-  Opens the Zen Snipit template for creating a new code snipit  
-  which gets written into the tags.js file.
-
-- **Tags**  
-  Open the `tags.js` file for editing the various tags and options
-
-- **File Modes**  
-  Open the `filemodes.js` file for editing language modes
-
-- **Open AI Log**  
-  Open the `ailog.md` file for editing or viewing
-  Ctrl-L
-
-- **Wrapping**
-  Toggles word wrap for current session (tab)
-  Ctrl-Alt-W
+## Overview
+
+CodeScriber is a desktop editor using web UI technologies (HTML/CSS/JavaScript) hosted with Python via `pywebview`. The editor uses the Ace Editor library for editing features. Most functionality runs locally, but some components — such as loading Ace from a CDN or the optional AI features — require Internet access.
+
+Benefits:
+- Local file access and integration via Python.
+- Flexible, web-based UI that is easy to customize.
+- Scripting-language based project makes extension straightforward.
+
+Images (for reference):
+- ![CodeScriber window screenshot](images/CSdoc1.png)
+- ![File menu screenshot](images/cs_mn_file.png)
+- ![Tools menu screenshot](images/cs_mn_tools.png)
+- ![Options menu screenshot](images/cs_mn_options.png)
+- ![Help menu screenshot](images/cs_mn_help.png)
 
 ---
 
 ## Running CodeScriber
 
-There's always more than one way, but here are some suggestions.
+Common ways to run:
 
-<code>
-$>python3 cs.py  
-$>python3 cs.py fileToOpen
-</code>
+From the project root:
+```bash
+python3 cs.py
+python3 cs.py path/to/file
+```
 
-bash file:  
-<code>
->cd /home/user/ ... /codescriber  
->python3 cs.py $1 &  
-**or**  
->python3 /home/user/ ... /CodeScriber/cs.py $1 &  
-</code>
----
+From a script (example):
+```bash
+cd /path/to/CodeScriber
+python3 cs.py "$1" &
+# or
+python3 /path/to/CodeScriber/cs.py "$1" &
+```
 
-**The geometry of CodeScriber's window is saved.**
-
----
-
-## Note for Windows Users
-
-**If you uninstall Microsoft Edge or any of its components, CodeScriber will not work.  
-This is because pywebview uses some Edge components for rendering.**
-
-Suggest to use `C:\codescriber\` for location.
-
-Create a CMD command file, like `cs.cmd` that contains:    
-`pythonw.exe cs.py`
-
-To execute:  
-`C:/codescriber/cs.cmd`
-
-For a shortcut use:  
-
-![diagram](images/CS_Windows_Short.png "shorcut for windows")
+The window geometry is saved between sessions.
 
 ---
 
-> ![diagram](images/CSdiag.png "Conceptual")
+## Quick configuration (`options.ini`)
+
+Place settings in `options.ini`. Below are copy-paste examples.
+
+Linux example:
+```ini
+# Editor options
+backup=yes
+terminal=xfce4-terminal --geometry 90x22+20+560 --working-directory=
+filemanager=nemo --geometry 750x500+104+0
+previous=yes
+browser=firefox
+theme=twilight
+scope=/home/ml
+
+# AI settings
+openai=GPTKEY
+model=gpt-5-nano
+ailog=yes
+aiconfirm=no
+role=You are a helpful coding and technology assistant
+
+# User applications
+run1=firefox https://ttkbootstrap.readthedocs.io/en/latest
+run2=/home/ml/bin/yac.sh
+run3=firefox https://michaelleidel.net/ref
+run4=python3 {f}
+nam1=ttkbootstrap
+nam2=Yacsnips
+nam3=Reference
+nam4=python3
+```
+
+Windows example:
+```ini
+backup=yes
+terminal=wt -d
+filemanager=explorer.exe
+previous=yes
+browser="C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+theme=twilight
+scope=C:\
+
+openai=GPTKEY
+model=gpt-5-nano
+ailog=yes
+aiconfirm=no
+role=You are a helpful coding and technology assistant
+
+run1=https://www.w3schools.com/
+run2=cmd
+run3=C:\Users\User\AppData\Local\GitHubDesktop\GitHubDesktop.exe
+run4=pythonw.exe {f}
+nam1=w3schools
+nam2=cmd
+nam3=Github
+nam4=python
+```
+
+Key options explained:
+- `openai`: environment variable name that contains your OpenAI API key
+- `model`: model name to send to OpenAI (e.g., `gpt-4o`, `gpt-5-nano`)
+- `ailog`: append AI responses to `ailog.md` (`yes|no`)
+- `aiconfirm`: prompt for confirmation before sending (`yes|no`)
+- `backup`: create backup files (`yes|no`)
+- `terminal`, `filemanager`, `browser`: programs to run (current path appended when launched)
+- `scope`: starting directory for file dialogs
+
+---
+
+## Zen Snippets (`tags.js`)
+
+Zen snippets (previously called "Zen snipits" in the older document) are stored in `tags.js`. Snippets let you type a trigger word and expand it into a code template.
+
+Example `tags.js` JSON structure:
+```json
+{
+  "input": "<input type=\"\" id=\"\" value=\"\" />",
+  "button": "<button id=\"\">Label</button>"
+}
+```
+
+Usage:
+- Type the trigger word and press Alt-Z to expand.
+- Or press Alt-X to choose from a list.
+- Add new snippets via Options → New Snippet (saves to `tags.js`).
+- After editing `tags.js`, restart CodeScriber to load new snippets.
+
+---
+
+## Enclosing text with markup hotkeys
+
+You can define up to 10 enclosers for wrapping selected text (Ctrl-0 … Ctrl-9). Defaults are defined in `tags.js` — examples:
+
+```javascript
+var stag = [
+  "<strong>,</strong>",
+  "<center>,</center>",
+  "<em>,</em>",
+  "<code>,</code>",
+  "<dt>,</dt>",
+  "<dd>,</dd>",
+  "<div id=''>,</div>",
+  "<span id=''></span>",
+  "_,_",
+  "**,**"
+];
+```
+
+- Apply with `Ctrl-0` through `Ctrl-9`.
+- Change the current session encloser using `Ctrl-E`.
+- `Alt-W` repeats the last enclosure.
+
+---
+
+## Keyboard shortcuts — summary
+
+A compact, grouped summary of common shortcuts. All keys are configured in `cs.html`.
+
+**Navigation & movement**
+
+| Action | Shortcut |
+|---|---|
+| Go to line | `Ctrl-L` |
+| Go to next error | `Alt-E` |
+| Go to previous error | `Alt-Shift-E` |
+| Go to start of document | `Ctrl-Home` / `Ctrl-Shift-Home` |
+| Go to end of document | `Ctrl-End` / `Ctrl-Shift-End` |
+| Page down | `PageDown` |
+| Scroll up/down | `Ctrl-Up` / `Ctrl-Down` |
+
+**Selection & multi-cursor**
+
+| Action | Shortcut |
+|---|---|
+| Select all | `Ctrl-A` |
+| Add cursor above / below | `Ctrl-Alt-Up` / `Ctrl-Alt-Down` |
+| Select more / next | `Ctrl-Alt-Left` / `Ctrl-Alt-Right` (and `Shift` variants) |
+| Toggle split selection into lines | `Ctrl-Alt-L` |
+| Align cursors | `Ctrl-Alt-A` |
+
+**Editing & modification**
+
+| Action | Shortcut |
+|---|---|
+| Save | `Ctrl-S` |
+| Save As | `Ctrl-Shift-S` |
+| Undo / Redo | `Ctrl-Z` / `Ctrl-Shift-Z` or `Ctrl-Y` |
+| Duplicate selection | `Ctrl-Shift-D` |
+| Remove line | `Ctrl-D` |
+| Copy/move lines up/down | `Alt-Shift-Up` / `Alt-Shift-Down` (copy), `Alt-Up` / `Alt-Down` (move) |
+| Indent / Outdent | `Tab` / `Shift-Tab` |
+| Toggle comment / block comment | `Ctrl-/` / `Ctrl-Shift-/` |
+
+**Folding & navigation**
+
+| Action | Shortcut |
+|---|---|
+| Fold / Unfold | `Alt-L` / `Alt-Shift-L` (or `Ctrl-F1` / `Ctrl-Shift-F1`) |
+| Toggle fold widget | `F2` |
+| Fold other | `Alt-0` |
+| Unfold all | `Alt-Shift-0` |
+| Expand to matching | `Ctrl-Shift-M` |
+
+**Search & replace**
+
+| Action | Shortcut |
+|---|---|
+| Find | `Ctrl-F` |
+| Find next / previous | `Ctrl-K` / `Ctrl-Shift-K` |
+| Find all | `Ctrl-Alt-K` |
+| Replace | `Ctrl-H` |
+
+F**ile & application actions**
+
+| Action | Shortcut |
+|---|---|
+| Open file | `Ctrl-O` |
+| New file | `Ctrl-N` |
+| Recent file list | `Ctrl-R` |
+| Re-open active tab | `Ctrl-I` |
+| Quit | `Ctrl-Q` |
+| Open AI log | `Ctrl-L` |
+| Execute AI prompt | `Ctrl-G` |
+| Toggle word wrap | `Ctrl-Alt-W` |
+| Show all shortcuts | `Ctrl-Alt-H` |
+| Display enclosure keys | `Ctrl-Alt-X` |
+| Run defined external command 1-4 | `Ctrl-Alt-1` … `Ctrl-Alt-4` |
+
+**Additional / advanced keys**
+
+| Action | Shortcut |
+|---|---|
+| Replace selection with Zen snippet list | `Alt-X` |
+| Temporary text encloser | `Alt-E` |
+| Repeat last enclosure | `Alt-W` |
+| Spell check selected text | `Ctrl-Alt-C` |
+| Insert Zen snippet from trigger | `Alt-Z` |
+| Insert Zen tag (Zen snippet) | `Ctrl-Z` (legacy; verify local bindings) |
+| Open editor command palette | `F1` |
+| Bookmarks: next / clear | `F3` / `Shift-F3` |
+
+Full, raw key mappings are defined in `cs.html`. Consider long lists as reference material and using the command palette to search keys interactively.
+
+---
+
+## OpenAI integration (AI features)
+
+Setup
+
+1 Obtain an OpenAI API key: https://platform.openai.com/api-keys  
+2 Set the key as a system environment variable (example for Linux/macOS):
+
+```bash
+export GPTKEY="sk-...."
+```
+3 In `options.ini`, set:
+
+```ini
+openai=GPTKEY
+model=gpt-5-nano
+ailog=yes
+aiconfirm=no
+role=You are a helpful coding and technology assistant
+```
+
+Usage
+
+- Start a new document and type the prompt, then press `Ctrl-G` to send the prompt.
+- Special prompt commands:
+    - `log` — load the current AI log into the document
+    - `new` — start a new chat conversation
+    - `prompt` — return the prompt structure (contents of `prompt.txt`, if present)
+
+Notes
+
+- The AI features require internet access.
+- Confirm whether `aiconfirm` is set to `yes` or `no` before auto-sending prompts.
+
+Appends AI responses to `ailog.md` when `ailog=yes`.
+
+---
+
+## Spell Check
+
+- Select text and press `Ctrl-Alt-C`.
+- A list of misspelled words and suggested corrections will be presented.
+
+---
+
+## Bookmarks
+
+- Add a bookmark: `Ctrl-Click` in the gutter (line numbers area).
+- Jump to next bookmark: `F3`.
+- Clear all bookmarks: `Shift-F3`.
+
+Note: bookmarks are positional and may not track after large edits.
+
+---
+
+## Menus and Tools
+
+Tools menu highlights:
+
+- Terminal — opens the terminal set in `options.ini`.
+- Files — opens the file manager defined in `options.ini`.
+- Browser — opens the current file in configured browser.
+- Markdown — opens generated HTML for the current Markdown file.
+- Insert Zen — insert a snippet from `tags.js`.
+- Find File — search and open files on disk.
+- Functions — navigate to functions in the current file.
+- Pic color — HTML5 color picker (copies color to clipboard).
+- Delete Backups — remove `bkup_*` files in active file directory.
+- Run 1 … Run 4 — run configured external commands.
+
+Options menu highlights:
+
+- Options — open and edit `options.ini`.
+- Re-Launch — restart CodeScriber to apply changes.
+- New Snippet — create and append a snippet to `tags.js`.
+- Tags — open `tags.js` for editing.
+- File Modes — edit language file modes (`filemodes.js`).
+- Open AI Log — open `ailog.md` (`Ctrl-L`).
+- Wrapping — toggle word wrap for current tab (`Ctrl-Alt-W`).
+
+Context (right-click) menu includes common actions such as Copy and some Tools commands.
+
+---
+
+## Editor configuration and preferences
+
+Some Ace Editor configuration is set in `cs.html` (search for ACE CONFIGURE):
+```javascript
+// ACE CONFIGURE - set at startup
+editor.$blockScrolling = Infinity;
+editor.setShowPrintMargin(false);
+editor.setHighlightActiveLine(false);
+editor.session.setTabSize(4);
+editor.session.setUseSoftTabs(true);
+editor.session.setUseWrapMode(false);
+```
+Adjust these in `cs.html` as needed.
+
+---
+
+## Windows-specific note
+
+If Microsoft Edge components (WebView2) are removed, `pywebview` may not function and CodeScriber will not run. On Windows use an installation directory such as `C:\codescriber\` and consider a wrapper `cs.cmd` containing:
+
+```bat
+@echo off
+pythonw.exe cs.py
+```
+Use a shortcut that runs `C:\codescriber\cs.cmd`.
+
+---
+
+## Troubleshooting
+
+- AI not working: confirm `openai` in `options.ini` points to a valid environment variable and that variable is set in your OS.
+- Ace not loading: if offline, Ace may not load from CDN; consider bundling Ace locally.
+- Windows rendering errors: ensure WebView2 / Edge runtime is installed.
+- Backups: `backup=yes` creates `bkup_*` files in the active directory.
+- If keyboard shortcuts look incorrect, check `cs.html` for the current bindings.
+
+---
+
+## END
+

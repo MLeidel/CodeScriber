@@ -697,7 +697,7 @@ function gogpt() {
     /* Ctrl-g => get an openAI response to this prompt
             and load it into a 'new' tab */
     if (aicon.toLowerCase() == "yes") {  // based on options.ini
-        const r = confirm("Send AI prompt for AI assistance?");
+        const r = confirm("Submit prompt to AI?");
         if (!r) return;  // user hit 'Cancel' ?
     }
     let selection = editor.getSelectedText();
