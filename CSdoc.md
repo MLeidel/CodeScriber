@@ -47,17 +47,17 @@ Benefits:
 - Scripting-language based project makes extension straightforward.
 
 Images (for reference):
-- ![CodeScriber window screenshot](images/CSdoc1.png)
-- ![File menu screenshot](images/cs_mn_file.png)
-- ![Tools menu screenshot](images/cs_mn_tools.png)
-- ![Options menu screenshot](images/cs_mn_options.png)
-- ![Help menu screenshot](images/cs_mn_help.png)
+
+![CodeScriber window screenshot](images/CSdoc1.png)
+![File menu screenshot](images/cs_mn_file.png)
+![Tools menu screenshot](images/cs_mn_tools.png)
+![Options menu screenshot](images/cs_mn_options.png)
 
 ---
 
 ## Running CodeScriber
 
-Common ways to run:
+**Common ways to run:**
 
 From the project root:
 ```bash
