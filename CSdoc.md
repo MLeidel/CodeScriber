@@ -166,7 +166,11 @@ __Additional Functions:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-Q</b></td>
-		<td>Quit</td>
+		<td>Quit - Close CodeScriber</td>
+	</tr>
+	<tr>
+		<td><b>Ctrl-I</b></td>
+		<td>Re-Open (New) Active Tab</td>
 	</tr>
 	<tr>
 		<td><b>Alt-E</b></td>
@@ -174,8 +178,7 @@ __Additional Functions:__
 	</tr>
 	<tr>
 		<td><b>Ctrl-G</b></td>
-		<td>Fire off an AI prompt from<br>
-		    new page or selected text</td>
+		<td>Executes prompt for AI</td>
 	</tr>
 	<tr>
 		<td><b>Ctrl-0 through 9</b></td>
@@ -215,7 +218,7 @@ __Additional Functions:__
 	</tr>
 	<tr>
 		<td><b>F1</b></td>
-		<td>Command Pallete</td>
+		<td>Editor Command Pallete</td>
 	</tr>
 	<tr>
 		<td><b>F3</b></td>
@@ -225,17 +228,13 @@ __Additional Functions:__
 		<td><b>Shift-F3</b></td>
 		<td>Clear Bookmarks</td>
 	</tr>
-	<tr>
-		<td><b>Ctrl-I</b></td>
-		<td>Re-Open (New) Active Tab</td>
-	</tr>
 </table>
 
 _All event keys are coded in the `cs.html` file._
 
-- Ctrl-Alt-H displays all keyboard hot keys _except Ctrl-0..9 text enclosures_
+- Ctrl-Alt-H displays all keyboard shortcuts _except Ctrl-0..9 text enclosures_
 
-- Right-Click file tab to close.
+- Right-Click file tab to close it.
 
 ---
 
@@ -318,27 +317,27 @@ _Note: bookmarks will not align when lines are added or deleted._
 
 ---
 
-## AI coding query
+## Access to OpenAI modles
 
 #### Setup
 
-The advent of AI has definitely changed the art of computer programming.
 This implementation requires an OpenAI API [key](https://platform.openai.com/api-keys "OpenAI").
 Set up your key as a system environment variable and then put the variable name in the _options.ini_ file,
 like `openai=MYKEY`
-The OpenAI _model_ must also appear in the `options.ini` file, like `model=GPT-4o` or whatever model you use.
+
+The OpenAI _model_ must also appear in the `options.ini` file, like `model=GPT-4o` or whatever model you choose.
 
 #### Prompt and Query
 
-To run an AI query **start a new document** and construct your prompt,  
-or select some text for the prompt.
+To run an AI query **start a new document** and construct your prompt.  
 
 Then use **Ctrl-G** to send the prompt.  
-In a few seconds the response will fill a new document page.
 
 Instead of a promt, if you enter:  
--    _log_ the current AIlog will load into the document  
--    _new_ will start a new chat conversation
+-    __log__ the current AIlog will load into the document  
+-    __new__ will start a new chat conversation  
+-    __prompt__ returns a prompt structure (prompt.txt)
+
 ---
 
 ## Spell Check
