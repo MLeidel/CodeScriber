@@ -279,6 +279,7 @@ F**ile & application actions**
 | Insert Zen tag (Zen snippet) | `Ctrl-Z` (legacy; verify local bindings) |
 | Open editor command palette | `F1` |
 | Bookmarks: next / clear | `F3` / `Shift-F3` |
+| Open selected URL in browser | `Alt-U` |
 
 Full, raw key mappings are defined in `cs.html`. Consider long lists as reference material and using the command palette to search keys interactively.
 

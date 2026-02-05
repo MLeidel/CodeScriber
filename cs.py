@@ -4,6 +4,7 @@ Hak-able Desktop Code Editor
 Oct 2024 Michael Leidel
 https://github.com/MLeidel/CodeScriber
 Dec 2025 Fixing "New" to require file name
+Feb 2026 Alt-u opens selected URL
 '''
 
 import sys
@@ -401,6 +402,8 @@ class Api:
             # print(content)
             return content
 
+    def open_URL(self, content):
+        webbrowser.open(content)
 
     def getCmdFile(self):
         ''' Get the starting file from command line

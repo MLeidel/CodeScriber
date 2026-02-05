@@ -423,6 +423,13 @@ editor.commands.addCommand({
     }
 });
 editor.commands.addCommand({
+    name: "Open Seleted URL",
+    bindKey: {win: "Alt-U", mac: "Alt-U"},
+    exec: function(editor) {
+        getSelectedURL();
+    }
+});
+editor.commands.addCommand({
     name: "List Zen Snipits",
     bindKey: {win: "Alt-X", mac: "Alt-X"},
     exec: function(editor) {
@@ -536,6 +543,7 @@ function zentag() {
   insert_code(targ);
 }
 
+
 /***
  *                           _        _
  *      _ __ _  ___ __ _____| |____ _(_)_____ __ __
@@ -589,8 +597,12 @@ function on_close() {
 }
 
 function update_current_file(content) {
-    window.pywebview.api.set_current_file(content).then(content => {
-    });
+    window.pywebview.api.set_current_file(content);
+}
+
+function open_url(content) {
+    // python to open selected URL
+    window.pywebview.api.open_URL(content);
 }
 
 function relaunch() {
@@ -820,7 +832,7 @@ function gogpt() {
         var msg = "<h2>Color Picker</h2>";
         msg += "<input type='color' id='colorInput' value='#000000' onchange='updateColor()'>";
         msg += "<br><br><a id='COLOR'></a><br>";
-        onMsgWait = true;
+        gvar.onMsgWait = true;
         showMessageBox(msg);
     }
 
@@ -983,12 +995,12 @@ function gogpt() {
     function close_msgbox() {
         // messageBox Close button clicked
         JS.doq('#overlay1').style.display = 'none';
-        onMsgWait = false;
+        gvar.onMsgWait = false;
         editor.focus()
     }
     // Close the message box when anything in it is clicked
     JS.doq('#overlay1').onclick = function() {
-        if (onMsgWait) {
+        if (gvar.onMsgWait) {
             return;  // only close button accepted - see close_msgbox()
         }
         JS.doq('#overlay1').style.display = 'none';
@@ -1051,6 +1063,18 @@ function gogpt() {
         gvar.wrap = !gvar.wrap;
         editor.session.setUseWrapMode(gvar.wrap);
     }
+
+    function getSelectedURL() {
+        // Alt-U - open selected URL in browser
+        const selection = editor.getSelectedText();
+        let selectedText = selection.toString();
+        if (selectedText.startsWith("http")) {
+            open_url(selectedText); // python opens browser
+        } else {
+            alert("Not a URL");
+        }
+    }
+
 
                 /* MDI Folder management
             Don't touch this code
