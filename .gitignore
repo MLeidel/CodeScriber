@@ -3,12 +3,7 @@ __pycache__
 wingeo
 lastfile
 recent
-options.repo
-options.save
-tags.repo
-tags.save
-README.html
-CSdoc.html
+*.html
 cscomadd
 zipper
 bkup_*
@@ -17,5 +12,3 @@ snip.txt
 winfo
 ailog.*
 cs.pyc
-prompt.txt
-old_source

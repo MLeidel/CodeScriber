@@ -430,7 +430,7 @@ class Api:
             messages = []  # clear message chain for new conversation
             return "NEW CHAT"
         if content.lower().strip() == "prompt":
-            with open("prompt.txt", 'r', encoding='utf-8') as fin:
+            with open("prompt.md", 'r', encoding='utf-8') as fin:
                 return fin.read()
 
         key = opts[16]  # openai User Key
