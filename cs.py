@@ -15,6 +15,7 @@ import subprocess
 import webbrowser
 import platform
 import shutil
+from pathlib import Path
 from tkinter.ttk import *
 from tkinter import filedialog
 from tkinter import messagebox
@@ -152,6 +153,28 @@ def updateRecents(item):
         newRecent(item)  # put item at the top of list
     saveRecent()  # write back the recent file list
 
+# def select_files():
+#     ''' Prompt to open a file using desktop openFileDialog '''
+
+#     if MONITORS > 1:
+#         root = ThemedTk(theme="black")  # provides a theme for dialogs
+#         root.geometry(window_coord())   # on current monitor
+
+#     file_paths = filedialog.askopenfilenames(initialdir=current_path,
+#                                           # initialfile=os.path.basename(current_file),
+#                                           title="Open files",
+#                                           filetypes=(("all files", "*.*"),
+#                                                       ("Python", "*.py *.pyw"),
+#                                                       ("C/C++", "*.c *.cpp"),
+#                                                       ("h", "*.h"),
+#                                                       ("Javascript", "*.js"),
+#                                                       ("HTML", "*.html"),
+#                                                       ("CSS", "*.css")))
+#     if MONITORS > 1:
+#         root.destroy()  # no longer needed
+#     if file_paths:
+#         return list(file_paths)  # Return as a list of file paths
+#     return []
 
 def select_files():
     ''' Prompt to open a file using desktop openFileDialog '''
@@ -160,40 +183,27 @@ def select_files():
         root = ThemedTk(theme="black")  # provides a theme for dialogs
         root.geometry(window_coord())   # on current monitor
 
-    file_paths = filedialog.askopenfilenames(initialdir=current_path,
-                                          # initialfile=os.path.basename(current_file),
-                                          title="Open files",
-                                          filetypes=(("all files", "*.*"),
-                                                      ("Python", "*.py *.pyw"),
-                                                      ("C/C++", "*.c *.cpp"),
-                                                      ("h", "*.h"),
-                                                      ("Javascript", "*.js"),
-                                                      ("HTML", "*.html"),
-                                                      ("CSS", "*.css")))
+    filetypes = (
+        'All files (*.*)',
+        'Python Files (*.py;*.pyw)',
+        'C Files (*.c;*.cpp)',
+        'Header Files (*.h)',
+        'JavaScript Files (*.js)',
+        'HTML Files (*.html)',
+        'CSS Files (*.css)'
+    )
+    print(os.path.basename(current_file))
+    result = window.create_file_dialog(
+        webview.FileDialog.OPEN, allow_multiple=True,
+                                 directory=current_path,
+                                 file_types=filetypes
+    )
+
     if MONITORS > 1:
         root.destroy()  # no longer needed
-    if file_paths:
-        return list(file_paths)  # Return as a list of file paths
+    if result:
+        return list(result)  # Return as a list of file paths
     return []
-
-# webview GTK VERSION
-# def select_files():
-#     #file_types = ('Image Files (*.bmp;*.jpg;*.gif)', 'All files (*.*)')
-#     filetypes = (
-#         'All files (*.*)',
-#         'Python Files (*.py;*.pyw)',
-#         'C Files (*.c;*.cpp)',
-#         'Header Files (*.h)',
-#         'JavaScript Files (*.js)',
-#         'HTML Files (*.html)',
-#         'CSS Files (*.css)'
-#     )
-#     result = window.create_file_dialog(
-#         webview.FileDialog.OPEN, allow_multiple=True, directory=os.path.basename(current_file), file_types=filetypes
-#     )
-#     if result:
-#         return list(result)  # Return as a list of file paths
-#     return []
 
 
 def runOptions(inx):
@@ -292,10 +302,10 @@ class Api:
             fout.write(current_file)
         # save last window dimensions
         with open(wingeo, "w", encoding='utf-8')as fout:
-            fout.write(str(window.x) + "|"
-                       + str(window.y) + "|"
-                       + str(window.width) + "|"
-                       + str(window.height))
+            fout.write(str(int(window.x)) + "|"
+                       + str(int(window.y)) + "|"
+                       + str(int(window.width)) + "|"
+                       + str(int(window.height)))
         # exit app
         window.destroy()
         sys.exit()
@@ -330,6 +340,46 @@ class Api:
             window.evaluate_js("openCmdFile()")
             time.sleep(.3)
 
+    # def save_file(self, content):
+    #     ''' Save-A or Ctrl-Shift-S
+    #         builds HTML from an ".md" file save
+    #     '''
+    #     global current_file, current_path
+    #     if MONITORS > 1:
+    #         root = ThemedTk(theme="black")  # provides a theme for dialogs
+    #         root.geometry(window_coord())   # on current monitor
+    #     file_path = filedialog.asksaveasfilename(initialdir=current_path,
+    #                                              defaultextension=".txt",
+    #                                              initialfile=os.path.basename(current_file),
+    #                                              filetypes=(("all files", "*.*"),
+    #                                                         ("Python", "*.py *.pyw"),
+    #                                                         ("C/C++", "*.c *.cpp"),
+    #                                                         ("h", "*.h"),
+    #                                                         ("Javascript", "*.js"),
+    #                                                         ("HTML", "*.html"),
+    #                                                         ("CSS", "*.css")))
+    #     if MONITORS > 1:
+    #         root.destroy()  # no longer needed
+    #     if file_path:
+    #         current_file = file_path
+    #         current_path = os.path.dirname(file_path)
+    #     else:
+    #         return ''
+
+    #     if not current_file.endswith(".md"):
+    #         content = trim_trailing_spaces(content)
+
+    #     with open(current_file, 'w', encoding='utf-8') as file:
+    #         file.write(content)
+    #     if current_file.endswith(".md"):
+    #         mdToHTML()
+
+    #     # save last file name
+    #     # with open(lastFileName, "w", encoding='utf-8') as fout:
+    #     #     fout.write(current_file)
+
+    #     return current_file
+
 
     def save_file(self, content):
         ''' Save-A or Ctrl-Shift-S
@@ -339,21 +389,27 @@ class Api:
         if MONITORS > 1:
             root = ThemedTk(theme="black")  # provides a theme for dialogs
             root.geometry(window_coord())   # on current monitor
-        file_path = filedialog.asksaveasfilename(initialdir=current_path,
-                                                 defaultextension=".txt",
-                                                 initialfile=os.path.basename(current_file),
-                                                 filetypes=(("all files", "*.*"),
-                                                            ("Python", "*.py *.pyw"),
-                                                            ("C/C++", "*.c *.cpp"),
-                                                            ("h", "*.h"),
-                                                            ("Javascript", "*.js"),
-                                                            ("HTML", "*.html"),
-                                                            ("CSS", "*.css")))
+        filetypes = (
+            'All files (*.*)',
+            'Python Files (*.py;*.pyw)',
+            'C Files (*.c;*.cpp)',
+            'Header Files (*.h)',
+            'JavaScript Files (*.js)',
+            'HTML Files (*.html)',
+            'CSS Files (*.css)'
+        )
+
+        file_path = window.create_file_dialog(
+            webview.FileDialog.SAVE, directory=current_path,
+                                     file_types=filetypes
+        )
+
         if MONITORS > 1:
             root.destroy()  # no longer needed
         if file_path:
-            current_file = file_path
-            current_path = os.path.dirname(file_path)
+            current_file = file_path[0]
+            selected_path = file_path[0]
+            current_path = os.path.dirname(selected_path)
         else:
             return ''
 
@@ -455,11 +511,14 @@ class Api:
             return
         # change to .html file
         htmlFile = current_file[:-3] + ".html"
+        file_path = Path(htmlFile).resolve()
+        file_url = file_path.as_uri()
+        print(file_url)
         # open in default browser
         if opts[5].lower() == "default":
-            webbrowser.open(htmlFile)
+            webbrowser.open(file_url)
         else:
-            subprocess.call([opts[5], htmlFile])
+            subprocess.call([opts[5], file_url])
 
     def execWebbrowser(self):
         ''' open the web browser specified in the options.ini '''
@@ -501,7 +560,8 @@ class Api:
         if MONITORS > 1:
             root = ThemedTk(theme="black")  # provides a theme for dialogs
             root.geometry(window_coord())   # on current monitor
-        rsp = messagebox.askokcancel("Remove Backups?", f" for: {current_path}")
+        # rsp = messagebox.askokcancel("Remove Backups?", f" for: {current_path}")
+        rsp = window.create_confirmation_dialog('Confirm','Do you want to proceed?')
         if rsp is True:
             files = glob.glob(current_path + "/bkup_*")
             for file_path in files:
@@ -682,7 +742,7 @@ if __name__ == '__main__':
 
     # get last window size and location
     if os.path.isfile(wingeo):
-        with open(wingeo) as f:
+        with open(wingeo, 'r', encoding='utf-8') as f:
             geom = f.read().strip()
         win = geom.split('|')  # 0 left, 1 top, 2 width, 3 height
         win = [int(i) for i in win]  # make integers

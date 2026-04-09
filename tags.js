@@ -44,6 +44,7 @@ const atags = {
 "br": "<br style=\"clear:left;\">",
 "button": "<input type=\"button\" onclick=\"\" value=\"\">",
 "checkbox": "<label for='AA'>description</label>\n<input type='checkbox' id='AA' name='postfield' value='postvalue'>",
+"emdash": "—",
 "form": "<form name=\"\" action=\"someprocess.php\" method=\"post\">\n	<input type=\"hidden\" name=\"\" id=\"\" value=\"\">\n	<input type=\"submit\" name=\"\" value=\"\">\n</form>\n\n",
 "html": "<!DOCTYPE HTML>\n<html lang='en-US'>\n<head>\n	<meta charset='UTF-8'>\n	<meta name='viewport' content='width=device-width, initial-scale=1'>\n	<link rel='manifest' href='manifest.json'>\n	<title>XXXXX</title>\n	<script type='text/javascript' src='../js/myJS-1.2.min.js'></script>\n  <script src='../js/JSmodal.min.js'></script>\n  <link rel='stylesheet' href='../css/JSmodalani.css'>\n  \n</head>\n<body>\n\n</body>\n</html>\n\n",
 "input": "<input type=\"text\" id=\"\" value=\"\">",
