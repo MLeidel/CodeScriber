@@ -34,7 +34,6 @@ _See_ <a href='https://ace.c9.io/'>https://ace.c9.io</a> _for information on the
 - Highlight matching parentheses
 - Toggle between soft tabs and real tabs
 - Displays hidden characters
-- Highlight selected word
 - Multiple cursor selection
 - Column select and edit mode
 - Customizable Keyword code snipits

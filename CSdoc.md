@@ -251,7 +251,7 @@ A compact, grouped summary of common shortcuts. All keys are configured in `cs.h
 | Find all | `Ctrl-Alt-K` |
 | Replace | `Ctrl-H` |
 
-F**ile & application actions**
+**File & application actions**
 
 | Action | Shortcut |
 |---|---|
@@ -266,6 +266,7 @@ F**ile & application actions**
 | Show all shortcuts | `Ctrl-Alt-H` |
 | Display enclosure keys | `Ctrl-Alt-X` |
 | Run defined external command 1-4 | `Ctrl-Alt-1` … `Ctrl-Alt-4` |
+| Open Tab in New Window| `Ctrl-clickTAB` |
 
 **Additional / advanced keys**
 
