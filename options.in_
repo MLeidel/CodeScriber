@@ -5,7 +5,7 @@ filemanager=nemo --geometry 777x655+2300+40
 previous=yes
 browser=firefox
 theme=twilight
-scope=/home/ml
+scope=/path...
 # AI stuff
 openai=GPTKEY
 model=gpt-5-nano
@@ -14,12 +14,12 @@ aiconfirm=yes
 role=You are a helpful coding and technology assistant
 # User applications
 run1=firefox https://ttkbootstrap.readthedocs.io/en/latest
-run2=/home/ml/bin/yac.sh
-run3=firefox https://michaelleidel.net/ref
+run2=xxx
+run3=xxx
 run4=python3 {f}
 nam1=ttkbootstrap
-nam2=Yacsnips
-nam3=Reference
+nam2=xxx
+nam3=xxx
 nam4=python3
 # COLOR THEMES:
 # monokai | cobalt | vibrant_ink | clouds_midnight | solarized_dark

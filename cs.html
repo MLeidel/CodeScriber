@@ -591,13 +591,17 @@ function quick_save_file_check(content) {
     });
 }
 
-
 function on_close() {
     window.pywebview.api.onClose();  // immediate close no ask
 }
 
 function update_current_file(content) {
     window.pywebview.api.set_current_file(content);
+}
+
+function launch_new_window(content) {
+    // content is file name to open at launch
+    window.pywebview.api.launch_new_window(content);
 }
 
 function open_url(content) {
@@ -1100,7 +1104,7 @@ function addFolder(fldrname, inx) {
         removeFolder(newFolder);
     };
     // click on a folder
-    newFolder.onclick = function() {
+    newFolder.onclick = function(event) {
         // switch to "this" folder when user clicks it
         const allFolders = document.querySelectorAll('.folder');
         allFolders.forEach(folder => {
@@ -1115,6 +1119,11 @@ function addFolder(fldrname, inx) {
         editor.focus();
         update_current_file(gvar.sefn[x]);
         gvar.saved = gvar.sesn[x].getUndoManager().isClean();
+        // Check if Ctrl key was pressed
+        if (event.ctrlKey) {
+            // Ctrl-ClickTAB - Launch file in new CodeScriber window
+            launch_new_window(gvar.sefn[x])
+        }
     };
     // Add a close button to the folder
     const closeButton = document.createElement('span');

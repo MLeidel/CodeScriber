@@ -472,6 +472,11 @@ class Api:
         return ''  # File Not Found or no previous on startup
 
 
+    def launch_new_window(self, content):
+        ''' open new CodeScriber window with content file '''
+        subprocess.call(["python3", "cs.py", content])
+
+
     def gptAccess(self, content) -> str:
         ''' User has hit Ctrl-G with either an AI prompt or the word "log".
             Access OpenAI and return query response
